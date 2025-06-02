@@ -128,79 +128,136 @@
             padding-bottom: 40px; /* Extra padding at bottom for floating navbar */
         }
         
-        .toxicity-card {
-            background: linear-gradient(135deg, #8a3ffc, #d946ef);
+        .insights-card {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
             border-radius: 20px;
             padding: 20px;
             color: white;
             margin-bottom: 25px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 10px 25px rgba(163, 85, 247, 0.2);
         }
         
-        .toxicity-label {
+        .insights-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .insights-label {
             background-color: rgba(255, 255, 255, 0.2);
-            font-size: 12px;
+            font-size: 11px;
             padding: 4px 10px;
             border-radius: 20px;
             display: inline-block;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
         
-        .toxicity-title {
+        .insights-title {
             font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-        
-        .toxicity-score {
-            font-size: 42px;
             font-weight: 700;
             margin-bottom: 5px;
         }
         
-        .toxicity-subtitle {
+        .insights-date {
             font-size: 14px;
             opacity: 0.8;
+            font-weight: 500;
+        }
+        
+        .insights-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .positive {
+            background-color: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+        
+        .negative {
+            background-color: rgba(248, 113, 113, 0.2);
+            color: #f87171;
+        }
+        
+        .stat-info {
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .insights-recommendation {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
             margin-bottom: 15px;
         }
         
-        .progress-bar {
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 4px;
-        }
-        
-        .toxicity-description {
+        .recommendation-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 14px;
-            opacity: 0.9;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.9);
         }
         
-        .heart-bg {
-            position: absolute;
-            right: -20px;
-            bottom: -20px;
-            font-size: 120px;
-            opacity: 0.1;
+        .recommendation-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.85);
         }
         
-        .toxicity-action {
+        .insights-action {
             background-color: rgba(255, 255, 255, 0.15);
-            padding: 8px 15px;
+            padding: 10px 15px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: 500;
-            display: inline-block;
-            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .insights-action:hover {
+            background-color: rgba(255, 255, 255, 0.25);
         }
         
         .section-header {
@@ -743,26 +800,51 @@
             New Upload
         </button>
         
-        <!-- Toxicity Overview Card -->
-        <div class="toxicity-card">
-            <div class="toxicity-label">LATEST</div>
-            <div class="toxicity-title">Communication Pattern Analysis</div>
-            <div class="toxicity-score">76%</div>
-            <div class="toxicity-subtitle">Attention Score</div>
-            
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 76%;"></div>
+        <!-- Insights Summary Card -->
+        <div class="insights-card">
+            <div class="insights-header">
+                <div>
+                    <div class="insights-label">THIS WEEK'S SUMMARY</div>
+                    <div class="insights-title">Your Relationship Insights</div>
+                </div>
+                <div class="insights-date">June 2, 2025</div>
             </div>
             
-            <div class="toxicity-description">3 concerning patterns identified this month</div>
+            <div class="insights-stats">
+                <div class="stat-item">
+                    <div class="stat-icon positive">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">+15%</div>
+                        <div class="stat-label">Healthy Communication</div>
+                    </div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-icon negative">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">-8%</div>
+                        <div class="stat-label">Concerning Patterns</div>
+                    </div>
+                </div>
+            </div>
             
-            <div class="toxicity-action">
+            <div class="insights-recommendation">
+                <div class="recommendation-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Personalized Insight</span>
+                </div>
+                <div class="recommendation-text">
+                    You've been responding more assertively when boundaries are crossed. Keep practicing clear communication when you feel uncomfortable.
+                </div>
+            </div>
+            
+            <div class="insights-action">
                 <i class="fas fa-chart-line"></i>
-                Review your pattern history for awareness
-            </div>
-            
-            <div class="heart-bg">
-                <i class="fas fa-heart"></i>
+                View detailed analysis
             </div>
         </div>
         
@@ -1010,6 +1092,15 @@
                     // In a real app, this would open a chat interface
                 });
             });
+            
+            // Insights action button click handler
+            const insightsAction = document.querySelector('.insights-action');
+            if (insightsAction) {
+                insightsAction.addEventListener('click', function() {
+                    console.log('Navigating to detailed insights analysis');
+                    // In a real app, this would navigate to detailed insights page
+                });
+            }
         });
     </script>
 </body>
