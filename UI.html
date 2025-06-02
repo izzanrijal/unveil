@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Unveil AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .signal-bars {
+            display: flex;
+            gap: 2px;
+        }
+
+        .bar {
+            width: 3px;
+            background: #000;
+        }
+
+        .bar:nth-child(1) { height: 4px; }
+        .bar:nth-child(2) { height: 6px; }
+        .bar:nth-child(3) { height: 8px; }
+        .bar:nth-child(4) { height: 10px; }
+
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #8B5CF6, #A855F7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        /* Partner Selection Slider */
+        .partner-selection {
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .slider-container {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 4px;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .slider-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .partner-card {
+            min-width: 140px;
+            padding: 16px;
+            border-radius: 16px;
+            border: 2px solid transparent;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .partner-card.active {
+            border-color: #8B5CF6;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .partner-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            background: linear-gradient(45deg, #8B5CF6, #A855F7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .partner-card.active .partner-avatar {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .partner-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .risk-level {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .add-partner {
+            min-width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px dashed #d1d5db;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            color: #9ca3af;
+            transition: all 0.3s ease;
+        }
+
+        .add-partner:hover {
+            border-color: #8B5CF6;
+            color: #8B5CF6;
+        }
+
+        /* Chat Section */
+        .chat-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .ai-question {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            max-width: 80%;
+            margin-left: auto;
+            font-weight: 500;
+        }
+
+        .ai-response {
+            color: #374151;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Input Section */
+        .input-section {
+            background: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .message-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            padding: 12px 0;
+        }
+
+        .message-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .send-button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+
+        .send-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            background: white;
+            padding: 12px 0;
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 12px;
+            padding: 8px;
+        }
+
+        .nav-item.active {
+            color: #8B5CF6;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 16px;
+            }
+            
+            .partner-card {
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="status-bar">
+            <span>9:41</span>
+            <div class="signal-bars">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <span>📶</span>
+            <span>🔋</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <span>🔔</span>
+            <div class="profile-pic">👤</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="title">Chat with Unveil AI</h1>
+        <p class="subtitle">Ask questions about your conversations</p>
+
+        <!-- Partner Selection Slider -->
+        <div class="partner-selection">
+            <div class="slider-container" id="partnerSlider">
+                <div class="partner-card active" data-partner="a">
+                    <div class="partner-avatar">A</div>
+                    <div class="partner-name">Partner A</div>
+                    <div class="risk-level">High risk</div>
+                </div>
+                <div class="partner-card" data-partner="b">
+                    <div class="partner-avatar">B</div>
+                    <div class="partner-name">Friend B</div>
+                    <div class="risk-level">Low risk</div>
+                </div>
+                <div class="partner-card" data-partner="c">
+                    <div class="partner-avatar">C</div>
+                    <div class="partner-name">Colleague C</div>
+                    <div class="risk-level">Medium risk</div>
+                </div>
+                <div class="add-partner" onclick="addNewPartner()">+</div>
+            </div>
+        </div>
+
+        <!-- Chat Section -->
+        <div class="chat-section">
+            <div class="ai-question">
+                How can I help you understand your conversation analysis?
+            </div>
+            
+            <div class="user-message">
+                Can you tell me about the patterns you've noticed in my recent conversation?
+            </div>
+            
+            <div class="ai-response">
+                I noticed several instances of gaslighting and emotional manipulation. Would you like me to explain specific examples?
+            </div>
+        </div>
+    </div>
+
+    <!-- Input Section -->
+    <div class="input-section">
+        <input type="text" class="message-input" placeholder="Type your message..." id="messageInput">
+        <button class="send-button" onclick="sendMessage()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="#" class="nav-item">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+            </svg>
+            <span>Analysis</span>
+        </a>
+        <a href="#" class="nav-item active">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+            </svg>
+            <span>Chat</span>
+        </a>
+        <a href="#" class="nav-item">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <script>
+        // Partner selection functionality
+        const partnerCards = document.querySelectorAll('.partner-card');
+        const slider = document.getElementById('partnerSlider');
+
+        partnerCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove active class from all cards
+                partnerCards.forEach(c => c.classList.remove('active'));
+                // Add active class to clicked card
+                this.classList.add('active');
+                
+                // Update chat content based on selected partner
+                updateChatContent(this.dataset.partner);
+            });
+        });
+
+        // Touch/swipe functionality for mobile
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // Touch events for mobile
+        slider.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('touchmove', (e) => {
+            const x = e.touches[0].pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // Message sending functionality
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                // Add user message to chat
+                addMessageToChat(message, 'user');
+                input.value = '';
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const responses = [
+                        "I understand your concern. Let me analyze the conversation patterns for you.",
+                        "Based on the conversation data, I can identify several key behavioral indicators.",
+                        "That's an interesting observation. Would you like me to provide more specific examples?",
+                        "I can help you understand the emotional dynamics in your conversations."
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessageToChat(randomResponse, 'ai');
+                }, 1000);
+            }
+        }
+
+        // Add message to chat
+        function addMessageToChat(message, sender) {
+            const chatSection = document.querySelector('.chat-section');
+            const messageDiv = document.createElement('div');
+            
+            if (sender === 'user') {
+                messageDiv.className = 'user-message';
+            } else {
+                messageDiv.className = 'ai-response';
+            }
+            
+            messageDiv.textContent = message;
+            chatSection.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatSection.scrollTop = chatSection.scrollHeight;
+        }
+
+        // Update chat content based on selected partner
+        function updateChatContent(partner) {
+            const chatSection = document.querySelector('.chat-section');
+            const aiQuestion = chatSection.querySelector('.ai-question');
+            
+            const partnerQuestions = {
+                'a': 'How can I help you understand your conversation with Partner A?',
+                'b': 'What would you like to know about your interactions with Friend B?',
+                'c': 'How can I analyze your conversations with Colleague C?'
+            };
+            
+            aiQuestion.textContent = partnerQuestions[partner] || 'How can I help you understand your conversation analysis?';
+        }
+
+        // Add new partner functionality
+        function addNewPartner() {
+            const partnerName = prompt('Enter partner name:');
+            if (partnerName) {
+                const slider = document.getElementById('partnerSlider');
+                const addButton = slider.querySelector('.add-partner');
+                
+                const newCard = document.createElement('div');
+                newCard.className = 'partner-card';
+                newCard.dataset.partner = partnerName.toLowerCase().replace(' ', '');
+                
+                newCard.innerHTML = `
+                    <div class="partner-avatar">${partnerName.charAt(0).toUpperCase()}</div>
+                    <div class="partner-name">${partnerName}</div>
+                    <div class="risk-level">Unknown risk</div>
+                `;
+                
+                // Add click event to new card
+                newCard.addEventListener('click', function() {
+                    partnerCards.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    updateChatContent(this.dataset.partner);
+                });
+                
+                slider.insertBefore(newCard, addButton);
+            }
+        }
+
+        // Enter key to send message
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Initialize with current time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: false 
+            });
+            document.querySelector('.status-bar span').textContent = timeString;
+        }
+
+        updateTime();
+        setInterval(updateTime, 60000); // Update every minute
+    </script>
+</body>
+</html>

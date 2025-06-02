@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: #F8F9FA;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            color: #333;
+        }
+
+        .status-bar-placeholder {
+            height: 24px; /* Approximate height for a mobile status bar */
+            background-color: #fff; /* Or transparent if header blends */
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .main-container {
+            padding-top: 24px; /* Account for status bar placeholder */
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Prevents body scroll, chat area will scroll */
+        }
+
+        .header {
+            background-color: #fff;
+            padding: 15px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .header-icons img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+        .header-icons .fa-bell {
+            font-size: 20px;
+            color: #555;
+        }
+
+        .header-subtitle {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .contacts-section {
+            background-color: #fff;
+            padding: 15px 0 15px 15px;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        .contacts-section::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari, Opera */
+        }
+        .contacts-section {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .contact-card, .add-contact-card {
+            display: inline-flex; /* Changed to inline-flex for better alignment */
+            flex-direction: column; /* Align items vertically */
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically */
+            background-color: #fff;
+            border: 1px solid #E0E0E0;
+            border-radius: 12px;
+            padding: 10px;
+            margin-right: 10px;
+            width: 100px;
+            height: 100px; /* Fixed height */
+            text-align: center;
+            cursor: pointer;
+            font-size: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .contact-card.active {
+            border: 2px solid #7F00FF;
+            color: #7F00FF;
+        }
+
+        .contact-card img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-bottom: 5px;
+        }
+
+        .contact-name {
+            font-weight: 500;
+            margin-bottom: 2px;
+            white-space: normal; /* Allow text to wrap */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1; 
+            -webkit-box-orient: vertical;
+        }
+
+        .contact-risk {
+            font-size: 10px;
+        }
+        .contact-risk.high {
+            color: #D32F2F;
+        }
+        .contact-risk.low {
+            color: #388E3C;
+        }
+
+        .add-contact-card {
+            border: 2px dashed #D0D0D0;
+            color: #7F00FF;
+        }
+        .add-contact-card .fa-plus {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .chat-area {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #F8F9FA; /* Slightly different from body to see separation */
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+            max-width: 75%;
+        }
+
+        .message-bubble {
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message.ai .message-bubble {
+            background-color: #E9E9EB;
+            color: #333;
+            border-top-left-radius: 5px;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+            margin-left: auto; /* Push to the right */
+        }
+
+        .message.user .message-bubble {
+            background-color: #7F00FF;
+            color: white;
+            border-top-right-radius: 5px;
+        }
+
+        .input-area {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #fff;
+            border-top: 1px solid #E0E0E0;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #DDD;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 14px;
+            outline: none;
+        }
+        .input-area input:focus {
+            border-color: #7F00FF;
+        }
+
+        .input-area .send-button {
+            background-color: #7F00FF;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .input-area .send-button .fa-paper-plane {
+            font-size: 16px;
+        }
+
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: #fff;
+            border-top: 1px solid #E0E0E0;
+            box-shadow: 0 -1px 5px rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #777;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-item .fa {
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item.active {
+            color: #7F00FF;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="status-bar-placeholder"></div>
+    <div class="main-container">
+        <div class="header">
+            <div class="header-top">
+                <div class="header-title">Chat with Unveil AI</div>
+                <div class="header-icons">
+                    <i class="fas fa-bell"></i>
+                    <!-- Placeholder for avatar, replace with actual image if available -->
+                    <img src="https://i.pravatar.cc/56?img=32" alt="User Avatar">
+                </div>
+            </div>
+            <div class="header-subtitle">Ask questions about your conversations</div>
+        </div>
+
+        <div class="contacts-section">
+            <div class="contact-card active">
+                <img src="https://i.pravatar.cc/80?img=12" alt="Partner A">
+                <div class="contact-name">Partner A</div>
+                <div class="contact-risk high">High risk</div>
+            </div>
+            <div class="contact-card">
+                <img src="https://i.pravatar.cc/80?img=1" alt="Friend B">
+                <div class="contact-name">Friend B</div>
+                <div class="contact-risk low">Low risk</div>
+            </div>
+            <div class="add-contact-card">
+                <i class="fas fa-plus"></i>
+            </div>
+            <!-- Add more contact cards as needed -->
+        </div>
+
+        <div class="chat-area">
+            <div class="message ai">
+                <div class="message-bubble">
+                    How can I help you understand your conversation analysis?
+                </div>
+            </div>
+            <div class="message user">
+                <div class="message-bubble">
+                    Can you tell me about the patterns you've noticed in my recent conversation?
+                </div>
+            </div>
+            <div class="message ai">
+                <div class="message-bubble">
+                    I noticed several instances of gaslighting and emotional manipulation. Would you like me to explain specific examples?
+                </div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" placeholder="Type your message...">
+            <button class="send-button">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+
+        <div class="bottom-nav">
+            <a href="#" class="nav-item">
+                <i class="fas fa-home"></i>
+                Home
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                Analysis
+            </a>
+            <a href="#" class="nav-item active">
+                <i class="fas fa-comments"></i>
+                Chat
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-user"></i>
+                Profile
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Basic JS for potential future interactivity, e.g., toggling active contact
+        const contactCards = document.querySelectorAll('.contact-card');
+        contactCards.forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelector('.contact-card.active')?.classList.remove('active');
+                card.classList.add('active');
+            });
+        });
+
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent page jump for # links
+                document.querySelector('.nav-item.active')?.classList.remove('active');
+                item.classList.add('active');
+            });
+        });
+
+        // Placeholder for send message functionality
+        const sendButton = document.querySelector('.send-button');
+        const messageInput = document.querySelector('.input-area input');
+        const chatArea = document.querySelector('.chat-area');
+
+        sendButton.addEventListener('click', () => {
+            const messageText = messageInput.value.trim();
+            if (messageText) {
+                const newMessage = document.createElement('div');
+                newMessage.classList.add('message', 'user');
+                newMessage.innerHTML = `<div class="message-bubble">${messageText}</div>`;
+                chatArea.appendChild(newMessage);
+                messageInput.value = '';
+                chatArea.scrollTop = chatArea.scrollHeight; // Scroll to bottom
+
+                // Simulate AI reply (optional)
+                setTimeout(() => {
+                    const aiReply = document.createElement('div');
+                    aiReply.classList.add('message', 'ai');
+                    aiReply.innerHTML = `<div class="message-bubble">Thanks for your message! I'm processing it.</div>`;
+                    chatArea.appendChild(aiReply);
+                    chatArea.scrollTop = chatArea.scrollHeight;
+                }, 1000);
+            }
+        });
+
+        // Allow sending message with Enter key
+        messageInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+
+    </script>
+</body>
+</html>

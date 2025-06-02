@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unveil App - Relationship Insights Through AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header styles */
+        header {
+            position: sticky;
+            top: 1.25rem;
+            z-index: 100;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-radius: 1rem;
+            background-color: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1F2937;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .main-nav {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .main-nav a {
+            color: #4B5563;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: #8B5CF6;
+        }
+        
+        .mobile-menu-icon {
+            display: none;
+            cursor: pointer;
+        }
+
+        .download-btn {
+            background: #8B5CF6;
+            color: white;
+            padding: 0.625rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .download-btn:hover {
+            background: rgba(139, 92, 246, 0.9);
+        }
+
+        /* Hero section */
+        .hero {
+            padding: 4rem 2rem;
+            background-color: white;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title span {
+            color: #8B5CF6;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #6B7280;
+            margin-bottom: 2rem;
+            max-width: 90%;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .secondary-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid #8B5CF6;
+            color: #8B5CF6;
+            transition: all 0.3s ease;
+        }
+
+        .secondary-btn:hover {
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+
+        .hero-stats {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #8B5CF6;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6B7280;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .phone-mockup {
+            width: 100%;
+            max-width: 400px;
+            display: block;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .phone-shadow {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            height: 20px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 50%;
+            filter: blur(10px);
+        }
+
+        .feature-badge {
+            position: absolute;
+            background: white;
+            border-radius: 12px;
+            padding: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 3;
+        }
+
+        .badge-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .badge-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .badge-1 {
+            top: 20%;
+            left: 0;
+        }
+
+        .badge-2 {
+            top: 50%;
+            right: 0;
+        }
+
+        .badge-3 {
+            bottom: 20%;
+            left: 10%;
+        }
+
+        /* Bento Grid Section */
+        .bento {
+            padding: 5rem 2rem;
+            background-color: #f8f9fa;
+        }
+
+        .bento-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .bento .section-title {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .bento .section-subtitle {
+            text-align: center;
+            color: #6B7280;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(200px, 1fr);
+            gap: 1.5rem;
+        }
+
+        .bento-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(139, 92, 246, 0.2);
+        }
+        
+        .bento-card:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #8B5CF6, #A855F7);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .bento-card:hover:after {
+            transform: scaleX(1);
+        }
+
+        .bento-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            gap: 1rem;
+        }
+        
+        .bento-flex {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bento-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.2);
+        }
+
+        .bento-image {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.5s ease;
+        }
+        
+        .bento-card:hover .bento-image {
+            transform: scale(1.05);
+        }
+
+        .bento-text {
+            flex: 1;
+        }
+
+        .bento-visual {
+            display: flex;
+            justify-content: center;
+        }
+
+        .large {
+            grid-column: span 2;
+            grid-row: span 1;
+        }
+
+        .medium {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+
+        .small {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+
+        .stats {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-large {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #8B5CF6;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6B7280;
+        }
+
+        .user-avatars {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .more {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #8B5CF6;
+        }
+
+        .medium-tall {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wide {
+            grid-column: span 2;
+        }
+
+        .accuracy-visual {
+            display: flex;
+            justify-content: center;
+        }
+
+        .progress-ring {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 8px solid #8B5CF6;
+            border-top-color: white;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .progress-ring span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #8B5CF6;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 2rem;
+            background-color: #f8f9fa;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #1F2937;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #6B7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1F2937;
+        }
+
+        .feature-description {
+            color: #6B7280;
+            line-height: 1.6;
+        }
+        
+        /* Testimonials Section */
+        .testimonials {
+            padding: 5rem 2rem;
+            background-color: white;
+        }
+
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .testimonial-card {
+            background-color: #f8f9fa;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .testimonial-content {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .quote-icon {
+            font-size: 3rem;
+            color: #8B5CF6;
+            opacity: 0.2;
+            position: absolute;
+            top: -20px;
+            left: -10px;
+        }
+
+        .testimonial-text {
+            position: relative;
+            z-index: 1;
+            line-height: 1.6;
+            color: #4B5563;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: #1F2937;
+        }
+
+        .author-title {
+            font-size: 0.9rem;
+            color: #6B7280;
+        }
+
+        .rating {
+            color: #8B5CF6;
+        }
+
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: none;
+            background-color: #E5E7EB;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background-color: #8B5CF6;
+            transform: scale(1.2);
+        }
+        
+        /* FAQ Section */
+        .faq {
+            padding: 5rem 2rem;
+            background-color: #f8f9fa;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-accordion {
+            margin-top: 3rem;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: rgba(139, 92, 246, 0.05);
+        }
+
+        .faq-question h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1F2937;
+            margin: 0;
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            color: #8B5CF6;
+            font-weight: 300;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer p {
+            padding-bottom: 1.5rem;
+            color: #6B7280;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-question {
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .cta .download-btn {
+            background: white;
+            color: #8B5CF6;
+        }
+
+        .cta .secondary-btn {
+            border-color: white;
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 2rem 2rem;
+            background-color: #1F2937;
+            color: white;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            color: #D1D5DB;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-column a {
+            color: #D1D5DB;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: #8B5CF6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #8B5CF6;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: #9CA3AF;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Bento Grid */
+        @media (max-width: 1200px) {
+            .bento-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .wide {
+                grid-column: span 2;
+            }
+            
+            .medium-tall {
+                grid-row: span 2;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .large, .wide {
+                grid-column: span 2;
+            }
+            
+            .medium-tall {
+                grid-row: span 1;
+            }
+            
+            .bento-card {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            header {
+                width: 95%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                width: 90%;
+                padding: 0.75rem 1rem;
+            }
+            
+            .main-nav {
+                display: none;
+            }
+            
+            .download-btn {
+                display: none;
+            }
+            
+            .mobile-menu-icon {
+                display: block;
+            }
+            
+            .hero-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-subtitle {
+                max-width: 100%;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-badge {
+                display: none;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+            
+            .footer-links {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .bento-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .large, .medium, .small, .wide, .medium-tall {
+                grid-column: span 1;
+                grid-row: auto;
+            }
+            
+            .bento-flex {
+                flex-direction: column;
+            }
+            
+            .bento-visual {
+                margin-top: 1rem;
+                width: 100%;
+            }
+            
+            .bento-text {
+                width: 100%;
+            }
+        }
+        
+        .bento-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1F2937;
+            margin: 0.5rem 0;
+        }
+        
+        .bento-card p {
+            color: #6B7280;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 480px) {
+            .bento-card {
+                padding: 1.25rem;
+            }
+            
+            .bento-content {
+                gap: 0.75rem;
+            }
+            
+            .bento-badge {
+                padding: 0.35rem 0.75rem;
+                font-size: 0.85rem;
+            }
+            
+            .bento-card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .bento-image {
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="/" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12C2 6.5 6.5 2 12 2a10 10 0 0 1 8 4"></path>
+                    <path d="M5 19.5C5.5 18 6 15 6 12c0-.7.12-1.37.34-2"></path>
+                    <path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"></path>
+                    <path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"></path>
+                    <path d="M8.65 22c.21-.66.45-1.32.57-2"></path>
+                    <path d="M14 13.12c0 2.38 0 6.38-1 8.88"></path>
+                    <path d="M2 16h.01"></path>
+                    <path d="M21.8 16c.2-2 .131-5.354 0-6"></path>
+                    <path d="M9 6.8a6 6 0 0 1 9 5.2c0 .47 0 1.17-.02 2"></path>
+                </svg>
+                <span>Unveil</span>
+            </a>
+            <nav aria-label="Main" class="main-nav">
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
+            <button class="download-btn">Try Now</button>
+            <div class="mobile-menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12"></line>
+                    <line x1="4" x2="20" y1="6" y2="6"></line>
+                    <line x1="4" x2="20" y1="18" y2="18"></line>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Relationship <span>Insights</span> Through AI Analysis</h1>
+                <p class="hero-subtitle">Empowering Gen Z women with objective relationship insights through AI-powered conversation analysis.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="download-btn">Download Now</a>
+                    <a href="#" class="secondary-btn">Learn More</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">100K+</span>
+                        <span class="stat-label">Downloads</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">4.8/5</span>
+                        <span class="stat-label">App Rating</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">User Satisfaction</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://placehold.co/400x800/8B5CF6/FFFFFF?text=Unveil+App" alt="Unveil App Screenshot" class="phone-mockup">
+                <div class="phone-shadow"></div>
+                <div class="feature-badge badge-1">
+                    <div class="badge-icon">🔒</div>
+                    <div class="badge-text">Privacy Focused</div>
+                </div>
+                <div class="feature-badge badge-2">
+                    <div class="badge-icon">🧠</div>
+                    <div class="badge-text">AI Powered</div>
+                </div>
+                <div class="feature-badge badge-3">
+                    <div class="badge-icon">💬</div>
+                    <div class="badge-text">Chat Analysis</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bento Grid Section -->
+    <section class="bento">
+        <div class="bento-container">
+            <h2 class="section-title">Unveil's Features</h2>
+            <p class="section-subtitle">Everything you need to navigate your relationships safely</p>
+            
+            <div class="bento-grid">
+                <!-- Large privacy card -->
+                <div class="bento-card large">
+                    <div class="bento-content">
+                        <div class="bento-badge">
+                            <span class="badge-icon">🔒</span>
+                            <span>Privacy First</span>
+                        </div>
+                        <h3>Complete Privacy Protection</h3>
+                        <p>Your data never leaves your device. All analysis happens locally, ensuring complete privacy and security.</p>
+                        <img src="https://placehold.co/600x300/8B5CF6/FFFFFF?text=Privacy+Features" alt="Privacy Features" class="bento-image">
+                    </div>
+                </div>
+
+                <!-- Medium AI card -->
+                <div class="bento-card medium">
+                    <div class="bento-content">
+                        <div class="bento-badge">
+                            <span class="badge-icon">🧠</span>
+                            <span>AI Analysis</span>
+                        </div>
+                        <h3>AI-powered insights</h3>
+                        <p>Advanced algorithms detect subtle patterns</p>
+                        <img src="https://placehold.co/300x200/A855F7/FFFFFF?text=AI+Analysis" alt="AI Analysis" class="bento-image">
+                    </div>
+                </div>
+
+                <!-- Small stats card -->
+                <div class="bento-card small stats">
+                    <div class="bento-content">
+                        <div class="stat-large">300K+</div>
+                        <div class="stat-label">Users trust Unveil</div>
+                        <div class="user-avatars">
+                            <div class="avatar">👩</div>
+                            <div class="avatar">👩‍🦱</div>
+                            <div class="avatar">👩‍🦳</div>
+                            <div class="avatar">👱‍♀️</div>
+                            <span class="more">+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medium visualization card -->
+                <div class="bento-card medium-tall">
+                    <div class="bento-content">
+                        <div class="bento-badge">
+                            <span class="badge-icon">📊</span>
+                            <span>Visualizations</span>
+                        </div>
+                        <h3>Pattern tracking</h3>
+                        <p>See relationship patterns evolve over time</p>
+                        <img src="https://placehold.co/300x200/7C3AED/FFFFFF?text=Pattern+Visualization" alt="Pattern Visualization" class="bento-image">
+                    </div>
+                </div>
+
+                <!-- Wide feature card -->
+                <div class="bento-card wide">
+                    <div class="bento-content bento-flex">
+                        <div class="bento-text">
+                            <div class="bento-badge">
+                                <span class="badge-icon">💬</span>
+                                <span>Chat Analysis</span>
+                            </div>
+                            <h3>Analyze conversations</h3>
+                            <p>Upload text or voice conversations and get instant insights about communication patterns, emotional manipulation, and relationship dynamics.</p>
+                        </div>
+                        <div class="bento-visual">
+                            <img src="https://placehold.co/400x250/9333EA/FFFFFF?text=Chat+Interface" alt="Chat Interface" class="bento-image">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Small feature card -->
+                <div class="bento-card small">
+                    <div class="bento-content">
+                        <div class="bento-badge">
+                            <span class="badge-icon">🎯</span>
+                            <span>Accurate</span>
+                        </div>
+                        <h3>95% accuracy rate</h3>
+                        <div class="accuracy-visual">
+                            <div class="progress-ring">
+                                <span>95%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <div class="section-header">
+                <h2 class="section-title">Key Features</h2>
+                <p class="section-subtitle">Unveil provides powerful tools to help you understand your relationships better</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 11.99H19C18.47 16.11 15.72 19.78 12 20.93V12H5V6.3L12 3.19V11.99Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Privacy Focused</h3>
+                    <p class="feature-description">Your data never leaves your device. All analysis happens locally, ensuring complete privacy and security.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2C16.75 2 21 6.25 21 11.5ZM12 6.5C12 7.05 11.55 7.5 11 7.5C10.45 7.5 10 7.05 10 6.5C10 5.95 10.45 5.5 11 5.5C11.55 5.5 12 5.95 12 6.5ZM11 9.5V16.5H12V15.5H13V14.5H12V9.5H10V10.5H11Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">AI Conversation Analysis</h3>
+                    <p class="feature-description">Our AI analyzes text and voice conversations to identify manipulative communication patterns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Pattern Visualization</h3>
+                    <p class="feature-description">Track behavioral patterns over time with easy-to-understand visualizations and insights.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.17L4 17.17V4H20V16Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">AI Coach</h3>
+                    <p class="feature-description">Get non-judgmental guidance from an AI coach that speaks like a trusted friend.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="testimonials-container">
+            <div class="section-header">
+                <h2 class="section-title">Join 10+ million people</h2>
+                <p class="section-subtitle">who already trust us with their relationship insights</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">❞</div>
+                        <p class="testimonial-text">Unveil helped me recognize manipulative patterns in my relationship that I couldn't see on my own. The AI coach guided me through difficult conversations without judgment.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">S</div>
+                        <div class="author-info">
+                            <div class="author-name">Sarah K.</div>
+                            <div class="author-title">Student, 22</div>
+                        </div>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">❞</div>
+                        <p class="testimonial-text">I was skeptical at first, but the pattern visualization feature showed me exactly how my conversations were changing over time. It was eye-opening and empowering.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">J</div>
+                        <div class="author-info">
+                            <div class="author-name">Jamie T.</div>
+                            <div class="author-title">Designer, 25</div>
+                        </div>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">❞</div>
+                        <p class="testimonial-text">The privacy focus was what convinced me to try Unveil. Knowing my personal conversations stay on my device gave me the confidence to use it for relationship analysis.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">M</div>
+                        <div class="author-info">
+                            <div class="author-name">Maya L.</div>
+                            <div class="author-title">Marketing, 24</div>
+                        </div>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-nav">
+                <button class="nav-dot active"></button>
+                <button class="nav-dot"></button>
+                <button class="nav-dot"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="faq-container">
+            <div class="section-header">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Everything you need to know about Unveil App</p>
+            </div>
+            
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is Unveil App?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Unveil is a privacy-focused mobile application designed to empower Gen Z women (18-25) with objective relationship insights through AI-powered conversation analysis. The app helps identify manipulative communication patterns in dating relationships.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How does Unveil App help me analyze my conversations?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Unveil uses AI to analyze uploaded chat recordings and voice conversations, identifying patterns of communication that may be manipulative or concerning. The app provides non-judgmental guidance through an AI coach that speaks like a trusted friend.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is my data private and secure?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely! Unveil is built with privacy as a core principle. All conversation analysis happens locally on your device, and your data never leaves your phone. We don't store your conversations on our servers.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How can I visualize patterns in my relationships?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Unveil provides intuitive visualizations that track behavioral patterns over time, helping you see trends and changes in your relationships. These insights enable you to make more informed decisions about your relationships.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2 class="cta-title">Ready to gain insights into your relationships?</h2>
+            <p class="cta-subtitle">Download Unveil today and start your journey to healthier relationships</p>
+            <div class="cta-buttons">
+                <a href="#" class="download-btn">Download Now</a>
+                <a href="#" class="secondary-btn">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <div class="logo-icon">U</div>
+                    <span>UNVEIL</span>
+                </div>
+                <p class="footer-tagline">Empowering relationships through AI insights</p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Download</a></li>
+                        <li><a href="#">Updates</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">📱</a>
+                        <a href="#" class="social-link">📘</a>
+                        <a href="#" class="social-link">📸</a>
+                        <a href="#" class="social-link">🐦</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Unveil App. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
+            const icon = item.querySelector('.faq-icon');
+            
+            question.addEventListener('click', () => {
+                // Close all other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.faq-answer').style.maxHeight = null;
+                        otherItem.querySelector('.faq-icon').textContent = '+';
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+                
+                if (item.classList.contains('active')) {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    icon.textContent = '-';
+                } else {
+                    answer.style.maxHeight = null;
+                    icon.textContent = '+';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
