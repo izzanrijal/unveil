@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unveil App Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="avatar-selector.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -537,26 +538,76 @@
             background-color: #28a745;
         }
         
-        .upload-button {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
+        .upload-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .upload-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .upload-instruction {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .text-white {
+            color: white;
+            background-color: rgba(138, 63, 252, 0.8);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .tutorial-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px dotted #fff;
+        }
+        
+        .tutorial-link:hover {
+            text-decoration: underline;
+        }
+        
+        .upload-card-button {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
             background-color: #8a3ffc;
             color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(138, 63, 252, 0.2);
             display: flex;
-            justify-content: center;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            z-index: 100;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
         }
         
-        .upload-button:active {
-            transform: scale(0.95);
+        .upload-card-button i {
+            font-size: 16px;
+            margin-right: 8px;
+        }
+        
+        .upload-card-button:hover {
+            background-color: #7433e0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(138, 63, 252, 0.3);
+        }
+        
+        .upload-card-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(138, 63, 252, 0.2);
         }
         
         .upload-icon {
@@ -864,57 +915,37 @@
     
     <!-- Main Content -->
     <div class="container-fluid">
-        <!-- New Upload Button -->
-        <button class="upload-button" id="newUploadBtn">
-            <i class="fas fa-plus"></i>
-            New Upload
-        </button>
+        <!-- Upload button removed from here and moved to main card -->
         
         <!-- Insights Summary Card -->
         <div class="insights-card">
             <div class="insights-header">
                 <div>
-                    <div class="insights-label">THIS WEEK'S SUMMARY</div>
-                    <div class="insights-title">Your Relationship Insights</div>
+                    <div class="insights-label">PERSONALIZED ANALYSIS</div>
+                    <div class="insights-title">Communication Insights</div>
                 </div>
                 <div class="insights-date">June 2, 2025</div>
-            </div>
-            
-            <div class="insights-stats">
-                <div class="stat-item">
-                    <div class="stat-icon positive">
-                        <i class="fas fa-arrow-up"></i>
-                    </div>
-                    <div class="stat-info">
-                        <div class="stat-value">+15%</div>
-                        <div class="stat-label">Healthy Communication</div>
-                    </div>
-                </div>
-                
-                <div class="stat-item">
-                    <div class="stat-icon negative">
-                        <i class="fas fa-arrow-down"></i>
-                    </div>
-                    <div class="stat-info">
-                        <div class="stat-value">-8%</div>
-                        <div class="stat-label">Concerning Patterns</div>
-                    </div>
-                </div>
             </div>
             
             <div class="insights-recommendation">
                 <div class="recommendation-title">
                     <i class="fas fa-lightbulb"></i>
-                    <span>Personalized Insight</span>
+                    <span>KEY INSIGHT</span>
                 </div>
                 <div class="recommendation-text">
-                    You've been responding more assertively when boundaries are crossed. Keep practicing clear communication when you feel uncomfortable.
+                    <strong>Assertive Communication:</strong> You've been responding more assertively when boundaries are crossed. Keep practicing clear communication when you feel uncomfortable.
                 </div>
             </div>
             
-            <div class="insights-action">
-                <i class="fas fa-chart-line"></i>
-                View detailed analysis
+            <div class="upload-section">
+                <h3 class="upload-section-title">ANALYZE YOUR CONVERSATIONS</h3>
+                <div class="upload-instruction text-white">
+                    Upload audio or video from your chat history to get more personalized insights. Learn how to export your chat history by watching the <a href="https://www.youtube.com/watch?v=example-tutorial" class="tutorial-link">tutorial video</a>.
+                </div>
+                <button class="upload-card-button" id="newUploadBtn">
+                    <i class="fas fa-plus"></i>
+                    Upload Chat History
+                </button>
             </div>
         </div>
         
@@ -1059,14 +1090,35 @@
             </div>
             <div class="contact-select">
                 <label class="select-label">Assign to contact:</label>
-                <select class="custom-select" id="contactSelect">
-                    <option value="">Select a contact</option>
-                    <option value="new">+ Create new contact</option>
-                    <option value="contact1">Alex Johnson</option>
-                    <option value="contact2">Sarah Williams</option>
-                    <option value="contact3">Michael Chen</option>
-                    <option value="contact4">David Miller</option>
-                </select>
+                <div class="avatar-selector">
+                    <div class="avatar-toggle" id="avatarToggle">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Select Contact" class="avatar-preview">
+                        <span>Select Contact</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="avatar-dropdown" id="avatarDropdown">
+                        <div class="avatar-option new-contact">
+                            <div class="avatar-icon"><i class="fas fa-plus"></i></div>
+                            <span>Create new contact</span>
+                        </div>
+                        <div class="avatar-option" data-value="contact1">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex Johnson">
+                            <span>Alex Johnson</span>
+                        </div>
+                        <div class="avatar-option" data-value="contact2">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Williams">
+                            <span>Sarah Williams</span>
+                        </div>
+                        <div class="avatar-option" data-value="contact3">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Michael Chen">
+                            <span>Michael Chen</span>
+                        </div>
+                        <div class="avatar-option" data-value="contact4">
+                            <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="David Miller">
+                            <span>David Miller</span>
+                        </div>
+                    </div>
+                </div>
                 <button class="upload-btn" id="confirmUpload">Upload</button>
             </div>
         </div>
@@ -1113,8 +1165,53 @@
             const closeUploadModal = document.getElementById('closeUploadModal');
             const confirmUpload = document.getElementById('confirmUpload');
             
+            // Avatar selector functionality
+            const avatarToggle = document.getElementById('avatarToggle');
+            const avatarDropdown = document.getElementById('avatarDropdown');
+            const avatarOptions = document.querySelectorAll('.avatar-option');
+            let selectedContact = '';
+            
             uploadButton.addEventListener('click', function() {
                 uploadModal.classList.add('active');
+            });
+            
+            // Toggle avatar dropdown
+            avatarToggle.addEventListener('click', function() {
+                avatarDropdown.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!avatarToggle.contains(e.target) && !avatarDropdown.contains(e.target)) {
+                    avatarDropdown.classList.remove('active');
+                }
+            });
+            
+            // Handle avatar selection
+            avatarOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    selectedContact = value;
+                    
+                    if (this.classList.contains('new-contact')) {
+                        avatarToggle.querySelector('span').textContent = 'Create new contact';
+                        avatarToggle.querySelector('img').src = '';
+                        avatarToggle.querySelector('img').style.display = 'none';
+                        avatarToggle.querySelector('.avatar-icon').style.display = 'flex';
+                    } else {
+                        const img = this.querySelector('img');
+                        const name = this.querySelector('span').textContent;
+                        
+                        avatarToggle.querySelector('span').textContent = name;
+                        avatarToggle.querySelector('img').src = img.src;
+                        avatarToggle.querySelector('img').style.display = 'block';
+                        if (avatarToggle.querySelector('.avatar-icon')) {
+                            avatarToggle.querySelector('.avatar-icon').style.display = 'none';
+                        }
+                    }
+                    
+                    avatarDropdown.classList.remove('active');
+                });
             });
             
             closeUploadModal.addEventListener('click', function() {

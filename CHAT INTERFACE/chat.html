@@ -65,8 +65,9 @@
         
         .container {
             padding: 15px;
-            height: calc(100vh - 70px - 60px); /* Subtract navbar and input heights */
+            height: calc(100vh - 70px - 70px - 50px); /* Adjusted for header, input container, and navbar */
             overflow-y: auto;
+            padding-bottom: 30px; /* Add padding to prevent content being hidden behind navbar */
             -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
         }
         
@@ -342,7 +343,7 @@
         
         .message-input-container {
             position: fixed;
-            bottom: 70px;
+            bottom: 85px; /* Position above the navbar */
             left: 0;
             right: 0;
             padding: 15px;
@@ -351,6 +352,8 @@
             align-items: center;
             max-width: 430px;
             margin: 0 auto;
+            border-top: 1px solid #eee;
+            z-index: 900;
         }
         
         .message-input {
@@ -358,8 +361,9 @@
             padding: 15px;
             border-radius: 25px;
             border: none;
-            background-color: #e9ecef;
+            background-color: white;
             font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
         
         .send-button {
@@ -378,16 +382,19 @@
         
         .navigation {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             justify-content: space-around;
             background-color: white;
-            padding: 15px 0;
-            border-top: 1px solid #eee;
-            max-width: 430px;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 85%;
+            max-width: 380px;
             margin: 0 auto;
+            z-index: 1000;
         }
         
         .nav-item {
@@ -397,6 +404,7 @@
             color: #666;
             text-decoration: none;
             font-size: 12px;
+            padding: 0 10px;
         }
         
         .nav-item.active {

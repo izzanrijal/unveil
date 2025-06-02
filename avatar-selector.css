@@ -1,0 +1,102 @@
+/* Avatar Selector Styles */
+.avatar-selector {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.avatar-toggle {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.avatar-preview {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.avatar-toggle span {
+    flex: 1;
+    font-size: 14px;
+}
+
+.avatar-toggle i {
+    color: #666;
+    font-size: 12px;
+}
+
+.avatar-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    margin-top: 5px;
+}
+
+.avatar-dropdown.active {
+    max-height: 300px;
+}
+
+.avatar-option {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.avatar-option:last-child {
+    border-bottom: none;
+}
+
+.avatar-option:hover {
+    background-color: #f8f8f8;
+}
+
+.avatar-option img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.avatar-option span {
+    font-size: 14px;
+    color: #333;
+}
+
+.new-contact {
+    background-color: #f0f0f0;
+}
+
+.avatar-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #8a3ffc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.avatar-icon i {
+    color: white;
+    font-size: 14px;
+}
