@@ -270,29 +270,19 @@
             display: inline-block;
             padding: 3px 8px;
             border-radius: 12px;
-        }
-        
-        .analysis-flag {
             font-size: 12px;
-            padding: 3px 10px;
-            border-radius: 12px;
-            margin-left: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 0.5px;
+            font-weight: 500;
+            margin-left: 8px;
         }
         
-        .flag-critical {
-            background-color: #f3e8ff;
-            color: #6d28d9;
-            border: 1px solid #ddd6fe;
+        .risk-critical {
+            background-color: #ffebee;
+            color: #f44336;
         }
         
-        .flag-medium {
-            background-color: #f0f9ff;
-            color: #0369a1;
-            border: 1px solid #bae6fd;
+        .risk-medium {
+            background-color: #fff8e1;
+            color: #ff9800;
         }
         
         .risk-low {
@@ -300,10 +290,24 @@
             color: #4caf50;
         }
         
-        .analysis-score {
-            font-weight: 700;
-            color: #f44336;
-            margin-bottom: 5px;
+        .chat-icon {
+            margin-left: 10px;
+            font-size: 18px;
+            color: #8a3ffc;
+            cursor: pointer;
+        }
+        
+        .analysis-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .analysis-pattern-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
         }
         
         .analysis-quote {
@@ -325,6 +329,11 @@
             gap: 5px;
             font-size: 12px;
             color: #666;
+            margin-bottom: 4px;
+        }
+        
+        .analysis-tag span {
+            font-weight: 500;
         }
         
         .contact-card {
@@ -718,7 +727,7 @@
     <div class="header">
         <div class="greeting">
             <h1>Hi, Maya <span>👋</span></h1>
-            <p>Awareness is your first superpower</p>
+            <p>Unveil App: Relationship insights with privacy</p>
         </div>
         <div class="notification-icon">
             <i class="fas fa-bell"></i>
@@ -737,15 +746,15 @@
         <!-- Toxicity Overview Card -->
         <div class="toxicity-card">
             <div class="toxicity-label">LATEST</div>
-            <div class="toxicity-title">AI Toxicity Overview</div>
+            <div class="toxicity-title">Communication Pattern Analysis</div>
             <div class="toxicity-score">76%</div>
-            <div class="toxicity-subtitle">Avg Evil Score</div>
+            <div class="toxicity-subtitle">Attention Score</div>
             
             <div class="progress-bar">
                 <div class="progress-fill" style="width: 76%;"></div>
             </div>
             
-            <div class="toxicity-description">3 critical manipulations flagged this month</div>
+            <div class="toxicity-description">3 concerning patterns identified this month</div>
             
             <div class="toxicity-action">
                 <i class="fas fa-chart-line"></i>
@@ -767,26 +776,31 @@
         <div class="analysis-card">
             <div class="analysis-header">
                 <div class="analysis-avatar">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Conversation">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner A">
                 </div>
                 <div class="analysis-info">
                     <div class="analysis-name">
-                        Conversation Analysis
-                        <span class="analysis-flag flag-critical">Needs Review</span>
+                        Partner A
+                        <span class="analysis-risk risk-critical">Attention Needed</span>
                     </div>
-                    <div class="analysis-time">5 min ago <i class="fas fa-comment-alt" style="margin-left: 8px; color: #8a3ffc;"></i></div>
+                    <div class="analysis-time">5 min ago</div>
+                </div>
+                <div class="chat-icon">
+                    <i class="fas fa-comment"></i>
                 </div>
             </div>
-            <div class="analysis-score">Pattern Match: 92%</div>
-            <div class="analysis-quote">"You're being too sensitive..."</div>
-            <div class="analysis-tags">
-                <div class="analysis-tag">
-                    <i class="fas fa-comments" style="color: #8a3ffc;"></i>
-                    Communication Pattern
-                </div>
-                <div class="analysis-tag">
-                    <i class="fas fa-lightbulb" style="color: #ff9800;"></i>
-                    Insight: Emotional Dismissal
+            <div class="analysis-content">
+                <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                <div class="analysis-quote">"You're being too sensitive..."</div>
+                <div class="analysis-tags">
+                    <div class="analysis-tag">
+                        <i class="fas fa-eye" style="color: #f44336;"></i>
+                        <span>Primary: Gaslighting</span>
+                    </div>
+                    <div class="analysis-tag">
+                        <i class="fas fa-exclamation-circle" style="color: #ff9800;"></i>
+                        <span>Secondary: Guilt-Tripping</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -794,26 +808,27 @@
         <div class="analysis-card">
             <div class="analysis-header">
                 <div class="analysis-avatar">
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Conversation">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Friend S">
                 </div>
                 <div class="analysis-info">
                     <div class="analysis-name">
-                        Conversation Analysis
-                        <span class="analysis-flag flag-medium">Review Suggested</span>
+                        Friend S
+                        <span class="analysis-risk risk-medium">Moderate</span>
                     </div>
-                    <div class="analysis-time">1 day ago <i class="fas fa-comment-alt" style="margin-left: 8px; color: #8a3ffc;"></i></div>
+                    <div class="analysis-time">1 day ago</div>
+                </div>
+                <div class="chat-icon">
+                    <i class="fas fa-comment"></i>
                 </div>
             </div>
-            <div class="analysis-score">Pattern Match: 65%</div>
-            <div class="analysis-quote">"I guess you don't care after all..."</div>
-            <div class="analysis-tags">
-                <div class="analysis-tag">
-                    <i class="fas fa-comments" style="color: #8a3ffc;"></i>
-                    Communication Pattern
-                </div>
-                <div class="analysis-tag">
-                    <i class="fas fa-lightbulb" style="color: #ff9800;"></i>
-                    Insight: Emotional Withdrawal
+            <div class="analysis-content">
+                <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                <div class="analysis-quote">"I guess you don't care after all..."</div>
+                <div class="analysis-tags">
+                    <div class="analysis-tag">
+                        <i class="fas fa-volume-mute" style="color: #9c27b0;"></i>
+                        <span>Primary: Silent Treatment</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -826,17 +841,22 @@
                 <div class="analysis-info">
                     <div class="analysis-name">
                         Colleague R
-                        <span class="analysis-risk risk-low">Low</span>
+                        <span class="analysis-risk risk-low">Healthy</span>
                     </div>
                     <div class="analysis-time">3 days ago</div>
                 </div>
+                <div class="chat-icon">
+                    <i class="fas fa-comment"></i>
+                </div>
             </div>
-            <div class="analysis-score">22% Evil</div>
-            <div class="analysis-quote">"Let's just drop it."</div>
-            <div class="analysis-tags">
-                <div class="analysis-tag">
-                    <i class="fas fa-check-circle" style="color: #4caf50;"></i>
-                    None Detected
+            <div class="analysis-content">
+                <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                <div class="analysis-quote">"Let's just drop it."</div>
+                <div class="analysis-tags">
+                    <div class="analysis-tag">
+                        <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+                        <span>No concerning patterns detected</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -888,17 +908,7 @@
         </div>
     </div>
     
-    <!-- Timeline Section -->
-    <div class="timeline-section" style="display: none;" id="timelineSection">
-        <div class="section-title">
-            <span>Conversation Timeline</span>
-            <span class="view-all">View all</span>
-        </div>
-        <div class="timeline-container">
-            <div class="timeline-line"></div>
-            <!-- Timeline items will be dynamically added here -->
-        </div>
-    </div>
+    <!-- Timeline section removed as requested -->
     
     <!-- Bottom Navigation -->
     <div class="navigation">
@@ -973,70 +983,32 @@
                 }
             });
             
-            // Analysis card click to show timeline
+            // Analysis card click functionality
             const analysisCards = document.querySelectorAll('.analysis-card');
             
             analysisCards.forEach(card => {
                 card.addEventListener('click', function() {
-                    // Get the person's name
-                    const personName = this.querySelector('.analysis-name').textContent.trim().split('\n')[0];
+                    // In a real app, this would navigate to a detailed view
+                    console.log('Card clicked: ' + this.querySelector('.analysis-name').textContent.trim().split('\n')[0]);
                     
-                    // Show timeline section
-                    const timelineSection = document.getElementById('timelineSection');
-                    timelineSection.style.display = 'block';
-                    
-                    // Clear previous timeline items
-                    const timelineContainer = document.querySelector('.timeline-container');
-                    const timelineLine = document.querySelector('.timeline-line');
-                    timelineContainer.innerHTML = '';
-                    timelineContainer.appendChild(timelineLine);
-                    
-                    // Generate timeline items based on person
-                    if (personName === 'Partner A') {
-                        createTimelineItem('Gaslighting detected', 'Today', 'Multiple instances where statements were contradicted later.', 'exclamation');
-                        createTimelineItem('Conversation analyzed', '2 days ago', 'Detected patterns of emotional manipulation in voice tone.', 'microphone');
-                        createTimelineItem('Text messages analyzed', '1 week ago', 'Early warning signs of controlling behavior observed.', 'comment-alt');
-                    } else if (personName === 'Friend S') {
-                        createTimelineItem('Mixed signals detected', 'Yesterday', 'Some concerning patterns but generally respectful communication.', 'question');
-                        createTimelineItem('Voice call analyzed', '3 days ago', 'Occasional guilt-tripping detected in conversation.', 'microphone');
-                    } else if (personName === 'Colleague R') {
-                        createTimelineItem('Healthy communication', '3 days ago', 'Balanced conversation with mutual respect observed.', 'check');
-                        createTimelineItem('Text analysis', '2 weeks ago', 'No concerning patterns detected in messaging style.', 'comment-alt');
+                    // Add chat icon click handler to stop event propagation
+                    const chatIcon = this.querySelector('.chat-icon');
+                    if (chatIcon) {
+                        chatIcon.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            console.log('Chat icon clicked');
+                        });
                     }
-                    
-                    // Scroll to timeline section
-                    timelineSection.scrollIntoView({ behavior: 'smooth' });
                 });
             });
             
-            // Function to create timeline items
-            function createTimelineItem(title, date, description, icon) {
-                const timelineContainer = document.querySelector('.timeline-container');
-                
-                const timelineItem = document.createElement('div');
-                timelineItem.className = 'timeline-item';
-                
-                timelineItem.innerHTML = `
-                    <div class="timeline-dot">
-                        <i class="fas fa-${icon}"></i>
-                    </div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <div class="timeline-title">${title}</div>
-                            <div class="timeline-date">${date}</div>
-                        </div>
-                        <div class="timeline-description">${description}</div>
-                    </div>
-                `;
-                
-                timelineContainer.appendChild(timelineItem);
-            }
-            
-            // Handle toxicity action click
-            const toxicityAction = document.querySelector('.toxicity-action');
-            toxicityAction.addEventListener('click', function() {
-                // In a real app, this would navigate to pattern history page
-                alert('Navigating to pattern history...');
+            // Chat icon click handler
+            document.querySelectorAll('.chat-icon').forEach(icon => {
+                icon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    console.log('Chat icon clicked for: ' + this.closest('.analysis-card').querySelector('.analysis-name').textContent.trim().split('\n')[0]);
+                    // In a real app, this would open a chat interface
+                });
             });
         });
     </script>
