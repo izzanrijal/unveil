@@ -270,19 +270,29 @@
             display: inline-block;
             padding: 3px 8px;
             border-radius: 12px;
+        }
+        
+        .analysis-flag {
             font-size: 12px;
-            font-weight: 500;
-            margin-left: 8px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-left: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
         }
         
-        .risk-critical {
-            background-color: #ffebee;
-            color: #f44336;
+        .flag-critical {
+            background-color: #f3e8ff;
+            color: #6d28d9;
+            border: 1px solid #ddd6fe;
         }
         
-        .risk-medium {
-            background-color: #fff8e1;
-            color: #ff9800;
+        .flag-medium {
+            background-color: #f0f9ff;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
         }
         
         .risk-low {
@@ -784,22 +794,26 @@
         <div class="analysis-card">
             <div class="analysis-header">
                 <div class="analysis-avatar">
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Friend S">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Conversation">
                 </div>
                 <div class="analysis-info">
                     <div class="analysis-name">
-                        Friend S
-                        <span class="analysis-risk risk-medium">Medium</span>
+                        Conversation Analysis
+                        <span class="analysis-flag flag-medium">Review Suggested</span>
                     </div>
-                    <div class="analysis-time">1 day ago</div>
+                    <div class="analysis-time">1 day ago <i class="fas fa-comment-alt" style="margin-left: 8px; color: #8a3ffc;"></i></div>
                 </div>
             </div>
-            <div class="analysis-score">65% Evil</div>
+            <div class="analysis-score">Pattern Match: 65%</div>
             <div class="analysis-quote">"I guess you don't care after all..."</div>
             <div class="analysis-tags">
                 <div class="analysis-tag">
-                    <i class="fas fa-volume-mute" style="color: #9c27b0;"></i>
-                    Silent Treatment
+                    <i class="fas fa-comments" style="color: #8a3ffc;"></i>
+                    Communication Pattern
+                </div>
+                <div class="analysis-tag">
+                    <i class="fas fa-lightbulb" style="color: #ff9800;"></i>
+                    Insight: Emotional Withdrawal
                 </div>
             </div>
         </div>
