@@ -21,8 +21,8 @@
             max-width: 430px;
             margin: 0 auto;
             position: relative;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
         
         .status-bar {
@@ -47,6 +47,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
         
         .greeting {
@@ -120,12 +123,9 @@
             box-shadow: 0 4px 10px rgba(217, 70, 239, 0.3);
         }
         .container-fluid {
-            padding: 15px 20px;
-            height: calc(100vh - 60px - 90px); /* Adjusted for floating navbar */
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            padding: 15px 20px 90px; /* Added bottom padding for navbar */
             background-color: #f8f9fa;
-            padding-bottom: 40px; /* Extra padding at bottom for floating navbar */
+            min-height: calc(100vh - 60px); /* Full height minus header */
         }
         
         .insights-card {
