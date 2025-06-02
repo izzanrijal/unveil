@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unveil App Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="avatar-selector.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Chat with Unveil AI</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -22,8 +20,17 @@
             max-width: 430px;
             margin: 0 auto;
             position: relative;
-            min-height: 100vh;
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
         }
         
         .status-bar {
@@ -42,63 +49,9 @@
             gap: 5px;
         }
         
-        .header {
-            background-color: white;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .greeting {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .greeting h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .greeting p {
-            font-size: 14px;
-            color: #666;
-            margin: 0;
-        }
-        
-        .notification-icon {
-            position: relative;
-            font-size: 24px;
-            color: #333;
-            cursor: pointer;
-        }
-        
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #ff4d4f;
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: bold;
-        }
-        
         .profile-icon {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background-color: #ccc;
             overflow: hidden;
@@ -110,556 +63,100 @@
             object-fit: cover;
         }
         
-        .upload-button {
-            background-color: #d946ef;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            padding: 10px 20px;
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 4px 10px rgba(217, 70, 239, 0.3);
-        }
-        .container-fluid {
-            padding: 15px 20px 90px; /* Added bottom padding for navbar */
-            background-color: #f8f9fa;
-            min-height: calc(100vh - 60px); /* Full height minus header */
+        .container {
+            padding: 15px;
+            height: calc(100vh - 40px - 70px - 50px); /* Adjusted for status bar, input container, and navbar */
+            overflow-y: auto;
+            padding-bottom: 30px; /* Add padding to prevent content being hidden behind navbar */
+            -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+            margin-top: 10px; /* Add some space at the top */
         }
         
-        .insights-card {
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            border-radius: 20px;
-            padding: 20px;
-            color: white;
-            margin-bottom: 25px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(163, 85, 247, 0.2);
-        }
-        
-        .insights-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-        
-        .insights-label {
-            background-color: rgba(255, 255, 255, 0.2);
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-        
-        .insights-title {
-            font-size: 20px;
-            font-weight: 700;
+        h1 {
+            font-size: 24px;
             margin-bottom: 5px;
         }
         
-        .insights-date {
-            font-size: 14px;
-            opacity: 0.8;
-            font-weight: 500;
-        }
-        
-        .insights-stats {
-            display: flex;
-            gap: 15px;
+        .subtitle {
+            font-size: 16px;
+            color: #666;
             margin-bottom: 20px;
         }
         
-        .stat-item {
-            flex: 1;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+        .partners-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px 0;
+            scroll-behavior: smooth;
+            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+        
+        .partners-scroll::-webkit-scrollbar {
+            display: none;  /* Chrome, Safari, Opera */
+        }
+        
+        .partner-card {
+            min-width: 150px;
             padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .stat-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-        
-        .positive {
-            background-color: rgba(74, 222, 128, 0.2);
-            color: #4ade80;
-        }
-        
-        .negative {
-            background-color: rgba(248, 113, 113, 0.2);
-            color: #f87171;
-        }
-        
-        .stat-info {
-            flex: 1;
-        }
-        
-        .stat-value {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-        
-        .insights-recommendation {
-            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .recommendation-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: rgba(255, 255, 255, 0.9);
-        }
-        
-        .recommendation-text {
-            font-size: 14px;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.85);
-        }
-        
-        .insights-action {
-            background-color: rgba(255, 255, 255, 0.15);
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .insights-action:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-        }
-        
-        .section-link {
-            font-size: 14px;
-            color: #8a3ffc;
-            font-weight: 500;
-        }
-        
-        .analysis-card {
-            background-color: white;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            display: flex;
-            position: relative;
-            min-height: 160px;
-        }
-        
-        .card-main-content {
-            flex: 1;
-            padding-right: 80px; /* Space for the chat section */
-            min-width: 0; /* Prevent flex item from overflowing */
-        }
-        
-        .analysis-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .analysis-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-        
-        .analysis-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .analysis-info {
-            flex: 1;
-            min-width: 0;
-            margin-right: 10px;
-        }
-        
-        .analysis-name {
-            font-weight: 600;
-            margin-bottom: 2px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .analysis-time {
-            font-size: 12px;
-            color: #999;
-        }
-        
-        .analysis-risk {
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            white-space: nowrap;
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            margin: 0;
-        }
-        
-        .risk-critical {
-            background-color: #f44336;
-            color: white;
-        }
-        
-        .risk-medium {
-            background-color: #ff9800;
-            color: white;
-        }
-        
-        .risk-low {
-            background-color: #4caf50;
-            color: white;
-        }
-        
-        .chat-section {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            width: 70px;
-        }
-        
-        .chat-icon {
-            width: 50px;
-            height: 50px;
-            min-width: 50px;
-            border-radius: 50%;
-            background-color: #8a3ffc;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            padding: 0;
-            margin-top: 8px;
-            box-shadow: 0 4px 10px rgba(138, 63, 252, 0.3);
-        }
-        
-        .chat-icon:hover {
-            background-color: #7b2ff7;
-            transform: scale(1.05);
-        }
-        
-        .chat-icon:active {
-            transform: scale(0.95);
-        }
-        
-        .chat-icon i {
-            font-size: 20px;
-        }
-        
-        .analysis-content {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            width: 100%;
-        }
-        
-        .analysis-header {
-            display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 10px;
-            position: relative;
-            padding-right: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
         
-        .analysis-pattern-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin: 0;
+        .partner-card.active {
+            border-color: #8a3ffc;
+            background-color: #f0e6ff;
         }
         
-        .analysis-quote {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 10px;
-            font-style: italic;
+        .partner-card.add-new {
+            justify-content: center;
+            border: 2px dashed #ccc;
+            background-color: transparent;
         }
         
-        .analysis-summary {
-            color: #555;
-            margin-bottom: 5px;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-        
-        .analysis-tags {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        
-        .analysis-tag {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 4px;
-        }
-        
-        .analysis-tag span {
-            font-weight: 500;
-        }
-        
-        .contact-card {
-            background-color: white;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .contact-avatar {
-            width: 60px;
-            height: 60px;
+        .partner-avatar {
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
-            flex-shrink: 0;
         }
         
-        .contact-avatar img {
+        .partner-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
         
-        .contact-info {
-            flex: 1;
-        }
-        
-        .contact-name {
+        .partner-name {
             font-weight: bold;
-            margin-bottom: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            text-align: center;
         }
         
-        .contact-date {
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 5px;
-        }
-        
-        .contact-preview {
+        .partner-status {
             font-size: 14px;
             color: #666;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
         
-        .risk-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 5px;
+        .high-risk {
+            color: #dc3545;
         }
         
-        .risk-high {
-            background-color: #dc3545;
+        .low-risk {
+            color: #28a745;
         }
         
-        .risk-medium {
-            background-color: #ffc107;
-        }
-        
-        .risk-low {
-            background-color: #28a745;
-        }
-        
-        .upload-section {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        
-        .upload-section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        
-        .upload-instruction {
-            margin-bottom: 15px;
-            font-size: 14px;
-            color: #555;
-            line-height: 1.5;
-        }
-        
-        .text-white {
-            color: white;
-            background-color: rgba(138, 63, 252, 0.8);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        
-        .tutorial-link {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 600;
-            border-bottom: 1px dotted #fff;
-        }
-        
-        .tutorial-link:hover {
-            text-decoration: underline;
-        }
-        
-        .upload-card-button {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 10px;
-            background-color: #8a3ffc;
-            color: white;
-            border: none;
-            box-shadow: 0 4px 12px rgba(138, 63, 252, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .upload-card-button i {
-            font-size: 16px;
-            margin-right: 8px;
-        }
-        
-        .upload-card-button:hover {
-            background-color: #7433e0;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 14px rgba(138, 63, 252, 0.3);
-        }
-        
-        .upload-card-button:active {
-            transform: translateY(0);
-            box-shadow: 0 4px 10px rgba(138, 63, 252, 0.2);
-        }
-        
-        .upload-icon {
-            font-size: 24px;
-        }
-        
-        /* Navigation Bar */
-        .navigation {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            justify-content: space-around;
-            background-color: white;
-            padding: 15px 0;
-            border-radius: 30px;
-            max-width: 90%;
-            width: 350px;
-            margin: 0 auto;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #666;
-            text-decoration: none;
-            font-size: 12px;
-            padding: 8px 16px;
-            transition: all 0.2s ease;
-            border-radius: 12px;
-        }
-        
-        .nav-item.active {
-            color: white;
-            background-color: #8a3ffc;
-            font-weight: 500;
-        }
-        
-        .nav-icon {
-            font-size: 20px;
-            margin-bottom: 5px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Upload Modal */
+        /* Topic selection modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -676,12 +173,63 @@
             transition: all 0.3s ease;
         }
         
+        .confirmation-modal {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            width: 85%;
+            max-width: 350px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .confirmation-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .confirmation-message {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .confirmation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-cancel {
+            background-color: #f1f1f1;
+            color: #666;
+        }
+        
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
         .modal-overlay.active {
             visibility: visible;
             opacity: 1;
         }
         
-        .upload-modal {
+        .topic-modal {
             background-color: white;
             border-radius: 15px;
             padding: 20px;
@@ -699,194 +247,284 @@
             font-weight: bold;
         }
         
-        .modal-close {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            font-size: 20px;
-            color: #999;
-            cursor: pointer;
-        }
-        
-        .upload-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .upload-option {
+        .topic-option {
             padding: 15px;
             border-radius: 10px;
             background-color: #f8f9fa;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            margin-bottom: 10px;
             cursor: pointer;
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            position: relative;
         }
         
-        .upload-option:hover {
+        .topic-option:hover {
             background-color: #f0e6ff;
         }
         
-        .option-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #8a3ffc;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
+        .topic-option.new {
+            border: 1px dashed #ccc;
         }
         
-        .option-details {
+        .topic-icon {
+            margin-right: 15px;
+            font-size: 20px;
+            color: #8a3ffc;
+        }
+        
+        .topic-details {
             flex: 1;
+            padding-right: 30px; /* Add padding to prevent text overlap with delete icon */
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
-        .option-title {
+        .topic-title {
             font-weight: bold;
             margin-bottom: 3px;
         }
         
-        .option-description {
+        .topic-date {
             font-size: 12px;
             color: #666;
         }
         
-        .contact-select {
-            margin-top: 20px;
-        }
-        
-        .select-label {
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: block;
-        }
-        
-        .custom-select {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            background-color: #f8f9fa;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-        
-        .upload-btn {
-            width: 100%;
-            padding: 12px;
-            border-radius: 25px;
-            background-color: #8a3ffc;
-            color: white;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
+        .delete-topic {
+            position: absolute;
+            right: 15px;
+            color: #dc3545;
+            opacity: 0.7;
             transition: all 0.2s ease;
         }
         
-        .upload-btn:hover {
-            opacity: 0.9;
+        .delete-topic:hover {
+            opacity: 1;
         }
         
-        /* Timeline Section */
-        .timeline-section {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-        
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .view-all {
+        .info-message {
+            text-align: center;
+            padding: 10px;
+            background-color: #f0e6ff;
+            border-radius: 10px;
+            margin: 15px 0;
             font-size: 14px;
             color: #8a3ffc;
-            font-weight: normal;
         }
         
-        .timeline-container {
-            position: relative;
-            padding-left: 30px;
+        .add-icon {
+            font-size: 32px;
+            color: #ccc;
         }
         
-        .timeline-line {
-            position: absolute;
-            left: 10px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background-color: #eee;
+        .chat-container {
+            margin-top: 20px;
         }
         
-        .timeline-item {
-            position: relative;
-            margin-bottom: 20px;
+        .message {
+            margin-bottom: 15px;
+            max-width: 85%;
+            padding: 15px;
+            border-radius: 18px;
         }
         
-        .timeline-dot {
-            position: absolute;
-            left: -30px;
-            top: 0;
-            width: 20px;
-            height: 20px;
+        .ai-message {
+            background-color: #f0f0f0;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .user-message {
+            background-color: #8a3ffc;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+            margin-left: auto;
+        }
+        
+        .message-input-container {
+            position: fixed;
+            bottom: 85px; /* Position above the navbar */
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            max-width: 430px;
+            margin: 0 auto;
+            border-top: 1px solid #eee;
+            z-index: 900;
+        }
+        
+        .message-input {
+            flex: 1;
+            padding: 15px;
+            border-radius: 25px;
+            border: none;
+            background-color: white;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .send-button {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background-color: #8a3ffc;
+            color: white;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 10px;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .settings-button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #666;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .settings-button:hover {
+            background-color: #f0f0f0;
+            transform: rotate(30deg);
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
             justify-content: center;
             align-items: center;
         }
         
-        .timeline-dot i {
-            color: white;
-            font-size: 10px;
-        }
-        
-        .timeline-content {
+        .modal-content {
             background-color: white;
+            padding: 20px;
             border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
-        .timeline-header {
+        .modal-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            align-items: center;
+            margin-bottom: 20px;
         }
         
-        .timeline-title {
+        .modal-title {
+            font-size: 18px;
             font-weight: bold;
         }
         
-        .timeline-date {
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .agent-option {
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .agent-option:hover {
+            background-color: #f5f5f5;
+            border-color: #007bff;
+        }
+        
+        .agent-option.selected {
+            background-color: #e6f2ff;
+            border-color: #007bff;
+        }
+        
+        .custom-prompt {
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .save-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            margin-top: 15px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+        
+        .save-button:hover {
+            background-color: #0056b3;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 85%;
+            max-width: 380px;
+            margin: 0 auto;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            text-decoration: none;
             font-size: 12px;
-            color: #999;
+            padding: 0 10px;
         }
         
-        .timeline-description {
-            font-size: 14px;
-            color: #666;
+        .nav-item.active {
+            color: #8a3ffc;
         }
         
-        /* Fix for line-clamp compatibility */
-        .contact-preview {
-            font-size: 14px;
-            color: #666;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -895,236 +533,169 @@
     <div class="status-bar">
         <div class="time">9:41</div>
         <div class="status-icons">
-            <i class="fas fa-wifi"></i>
             <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
             <i class="fas fa-battery-full"></i>
         </div>
     </div>
     
-    <!-- Header -->
-    <div class="header">
-        <div class="greeting">
-            <h1>Hi, Maya <span>👋</span></h1>
-            <p>Unveil App: Relationship insights with privacy</p>
-        </div>
-        <div class="notification-icon">
-            <i class="fas fa-bell"></i>
-            <span class="notification-badge">3</span>
-        </div>
-    </div>
+    <!-- No fixed header as requested -->
     
-    <!-- Main Content -->
-    <div class="container-fluid">
-        <!-- Upload button removed from here and moved to main card -->
+    <div class="container">
+        <div class="chat-header">
+            <div>
+                <h1>Chat with Unveil AI</h1>
+                <p class="subtitle">Ask questions about your conversations</p>
+            </div>
+            <button id="settingsButton" class="settings-button" aria-label="Chat settings">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+        <div class="info-message">
+            <i class="fas fa-info-circle"></i> Click on a person's card to start or continue a conversation
+        </div>
         
-        <!-- Insights Summary Card -->
-        <div class="insights-card">
-            <div class="insights-header">
-                <div>
-                    <div class="insights-label">PERSONALIZED ANALYSIS</div>
-                    <div class="insights-title">Communication Insights</div>
+        <!-- Horizontal Scrollable Partners -->
+        <div class="partners-scroll">
+            <div class="partner-card active" data-partner="partnerA">
+                <div class="partner-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner A">
                 </div>
-                <div class="insights-date">June 2, 2025</div>
+                <div class="partner-name">Partner A</div>
+                <div class="partner-status high-risk">High risk</div>
             </div>
             
-            <div class="insights-recommendation">
-                <div class="recommendation-title">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>KEY INSIGHT</span>
+            <div class="partner-card" data-partner="friendB">
+                <div class="partner-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/40.jpg" alt="Friend B">
                 </div>
-                <div class="recommendation-text">
-                    <strong>Assertive Communication:</strong> You've been responding more assertively when boundaries are crossed. Keep practicing clear communication when you feel uncomfortable.
-                </div>
+                <div class="partner-name">Friend B</div>
+                <div class="partner-status low-risk">Low risk</div>
             </div>
             
-            <div class="upload-section">
-                <h3 class="upload-section-title">ANALYZE YOUR CONVERSATIONS</h3>
-                <div class="upload-instruction text-white">
-                    Upload audio or video from your chat history to get more personalized insights. Learn how to export your chat history by watching the <a href="https://www.youtube.com/watch?v=example-tutorial" class="tutorial-link">tutorial video</a>.
-                </div>
-                <button class="upload-card-button" id="newUploadBtn">
+            <div class="partner-card add-new">
+                <div class="add-icon">
                     <i class="fas fa-plus"></i>
-                    Upload Chat History
-                </button>
+                </div>
             </div>
         </div>
         
-        <!-- Recent Analyses Section -->
-        <div class="section-header">
-            <div class="section-title">Recent Analyses</div>
-            <div class="section-link">See All</div>
-        </div>
-        
-        <!-- Analysis Cards -->
-        <div class="analysis-card">
-            <div class="card-main-content">
-                <div class="analysis-header">
-                    <div class="analysis-avatar">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner A">
-                    </div>
-                    <div class="analysis-info">
-                        <div class="analysis-name">
-                            Partner A
-                        </div>
-                        <div class="analysis-time">5 min ago</div>
-                    </div>
-                    <span class="analysis-risk risk-critical">Attention Needed</span>
-                </div>
-                <div class="analysis-content">
-                    <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
-                    <div class="analysis-summary">Multiple conflict resolution discussions about personal boundaries and emotional responses. Frequent dismissal of feelings.</div>
-                    <div class="analysis-tags">
-                        <div class="analysis-tag">
-                            <i class="fas fa-eye" style="color: #f44336;"></i>
-                            <span>Primary: Gaslighting</span>
-                        </div>
-                        <div class="analysis-tag">
-                            <i class="fas fa-exclamation-circle" style="color: #ff9800;"></i>
-                            <span>Secondary: Guilt-Tripping</span>
-                        </div>
-                    </div>
-                </div>
+        <!-- Chat Messages -->
+        <div class="chat-container" id="chatContainer">
+            <div class="message ai-message">
+                How can I help you understand your conversation analysis?
             </div>
-            <div class="chat-section">
-                <button class="chat-icon" data-contact="Partner A">
-                    <i class="fas fa-comment-alt"></i>
-                </button>
+            
+            <div class="message user-message">
+                Can you tell me about the patterns you've noticed in my recent conversation?
             </div>
-        </div>
-        
-        <div class="analysis-card">
-            <div class="card-main-content">
-                <div class="analysis-header">
-                    <div class="analysis-avatar">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Friend S">
-                    </div>
-                    <div class="analysis-info">
-                        <div class="analysis-name">
-                            Friend S
-                        </div>
-                        <div class="analysis-time">1 day ago</div>
-                    </div>
-                    <span class="analysis-risk risk-medium">Moderate</span>
-                </div>
-                <div class="analysis-content">
-                    <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
-                    <div class="analysis-summary">Casual discussions about social plans and commitments. Occasional passive-aggressive comments when expectations aren't met.</div>
-                    <div class="analysis-tags">
-                        <div class="analysis-tag">
-                            <i class="fas fa-volume-mute" style="color: #9c27b0;"></i>
-                            <span>Primary: Silent Treatment</span>
-                        </div>
-                    </div>
-                </div>
+            
+            <div class="message ai-message">
+                I noticed several instances of gaslighting and emotional manipulation. Would you like me to explain specific examples?
             </div>
-            <div class="chat-section">
-                <button class="chat-icon" data-contact="Friend S">
-                    <i class="fas fa-comment-alt"></i>
-                </button>
+            
+            <div class="message user-message">
+                Yes, please show me some examples from our conversation.
+            </div>
+            
+            <div class="message ai-message">
+                In your recent conversation, I noticed these concerning patterns:
+                <br><br>
+                1. When you mentioned feeling uncomfortable, they responded with "You're being too sensitive" - this is a classic example of dismissing your feelings.
+                <br><br>
+                2. They said "I never said that" about something they clearly stated earlier - this is gaslighting by denying reality.
+            </div>
+            
+            <div class="message user-message">
+                That's helpful. What should I do when I notice these patterns?
+            </div>
+            
+            <div class="message ai-message">
+                It's important to trust your instincts and set boundaries. Consider these strategies:
+                <br><br>
+                • Document conversations when possible
+                <br>
+                • Use "I" statements to express how their behavior affects you
+                <br>
+                • Seek support from trusted friends or a professional
+            </div>
+            
+            <div class="message user-message">
+                Thanks for the advice. I'll try to be more aware of these patterns.
+            </div>
+            
+            <div class="message ai-message">
+                You're welcome. Remember that recognizing these patterns is the first step. Would you like me to analyze any other aspects of your conversations?
             </div>
         </div>
-        
-        <div class="analysis-card">
-            <div class="card-main-content">
-                <div class="analysis-header">
-                    <div class="analysis-avatar">
-                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Colleague R">
-                    </div>
-                    <div class="analysis-info">
-                        <div class="analysis-name">
-                            Colleague R
-                        </div>
-                        <div class="analysis-time">3 days ago</div>
-                    </div>
-                    <span class="analysis-risk risk-low">Healthy</span>
-                </div>
-                <div class="analysis-content">
-                    <h3 class="analysis-pattern-title">No Concerning Patterns</h3>
-                    <div class="analysis-summary">Multiple casual topic discussions about work projects and shared interests. Healthy disagreements with mutual respect.</div>
-                    <div class="analysis-tags">
-                        <div class="analysis-tag">
-                            <i class="fas fa-check-circle" style="color: #4caf50;"></i>
-                            <span>No concerning patterns detected</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="chat-section">
-                <button class="chat-icon" data-contact="Colleague R">
-                    <i class="fas fa-comment-alt"></i>
-                </button>
-            </div>
-        </div>
-        
-
     </div>
     
-    <!-- Upload Modal -->
-    <div class="modal-overlay" id="uploadModal">
-        <div class="upload-modal">
+    <!-- Message Input -->
+    <div class="message-input-container">
+        <input type="text" class="message-input" placeholder="Type your message...">
+        <button class="send-button">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+    
+    <!-- Topic Selection Modal -->
+    <div class="modal-overlay" id="topicModal">
+        <div class="topic-modal">
             <div class="modal-header">
-                <div class="modal-title">Upload Conversation</div>
-                <div class="modal-close" id="closeUploadModal">
-                    <i class="fas fa-times"></i>
-                </div>
+                <div class="modal-title">Choose a conversation</div>
             </div>
-            <div class="upload-options">
-                <div class="upload-option" id="uploadChat">
-                    <div class="option-icon">
-                        <i class="fas fa-comment-alt"></i>
-                    </div>
-                    <div class="option-details">
-                        <div class="option-title">Chat Screenshot</div>
-                        <div class="option-description">Upload screenshots of your text conversations</div>
-                    </div>
-                </div>
-                <div class="upload-option" id="uploadAudio">
-                    <div class="option-icon">
-                        <i class="fas fa-microphone"></i>
-                    </div>
-                    <div class="option-details">
-                        <div class="option-title">Voice Recording</div>
-                        <div class="option-description">Upload or record voice conversations</div>
-                    </div>
-                </div>
-            </div>
-            <div class="contact-select">
-                <label class="select-label">Assign to contact:</label>
-                <div class="avatar-selector">
-                    <div class="avatar-toggle" id="avatarToggle">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Select Contact" class="avatar-preview">
-                        <span>Select Contact</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="avatar-dropdown" id="avatarDropdown">
-                        <div class="avatar-option new-contact">
-                            <div class="avatar-icon"><i class="fas fa-plus"></i></div>
-                            <span>Create new contact</span>
-                        </div>
-                        <div class="avatar-option" data-value="contact1">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex Johnson">
-                            <span>Alex Johnson</span>
-                        </div>
-                        <div class="avatar-option" data-value="contact2">
-                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Williams">
-                            <span>Sarah Williams</span>
-                        </div>
-                        <div class="avatar-option" data-value="contact3">
-                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Michael Chen">
-                            <span>Michael Chen</span>
-                        </div>
-                        <div class="avatar-option" data-value="contact4">
-                            <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="David Miller">
-                            <span>David Miller</span>
-                        </div>
-                    </div>
-                </div>
-                <button class="upload-btn" id="confirmUpload">Upload</button>
+            <div class="topic-options" id="topicOptions">
+                <!-- Previous topics will be dynamically inserted here -->
             </div>
         </div>
     </div>
     
-    <!-- Timeline section removed as requested -->
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="confirmationModal">
+        <div class="confirmation-modal">
+            <div class="confirmation-title">Delete Conversation</div>
+            <div class="confirmation-message">Are you sure you want to delete this conversation? This action cannot be undone.</div>
+            <div class="confirmation-buttons">
+                <button class="btn btn-cancel" id="cancelDelete">Cancel</button>
+                <button class="btn btn-delete" id="confirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Agent Settings Modal -->
+    <div id="agentSettingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Chat Agent Settings</div>
+                <button class="close-button">&times;</button>
+            </div>
+            <div>
+                <p>Select your chat agent persona:</p>
+                <div class="agent-option selected" data-role="default">
+                    <strong>Default Assistant</strong>
+                    <p style="margin: 5px 0 0; color: #666;">Standard helpful assistant</p>
+                </div>
+                <div class="agent-option" data-role="relationship">
+                    <strong>Relationship Coach</strong>
+                    <p style="margin: 5px 0 0; color: #666;">Focuses on improving relationships</p>
+                </div>
+                <div class="agent-option" data-role="dating">
+                    <strong>Dating Coach</strong>
+                    <p style="margin: 5px 0 0; color: #666;">Specialized in dating advice</p>
+                </div>
+                <div class="agent-option" data-role="communication">
+                    <strong>Communication Coach</strong>
+                    <p style="margin: 5px 0 0; color: #666;">Helps with communication skills</p>
+                </div>
+                <div class="agent-option" data-role="custom">
+                    <strong>Custom Role</strong>
+                    <p style="margin: 5px 0 5px; color: #666;">Define your own role:</p>
+                    <textarea id="customRole" class="custom-prompt" placeholder="Example: Act as a career advisor who helps with job search strategies and interview preparation."></textarea>
+                </div>
+                <button class="save-button" id="saveAgentSettings">Save Settings</button>
+            </div>
+        </div>
+    </div>
     
     <!-- Bottom Navigation -->
     <div class="navigation">
@@ -1145,151 +716,410 @@
             <div>Profile</div>
         </a>
     </div>
-    
+
     <script>
+        // JavaScript for horizontal sliding functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Update time in status bar
-            const updateTime = () => {
-                const now = new Date();
-                const hours = now.getHours().toString().padStart(2, '0');
-                const minutes = now.getMinutes().toString().padStart(2, '0');
-                document.querySelector('.time').textContent = `${hours}:${minutes}`;
+            const partnerCards = document.querySelectorAll('.partner-card:not(.add-new)');
+            const topicModal = document.getElementById('topicModal');
+            const topicOptions = document.getElementById('topicOptions');
+            let selectedPartnerId = null;
+            
+            // Sample previous topics data (in a real app, this would come from a database)
+            const previousTopics = {
+                'partnerA': [
+                    { id: 'topic1', title: 'Conversation about boundaries', date: '2 days ago', preview: 'We discussed setting healthy boundaries...' },
+                    { id: 'topic2', title: 'Discussion about future plans', date: '1 week ago', preview: 'We talked about our future together...' }
+                ],
+                'partnerB': [
+                    { id: 'topic3', title: 'Weekend plans', date: '3 days ago', preview: 'Planning for the upcoming weekend...' }
+                ]
             };
             
-            updateTime();
-            setInterval(updateTime, 60000); // Update every minute
-            
-            // Upload button functionality
-            const uploadButton = document.getElementById('newUploadBtn');
-            const uploadModal = document.getElementById('uploadModal');
-            const closeUploadModal = document.getElementById('closeUploadModal');
-            const confirmUpload = document.getElementById('confirmUpload');
-            
-            // Avatar selector functionality
-            const avatarToggle = document.getElementById('avatarToggle');
-            const avatarDropdown = document.getElementById('avatarDropdown');
-            const avatarOptions = document.querySelectorAll('.avatar-option');
-            let selectedContact = '';
-            
-            uploadButton.addEventListener('click', function() {
-                uploadModal.classList.add('active');
-            });
-            
-            // Toggle avatar dropdown
-            avatarToggle.addEventListener('click', function() {
-                avatarDropdown.classList.toggle('active');
-            });
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!avatarToggle.contains(e.target) && !avatarDropdown.contains(e.target)) {
-                    avatarDropdown.classList.remove('active');
-                }
-            });
-            
-            // Handle avatar selection
-            avatarOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    const value = this.getAttribute('data-value');
-                    selectedContact = value;
-                    
-                    if (this.classList.contains('new-contact')) {
-                        avatarToggle.querySelector('span').textContent = 'Create new contact';
-                        avatarToggle.querySelector('img').src = '';
-                        avatarToggle.querySelector('img').style.display = 'none';
-                        avatarToggle.querySelector('.avatar-icon').style.display = 'flex';
-                    } else {
-                        const img = this.querySelector('img');
-                        const name = this.querySelector('span').textContent;
-                        
-                        avatarToggle.querySelector('span').textContent = name;
-                        avatarToggle.querySelector('img').src = img.src;
-                        avatarToggle.querySelector('img').style.display = 'block';
-                        if (avatarToggle.querySelector('.avatar-icon')) {
-                            avatarToggle.querySelector('.avatar-icon').style.display = 'none';
-                        }
-                    }
-                    
-                    avatarDropdown.classList.remove('active');
-                });
-            });
-            
-            closeUploadModal.addEventListener('click', function() {
-                uploadModal.classList.remove('active');
-            });
-            
-            // Close modal when clicking outside
-            uploadModal.addEventListener('click', function(e) {
-                if (e.target === uploadModal) {
-                    uploadModal.classList.remove('active');
-                }
-            });
-            
-            // Handle upload confirmation
-            confirmUpload.addEventListener('click', function() {
-                const contactSelect = document.getElementById('contactSelect');
-                const selectedContact = contactSelect.value;
+            // Function to show topic selection modal
+            function showTopicModal(partnerId) {
+                selectedPartnerId = partnerId;
                 
-                if (selectedContact) {
-                    // Simulate upload success
-                    uploadModal.classList.remove('active');
-                    
-                    // Show success message (in a real app, this would be after actual upload)
-                    alert('Conversation uploaded successfully!');
-                    
-                    // In a real app, you would process the upload here
-                    console.log('Uploading conversation for contact:', selectedContact);
-                } else {
-                    alert('Please select a contact');
+                // Clear previous options
+                topicOptions.innerHTML = '';
+                
+                // Add option to start a new topic
+                const newTopicOption = document.createElement('div');
+                newTopicOption.className = 'topic-option new';
+                newTopicOption.innerHTML = `
+                    <div class="topic-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <div class="topic-details">
+                        <div class="topic-title">Start a new conversation</div>
+                    </div>
+                `;
+                topicOptions.appendChild(newTopicOption);
+                
+                // Add previous topics if they exist
+                if (previousTopics[partnerId] && previousTopics[partnerId].length > 0) {
+                    previousTopics[partnerId].forEach(topic => {
+                        const topicElement = document.createElement('div');
+                        topicElement.className = 'topic-option';
+                        topicElement.dataset.topicId = topic.id;
+                        topicElement.innerHTML = `
+                            <div class="topic-icon">
+                                <i class="fas fa-comment"></i>
+                            </div>
+                            <div class="topic-details">
+                                <div class="topic-title">${topic.title}</div>
+                                <div class="topic-date">${topic.date}</div>
+                            </div>
+                            <div class="delete-topic" data-topic-id="${topic.id}">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                        `;
+                        topicOptions.appendChild(topicElement);
+                    });
                 }
-            });
-            
-            // Analysis card click functionality
-            const analysisCards = document.querySelectorAll('.analysis-card');
-            
-            analysisCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    // In a real app, this would navigate to a detailed view
-                    console.log('Card clicked: ' + this.querySelector('.analysis-name').textContent.trim().split('\n')[0]);
-                    
-                    // Add chat icon click handler to stop event propagation
-                    const chatIcon = this.querySelector('.chat-icon');
-                    if (chatIcon) {
-                        chatIcon.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            console.log('Chat icon clicked');
-                        });
-                    }
-                });
-            });
-            
-            // Chat icon click handler
-            document.querySelectorAll('.chat-icon').forEach(icon => {
-                icon.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    console.log('Chat icon clicked for: ' + this.closest('.analysis-card').querySelector('.analysis-name').textContent.trim().split('\n')[0]);
-                    // In a real app, this would open a chat interface
-                });
-            });
-            
-            // Insights action button click handler
-            const insightsAction = document.querySelector('.insights-action');
-            if (insightsAction) {
-                insightsAction.addEventListener('click', function() {
-                    console.log('Navigating to detailed insights analysis');
-                    // In a real app, this would navigate to detailed insights page
+                
+                // Show the modal
+                topicModal.classList.add('active');
+                
+                // Add click event listeners to topic options
+                document.querySelectorAll('.topic-option').forEach(option => {
+                    option.addEventListener('click', function(e) {
+                        // Check if the delete icon was clicked
+                        if (e.target.closest('.delete-topic')) {
+                            e.stopPropagation(); // Prevent the topic from being selected
+                            const topicId = e.target.closest('.delete-topic').dataset.topicId;
+                            showDeleteConfirmation(partnerId, topicId);
+                            return;
+                        }
+                        
+                        const isNewTopic = this.classList.contains('new');
+                        const topicId = this.dataset.topicId;
+                        loadConversation(partnerId, topicId, isNewTopic);
+                        topicModal.classList.remove('active');
+                    });
                 });
             }
-
-            // Chat icon click handler
-            document.querySelectorAll('.chat-icon').forEach(icon => {
-                icon.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const contactName = this.getAttribute('data-contact');
-                    console.log(`Opening chat with ${contactName}`);
-                    // In a real app, this would navigate to the chat interface
-                    // window.location.href = `chat.html?contact=${encodeURIComponent(contactName)}`;
+            
+            // Function to load conversation based on partner and topic
+            function loadConversation(partnerId, topicId, isNewTopic) {
+                const chatContainer = document.getElementById('chatContainer');
+                
+                // Mark the selected partner card as active
+                partnerCards.forEach(c => c.classList.remove('active'));
+                document.querySelector(`[data-partner="${partnerId}"]`).classList.add('active');
+                
+                if (isNewTopic) {
+                    // New conversation starter
+                    chatContainer.innerHTML = `
+                        <div class="message ai-message">
+                            I'm ready to help you with a new conversation analysis. What would you like to discuss?
+                        </div>
+                    `;
+                } else {
+                    // Load previous conversation based on topic ID
+                    if (partnerId === 'partnerA' && topicId === 'topic1') {
+                        chatContainer.innerHTML = `
+                            <div class="message ai-message">
+                                Last time we discussed setting healthy boundaries. Would you like to continue that conversation?
+                            </div>
+                            
+                            <div class="message user-message">
+                                Yes, I've been trying to implement some of your suggestions.
+                            </div>
+                            
+                            <div class="message ai-message">
+                                That's great to hear! How has it been going with establishing those boundaries?
+                            </div>
+                        `;
+                    } else if (partnerId === 'partnerA' && topicId === 'topic2') {
+                        chatContainer.innerHTML = `
+                            <div class="message ai-message">
+                                Previously we talked about future plans with your partner. Any updates on that?
+                            </div>
+                            
+                            <div class="message user-message">
+                                We had another conversation about it yesterday.
+                            </div>
+                            
+                            <div class="message ai-message">
+                                I'd be happy to analyze that conversation. Would you like to upload the new chat logs?
+                            </div>
+                        `;
+                    } else if (partnerId === 'partnerB' && topicId === 'topic3') {
+                        chatContainer.innerHTML = `
+                            <div class="message ai-message">
+                                We were discussing weekend plans with Friend B. Did you end up going on that trip?
+                            </div>
+                            
+                            <div class="message user-message">
+                                Yes, it was a great experience!
+                            </div>
+                            
+                            <div class="message ai-message">
+                                I'm glad to hear that! Would you like to tell me more about how the communication went during the trip?
+                            </div>
+                        `;
+                    } else {
+                        // Default conversation if topic not found
+                        chatContainer.innerHTML = `
+                            <div class="message ai-message">
+                                I've loaded your previous conversation. How can I help you today?
+                            </div>
+                        `;
+                    }
+                }
+                
+                // Scroll to bottom of chat
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+            
+            // Variables for delete confirmation
+            let topicToDelete = {
+                partnerId: null,
+                topicId: null
+            };
+            
+            // Function to show delete confirmation modal
+            function showDeleteConfirmation(partnerId, topicId) {
+                // Store the topic info for deletion
+                topicToDelete.partnerId = partnerId;
+                topicToDelete.topicId = topicId;
+                
+                // Show the confirmation modal
+                document.getElementById('confirmationModal').classList.add('active');
+            }
+            
+            // Function to delete a topic
+            function deleteTopic() {
+                const { partnerId, topicId } = topicToDelete;
+                
+                // Find the topic in the previousTopics object
+                const topicIndex = previousTopics[partnerId].findIndex(topic => topic.id === topicId);
+                
+                if (topicIndex !== -1) {
+                    // Remove the topic from the array
+                    previousTopics[partnerId].splice(topicIndex, 1);
+                    
+                    // Hide the confirmation modal
+                    document.getElementById('confirmationModal').classList.remove('active');
+                    
+                    // Refresh the topic modal to show the updated list
+                    showTopicModal(partnerId);
+                    
+                    // Show a brief confirmation message
+                    const chatContainer = document.getElementById('chatContainer');
+                    chatContainer.innerHTML = `
+                        <div class="message ai-message">
+                            Conversation deleted. Select a topic to continue or start a new one.
+                        </div>
+                    `;
+                }
+            }
+            
+            // Close modal when clicking outside of it
+            topicModal.addEventListener('click', function(e) {
+                if (e.target === topicModal) {
+                    topicModal.classList.remove('active');
+                }
+            });
+            
+            // Agent Settings Modal Functionality
+            const agentSettingsModal = document.getElementById('agentSettingsModal');
+            const settingsButton = document.getElementById('settingsButton');
+            const closeButton = document.querySelector('.close-button');
+            const agentOptions = document.querySelectorAll('.agent-option');
+            const customRoleTextarea = document.getElementById('customRole');
+            const saveButton = document.getElementById('saveAgentSettings');
+            
+            // Show modal when settings button is clicked
+            settingsButton.addEventListener('click', () => {
+                agentSettingsModal.style.display = 'flex';
+            });
+            
+            // Close modal when close button is clicked
+            closeButton.addEventListener('click', () => {
+                agentSettingsModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside the modal content
+            agentSettingsModal.addEventListener('click', (e) => {
+                if (e.target === agentSettingsModal) {
+                    agentSettingsModal.style.display = 'none';
+                }
+            });
+            
+            // Handle agent option selection
+            agentOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    // Remove selected class from all options
+                    agentOptions.forEach(opt => opt.classList.remove('selected'));
+                    // Add selected class to clicked option
+                    option.classList.add('selected');
+                    
+                    // Show/hide custom role textarea
+                    if (option.dataset.role === 'custom') {
+                        customRoleTextarea.style.display = 'block';
+                    } else {
+                        customRoleTextarea.style.display = 'none';
+                    }
                 });
+            });
+            
+            // Save agent settings
+            saveButton.addEventListener('click', () => {
+                const selectedOption = document.querySelector('.agent-option.selected');
+                const role = selectedOption.dataset.role;
+                let prompt = '';
+                
+                // Set the appropriate system prompt based on selection
+                switch(role) {
+                    case 'relationship':
+                        prompt = 'You are a relationship coach helping users improve their personal relationships. Provide empathetic, practical advice for building stronger connections, resolving conflicts, and improving communication in relationships.';
+                        break;
+                    case 'dating':
+                        prompt = 'You are a dating coach helping users navigate the dating world. Offer practical advice on dating etiquette, conversation starters, red flags to watch for, and how to build meaningful connections.';
+                        break;
+                    case 'communication':
+                        prompt = 'You are a communication coach specializing in helping people improve their interpersonal communication skills. Provide guidance on active listening, expressing thoughts clearly, and navigating difficult conversations.';
+                        break;
+                    case 'custom':
+                        prompt = customRoleTextarea.value.trim() || 'You are a helpful assistant.';
+                        break;
+                    default:
+                        prompt = 'You are a helpful assistant.';
+                }
+                
+                // Here you would typically save this to your backend or state management
+                console.log('Selected agent role:', role);
+                console.log('System prompt:', prompt);
+                
+                // You can store this in localStorage for persistence
+                localStorage.setItem('chatAgentRole', role);
+                if (role === 'custom') {
+                    localStorage.setItem('customAgentPrompt', prompt);
+                }
+                
+                // Close the modal
+                agentSettingsModal.style.display = 'none';
+                
+                // Show a confirmation (optional)
+                alert('Chat agent settings saved successfully!');
+            });
+            
+            // Load saved settings if they exist
+            document.addEventListener('DOMContentLoaded', () => {
+                const savedRole = localStorage.getItem('chatAgentRole');
+                const savedCustomPrompt = localStorage.getItem('customAgentPrompt');
+                
+                if (savedRole) {
+                    const option = document.querySelector(`.agent-option[data-role="${savedRole}"]`);
+                    if (option) {
+                        agentOptions.forEach(opt => opt.classList.remove('selected'));
+                        option.classList.add('selected');
+                        
+                        if (savedRole === 'custom' && savedCustomPrompt) {
+                            customRoleTextarea.value = savedCustomPrompt;
+                            customRoleTextarea.style.display = 'block';
+                        }
+                    }
+                }
+            });
+            
+            // Set up confirmation modal buttons
+            document.getElementById('cancelDelete').addEventListener('click', function() {
+                document.getElementById('confirmationModal').classList.remove('active');
+            });
+            
+            document.getElementById('confirmDelete').addEventListener('click', deleteTopic);
+            
+            // Close confirmation modal when clicking outside
+            document.getElementById('confirmationModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+            
+            // Add touch swipe functionality
+            let startY;
+            let scrolling = false;
+            
+            document.querySelector('.container').addEventListener('touchstart', function(e) {
+                startY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            document.querySelector('.container').addEventListener('touchmove', function(e) {
+                if (!scrolling) {
+                    scrolling = true;
+                    requestAnimationFrame(function() {
+                        scrolling = false;
+                    });
+                }
+            }, { passive: true });
+            
+            document.querySelector('.container').addEventListener('touchend', function(e) {
+                const endY = e.changedTouches[0].clientY;
+                const diffY = endY - startY;
+                
+                // If swiped down significantly and near the top of the container
+                if (diffY > 100 && this.scrollTop < 50) {
+                    // Add bounce effect
+                    this.style.transition = 'transform 0.3s ease';
+                    this.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(0)';
+                        setTimeout(() => {
+                            this.style.transition = '';
+                        }, 300);
+                    }, 200);
+                }
+            }, { passive: true });
+            
+            // Partner card click event
+            partnerCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const partnerId = this.getAttribute('data-partner');
+                    showTopicModal(partnerId);
+                });
+            });
+            
+            // Add message functionality
+            const messageInput = document.querySelector('.message-input');
+            const sendButton = document.querySelector('.send-button');
+            
+            const sendMessage = () => {
+                const message = messageInput.value.trim();
+                if (message) {
+                    const chatContainer = document.getElementById('chatContainer');
+                    chatContainer.innerHTML += `
+                        <div class="message user-message">
+                            ${message}
+                        </div>
+                    `;
+                    messageInput.value = '';
+                    
+                    // Scroll to bottom
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                    
+                    // Simulate AI response after a delay
+                    setTimeout(() => {
+                        chatContainer.innerHTML += `
+                            <div class="message ai-message">
+                                I'm analyzing your input about "${message}". Would you like me to provide more details?
+                            </div>
+                        `;
+                        // Scroll to bottom again after response
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                    }, 1000);
+                }
+            };
+            
+            sendButton.addEventListener('click', sendMessage);
+            
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
             });
         });
     </script>
