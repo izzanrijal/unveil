@@ -284,6 +284,15 @@
             padding: 15px;
             margin-bottom: 15px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            position: relative;
+            min-height: 160px;
+        }
+        
+        .card-main-content {
+            flex: 1;
+            padding-right: 80px; /* Space for the chat button */
+            min-width: 0; /* Prevent flex item from overflowing */
         }
         
         .analysis-header {
@@ -348,16 +357,52 @@
         }
         
         .chat-icon {
-            margin-left: 10px;
-            font-size: 18px;
-            color: #8a3ffc;
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            border-radius: 50%;
+            background-color: #8a3ffc;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 0;
+            margin: 0;
+            box-shadow: 0 4px 10px rgba(138, 63, 252, 0.3);
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .chat-icon:hover {
+            background-color: #7b2ff7;
+            transform: scale(1.05);
+        }
+        
+        .chat-icon:active {
+            transform: scale(0.95);
+        }
+        
+        .chat-icon i {
+            font-size: 20px;
         }
         
         .analysis-content {
             display: flex;
             flex-direction: column;
             gap: 8px;
+            width: 100%;
+        }
+        
+        .analysis-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
         }
         
         .analysis-pattern-title {
@@ -856,91 +901,97 @@
         
         <!-- Analysis Cards -->
         <div class="analysis-card">
-            <div class="analysis-header">
-                <div class="analysis-avatar">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner A">
-                </div>
-                <div class="analysis-info">
-                    <div class="analysis-name">
-                        Partner A
-                        <span class="analysis-risk risk-critical">Attention Needed</span>
+            <div class="card-main-content">
+                <div class="analysis-header">
+                    <div class="analysis-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner A">
                     </div>
-                    <div class="analysis-time">5 min ago</div>
+                    <div class="analysis-info">
+                        <div class="analysis-name">
+                            Partner A
+                            <span class="analysis-risk risk-critical">Attention Needed</span>
+                        </div>
+                        <div class="analysis-time">5 min ago</div>
+                    </div>
                 </div>
-                <div class="chat-icon">
-                    <i class="fas fa-comment"></i>
+                <div class="analysis-content">
+                    <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                    <div class="analysis-quote">"You're being too sensitive..."</div>
+                    <div class="analysis-tags">
+                        <div class="analysis-tag">
+                            <i class="fas fa-eye" style="color: #f44336;"></i>
+                            <span>Primary: Gaslighting</span>
+                        </div>
+                        <div class="analysis-tag">
+                            <i class="fas fa-exclamation-circle" style="color: #ff9800;"></i>
+                            <span>Secondary: Guilt-Tripping</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="analysis-content">
-                <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
-                <div class="analysis-quote">"You're being too sensitive..."</div>
-                <div class="analysis-tags">
-                    <div class="analysis-tag">
-                        <i class="fas fa-eye" style="color: #f44336;"></i>
-                        <span>Primary: Gaslighting</span>
-                    </div>
-                    <div class="analysis-tag">
-                        <i class="fas fa-exclamation-circle" style="color: #ff9800;"></i>
-                        <span>Secondary: Guilt-Tripping</span>
-                    </div>
-                </div>
-            </div>
+            <button class="chat-icon" data-contact="Partner A">
+                <i class="fas fa-comment-alt"></i>
+            </button>
         </div>
         
         <div class="analysis-card">
-            <div class="analysis-header">
-                <div class="analysis-avatar">
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Friend S">
-                </div>
-                <div class="analysis-info">
-                    <div class="analysis-name">
-                        Friend S
-                        <span class="analysis-risk risk-medium">Moderate</span>
+            <div class="card-main-content">
+                <div class="analysis-header">
+                    <div class="analysis-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Friend S">
                     </div>
-                    <div class="analysis-time">1 day ago</div>
-                </div>
-                <div class="chat-icon">
-                    <i class="fas fa-comment"></i>
-                </div>
-            </div>
-            <div class="analysis-content">
-                <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
-                <div class="analysis-quote">"I guess you don't care after all..."</div>
-                <div class="analysis-tags">
-                    <div class="analysis-tag">
-                        <i class="fas fa-volume-mute" style="color: #9c27b0;"></i>
-                        <span>Primary: Silent Treatment</span>
+                    <div class="analysis-info">
+                        <div class="analysis-name">
+                            Friend S
+                            <span class="analysis-risk risk-medium">Moderate</span>
+                        </div>
+                        <div class="analysis-time">1 day ago</div>
                     </div>
                 </div>
+                <div class="analysis-content">
+                    <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                    <div class="analysis-quote">"I guess you don't care after all..."</div>
+                    <div class="analysis-tags">
+                        <div class="analysis-tag">
+                            <i class="fas fa-volume-mute" style="color: #9c27b0;"></i>
+                            <span>Primary: Silent Treatment</span>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <button class="chat-icon" data-contact="Friend S">
+                <i class="fas fa-comment-alt"></i>
+            </button>
         </div>
         
         <div class="analysis-card">
-            <div class="analysis-header">
-                <div class="analysis-avatar">
-                    <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Colleague R">
-                </div>
-                <div class="analysis-info">
-                    <div class="analysis-name">
-                        Colleague R
-                        <span class="analysis-risk risk-low">Healthy</span>
+            <div class="card-main-content">
+                <div class="analysis-header">
+                    <div class="analysis-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Colleague R">
                     </div>
-                    <div class="analysis-time">3 days ago</div>
-                </div>
-                <div class="chat-icon">
-                    <i class="fas fa-comment"></i>
-                </div>
-            </div>
-            <div class="analysis-content">
-                <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
-                <div class="analysis-quote">"Let's just drop it."</div>
-                <div class="analysis-tags">
-                    <div class="analysis-tag">
-                        <i class="fas fa-check-circle" style="color: #4caf50;"></i>
-                        <span>No concerning patterns detected</span>
+                    <div class="analysis-info">
+                        <div class="analysis-name">
+                            Colleague R
+                            <span class="analysis-risk risk-low">Healthy</span>
+                        </div>
+                        <div class="analysis-time">3 days ago</div>
                     </div>
                 </div>
+                <div class="analysis-content">
+                    <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                    <div class="analysis-quote">"Let's just drop it."</div>
+                    <div class="analysis-tags">
+                        <div class="analysis-tag">
+                            <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+                            <span>No concerning patterns detected</span>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <button class="chat-icon" data-contact="Colleague R">
+                <i class="fas fa-comment-alt"></i>
+            </button>
         </div>
         
 
@@ -1101,6 +1152,17 @@
                     // In a real app, this would navigate to detailed insights page
                 });
             }
+
+            // Chat icon click handler
+            document.querySelectorAll('.chat-icon').forEach(icon => {
+                icon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const contactName = this.getAttribute('data-contact');
+                    console.log(`Opening chat with ${contactName}`);
+                    // In a real app, this would navigate to the chat interface
+                    // window.location.href = `chat.html?contact=${encodeURIComponent(contactName)}`;
+                });
+            });
         });
     </script>
 </body>
