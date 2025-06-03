@@ -184,10 +184,13 @@
         
         .summary-stat {
             flex: 1;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: #ffffff;
             border-radius: 10px;
             padding: 10px;
             text-align: center;
+            position: relative;
+            color: #333333;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
         .stat-value {
@@ -196,10 +199,23 @@
             margin-bottom: 5px;
         }
         
+        .stat-icon {
+            font-size: 18px;
+            margin-bottom: 8px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
         .stat-label {
             font-size: 11px;
             opacity: 0.8;
         }
+        
+
+        
+
         
         .summary-insight {
             background-color: rgba(255, 255, 255, 0.1);
@@ -220,6 +236,35 @@
             font-size: 13px;
             line-height: 1.4;
             opacity: 0.9;
+        }
+        
+        .summary-cta {
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .ai-chat-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .ai-chat-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .ai-chat-button i {
+            margin-right: 8px;
         }
         
         /* Timeline section */
@@ -537,16 +582,19 @@
             </div>
             <div class="summary-stats">
                 <div class="summary-stat">
+                    <div class="stat-icon"><i class="fas fa-chart-line" style="color: #64B5F6;"></i></div>
                     <div class="stat-value">8</div>
                     <div class="stat-label">TOTAL ANALYSES</div>
                 </div>
                 <div class="summary-stat">
+                    <div class="stat-icon"><i class="fas fa-exclamation-circle" style="color: #FF9800;"></i></div>
                     <div class="stat-value">3</div>
                     <div class="stat-label">CRITICAL PATTERNS</div>
                 </div>
                 <div class="summary-stat">
+                    <div class="stat-icon"><i class="fas fa-flag" style="color: #f44336;"></i></div>
                     <div class="stat-value">65%</div>
-                    <div class="stat-label">RISK SCORE</div>
+                    <div class="stat-label">RED FLAG CONFIDENCE</div>
                 </div>
             </div>
             <div class="summary-insight">
@@ -556,6 +604,12 @@
                 </div>
                 <div class="insight-text">
                     Communication patterns show recurring manipulation tactics. Consider discussing boundaries and expectations directly.
+                </div>
+                <div class="summary-cta">
+                    <button class="ai-chat-button" id="aiChatButton">
+                        <i class="fas fa-robot"></i>
+                        Talk with AI about this person
+                    </button>
                 </div>
             </div>
         </div>
@@ -854,29 +908,105 @@
                             
                         // In a real app, we would update these values based on the person
                         if (personName === 'Michael') {
+                            // Update stats for Michael
                             personSummary.querySelector('.summary-stat:nth-child(1) .stat-value').textContent = '8';
                             personSummary.querySelector('.summary-stat:nth-child(2) .stat-value').textContent = '3';
                             personSummary.querySelector('.summary-stat:nth-child(3) .stat-value').textContent = '65%';
                             personSummary.querySelector('.insight-text').textContent = 
-                                'Communication patterns show recurring manipulation tactics. Consider discussing boundaries and expectations directly.';
+                                'Recurring patterns detected that may affect your wellbeing. Consider discussing communication expectations openly.';
+                                
+                            // Make sure icons are present
+                            if (!personSummary.querySelector('.summary-stat:nth-child(1) .stat-icon')) {
+                                const iconEl1 = document.createElement('div');
+                                iconEl1.className = 'stat-icon';
+                                iconEl1.innerHTML = '<i class="fas fa-chart-line" style="color: #64B5F6;"></i>';
+                                personSummary.querySelector('.summary-stat:nth-child(1)').prepend(iconEl1);
+                                
+                                const iconEl2 = document.createElement('div');
+                                iconEl2.className = 'stat-icon';
+                                iconEl2.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #FF9800;"></i>';
+                                personSummary.querySelector('.summary-stat:nth-child(2)').prepend(iconEl2);
+                                
+                                const iconEl3 = document.createElement('div');
+                                iconEl3.className = 'stat-icon';
+                                iconEl3.innerHTML = '<i class="fas fa-flag" style="color: #f44336;"></i>';
+                                personSummary.querySelector('.summary-stat:nth-child(3)').prepend(iconEl3);
+                            }
                         } else if (personName === 'Sarah') {
+                            // Update stats for Sarah
                             personSummary.querySelector('.summary-stat:nth-child(1) .stat-value').textContent = '5';
                             personSummary.querySelector('.summary-stat:nth-child(2) .stat-value').textContent = '1';
                             personSummary.querySelector('.summary-stat:nth-child(3) .stat-value').textContent = '42%';
                             personSummary.querySelector('.insight-text').textContent = 
-                                'Occasional silent treatment detected. Try initiating conversations about feelings when tensions are low.';
+                                'Communication sometimes stops during disagreements. Consider initiating conversations about feelings when both parties are calm.';
+                                
+                            // Make sure icons are present
+                            if (!personSummary.querySelector('.summary-stat:nth-child(1) .stat-icon')) {
+                                const iconEl1 = document.createElement('div');
+                                iconEl1.className = 'stat-icon';
+                                iconEl1.innerHTML = '<i class="fas fa-chart-line" style="color: #64B5F6;"></i>';
+                                personSummary.querySelector('.summary-stat:nth-child(1)').prepend(iconEl1);
+                                
+                                const iconEl2 = document.createElement('div');
+                                iconEl2.className = 'stat-icon';
+                                iconEl2.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #FF9800;"></i>';
+                                personSummary.querySelector('.summary-stat:nth-child(2)').prepend(iconEl2);
+                                
+                                const iconEl3 = document.createElement('div');
+                                iconEl3.className = 'stat-icon';
+                                iconEl3.innerHTML = '<i class="fas fa-flag" style="color: #f44336;"></i>';
+                                personSummary.querySelector('.summary-stat:nth-child(3)').prepend(iconEl3);
+                            }
                         } else if (personName === 'Alex') {
+                            // Update stats for Alex
                             personSummary.querySelector('.summary-stat:nth-child(1) .stat-value').textContent = '6';
                             personSummary.querySelector('.summary-stat:nth-child(2) .stat-value').textContent = '0';
                             personSummary.querySelector('.summary-stat:nth-child(3) .stat-value').textContent = '15%';
                             personSummary.querySelector('.insight-text').textContent = 
-                                'Healthy communication patterns observed. Continue practicing active listening and openness.';
+                                'Balanced communication patterns observed. Continue the mutual respect and openness you have established.';
+                                
+                            // Make sure icons are present
+                            if (!personSummary.querySelector('.summary-stat:nth-child(1) .stat-icon')) {
+                                const iconEl1 = document.createElement('div');
+                                iconEl1.className = 'stat-icon';
+                                iconEl1.innerHTML = '<i class="fas fa-chart-line" style="color: #64B5F6;"></i>';
+                                personSummary.querySelector('.summary-stat:nth-child(1)').prepend(iconEl1);
+                                
+                                const iconEl2 = document.createElement('div');
+                                iconEl2.className = 'stat-icon';
+                                iconEl2.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #FF9800;"></i>';
+                                personSummary.querySelector('.summary-stat:nth-child(2)').prepend(iconEl2);
+                                
+                                const iconEl3 = document.createElement('div');
+                                iconEl3.className = 'stat-icon';
+                                iconEl3.innerHTML = '<i class="fas fa-check-circle" style="color: #4CAF50;"></i>';
+                                personSummary.querySelector('.summary-stat:nth-child(3)').prepend(iconEl3);
+                            }
                         } else if (personName === 'James') {
+                            // Update stats for James
                             personSummary.querySelector('.summary-stat:nth-child(1) .stat-value').textContent = '4';
                             personSummary.querySelector('.summary-stat:nth-child(2) .stat-value').textContent = '1';
                             personSummary.querySelector('.summary-stat:nth-child(3) .stat-value').textContent = '38%';
                             personSummary.querySelector('.insight-text').textContent = 
-                                'Stonewalling detected in recent conversations. Consider scheduling regular check-ins to improve communication.';
+                                'Communication sometimes becomes one-sided. Regular, scheduled check-ins might help maintain open dialogue.';
+                                
+                            // Make sure icons are present
+                            if (!personSummary.querySelector('.summary-stat:nth-child(1) .stat-icon')) {
+                                const iconEl1 = document.createElement('div');
+                                iconEl1.className = 'stat-icon';
+                                iconEl1.innerHTML = '<i class="fas fa-chart-line" style="color: #64B5F6;"></i>';
+                                personSummary.querySelector('.summary-stat:nth-child(1)').prepend(iconEl1);
+                                
+                                const iconEl2 = document.createElement('div');
+                                iconEl2.className = 'stat-icon';
+                                iconEl2.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #FF9800;"></i>';
+                                personSummary.querySelector('.summary-stat:nth-child(2)').prepend(iconEl2);
+                                
+                                const iconEl3 = document.createElement('div');
+                                iconEl3.className = 'stat-icon';
+                                iconEl3.innerHTML = '<i class="fas fa-eye" style="color: #607D8B;"></i>';
+                                personSummary.querySelector('.summary-stat:nth-child(3)').prepend(iconEl3);
+                            }
                         }
                     }
                     
@@ -947,6 +1077,18 @@
                         console.log(`Opening chat with ${contactName}`);
                         // window.location.href = `chat.html?contact=${encodeURIComponent(contactName)}`;
                     });
+                }
+            });
+            
+            // AI Chat button functionality
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('#aiChatButton')) {
+                    const personName = document.querySelector('.person-avatar.active').closest('.person-filter').querySelector('.person-name').textContent;
+                    if (personName !== 'All' && personName !== 'Add New') {
+                        console.log(`Opening AI chat about ${personName}`);
+                        // In a real app, this would open the AI chat interface
+                        // window.location.href = `ai-chat.html?about=${encodeURIComponent(personName)}`;
+                    }
                 }
             });
         });
