@@ -129,6 +129,64 @@ This design system document provides guidelines for creating consistent user int
 </div>
 ```
 
+### Standalone Components
+
+#### Upload Section with iOS-Style Info
+```html
+<div class="upload-section">
+    <div class="section-header">
+        <h3 class="upload-section-title">ANALYZE YOUR CONVERSATIONS</h3>
+        <button class="info-button" aria-label="Information">
+            <i class="fas fa-info-circle"></i>
+        </button>
+    </div>
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>How to Analyze Conversations</h3>
+                <button class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Upload audio or video from your chat history to get more personalized insights. Learn how to export your chat history by watching the <a href="tutorial-link" class="tutorial-link">tutorial video</a>.</p>
+            </div>
+        </div>
+    </div>
+    <button class="upload-card-button" id="newUploadBtn">
+        <i class="fas fa-plus"></i>
+        Upload Chat History
+    </button>
+</div>
+```
+
+#### Required JavaScript
+```javascript
+// Modal functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const infoButton = document.querySelector('.info-button');
+    const modal = document.getElementById('infoModal');
+    const closeButton = document.querySelector('.close-button');
+    
+    if (infoButton && modal) {
+        // Show modal when info button is clicked
+        infoButton.addEventListener('click', function() {
+            modal.style.display = 'flex';
+        });
+        
+        // Close modal when close button is clicked
+        closeButton.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside the modal content
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+});
+```
+
 #### Content Card (Analysis Card)
 ```html
 <div class="analysis-card">
@@ -175,6 +233,16 @@ This design system document provides guidelines for creating consistent user int
 <button class="chat-icon" data-contact="Contact Name">
     <i class="fas fa-comment-alt"></i>
 </button>
+```
+
+#### Info Icon with Tooltip
+```html
+<div class="info-icon">
+    <i class="fas fa-info"></i>
+    <div class="info-tooltip">
+        Tooltip content here
+    </div>
+</div>
 ```
 
 ### Bottom Navigation Bar
