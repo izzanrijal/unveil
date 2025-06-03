@@ -41,19 +41,36 @@
         }
         
         .header {
-            background-color: white;
-            padding: 20px;
+            padding: 15px 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
         
         .header-title {
             display: flex;
             align-items: center;
+        }
+        
+        .new-analysis-btn {
+            background-color: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(99, 102, 241, 0.3);
         }
         
         .header-title h1 {
@@ -212,10 +229,6 @@
             font-size: 11px;
             opacity: 0.8;
         }
-        
-
-        
-
         
         .summary-insight {
             background-color: rgba(255, 255, 255, 0.1);
@@ -509,6 +522,81 @@
             font-size: 20px;
             margin-bottom: 5px;
         }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            z-index: 99;
+            display: none;
+        }
+        
+        .draft-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 13px;
+            padding: 20px;
+            width: 90%;
+            max-width: 350px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            display: none;
+        }
+        
+        .draft-notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .draft-notification-title {
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .draft-notification-content {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+        
+        .draft-notification-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .draft-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .continue-draft-btn {
+            background-color: #6366f1;
+            color: white;
+            border: none;
+        }
+        
+        .new-analysis-draft-btn {
+            background-color: white;
+            color: #6366f1;
+            border: 1px solid #6366f1;
+        }
     </style>
 </head>
 <body>
@@ -527,6 +615,26 @@
         <div class="header-title">
             <i class="fas fa-arrow-left back-icon"></i>
             <h1>Previous Analyses</h1>
+        </div>
+        <button class="new-analysis-btn" id="newAnalysisBtn">
+            <i class="fas fa-plus"></i> New Analysis
+        </button>
+    </div>
+    
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="draft-notification" id="draftNotification">
+        <div class="draft-notification-header">
+            <div class="draft-notification-title">
+                <i class="fas fa-exclamation-circle" style="color: #f59e0b;"></i> Draft Available
+            </div>
+            <i class="fas fa-times" id="closeDraftNotification" style="cursor: pointer;"></i>
+        </div>
+        <div class="draft-notification-content">
+            You have an unfinished analysis draft. Would you like to continue with this draft or start a new analysis?
+        </div>
+        <div class="draft-notification-actions">
+            <button class="draft-btn continue-draft-btn" id="continueDraftBtn">Continue Draft</button>
+            <button class="draft-btn new-analysis-draft-btn" id="newAnalysisDraftBtn">New Analysis</button>
         </div>
     </div>
     
@@ -1089,6 +1197,51 @@
                         // In a real app, this would open the AI chat interface
                         // window.location.href = `ai-chat.html?about=${encodeURIComponent(personName)}`;
                     }
+                }
+            });
+            
+            // New Analysis button functionality
+            const newAnalysisBtn = document.getElementById('newAnalysisBtn');
+            const draftNotification = document.getElementById('draftNotification');
+            const closeDraftNotification = document.getElementById('closeDraftNotification');
+            const continueDraftBtn = document.getElementById('continueDraftBtn');
+            const newAnalysisDraftBtn = document.getElementById('newAnalysisDraftBtn');
+            
+            // Handle new analysis button click
+            newAnalysisBtn.addEventListener('click', function() {
+                // In a real app, we would check if there's a draft
+                // For demo purposes, we'll always show the notification
+                modalOverlay.style.display = 'block';
+                draftNotification.style.display = 'block';
+            });
+            
+            // Handle close notification button
+            closeDraftNotification.addEventListener('click', function() {
+                modalOverlay.style.display = 'none';
+                draftNotification.style.display = 'none';
+            });
+            
+            // Handle continue draft button
+            continueDraftBtn.addEventListener('click', function() {
+                console.log('Continuing with draft analysis');
+                modalOverlay.style.display = 'none';
+                draftNotification.style.display = 'none';
+                // In a real app, this would navigate to the draft analysis
+            });
+            
+            // Handle new analysis button in notification
+            newAnalysisDraftBtn.addEventListener('click', function() {
+                console.log('Starting new analysis');
+                modalOverlay.style.display = 'none';
+                draftNotification.style.display = 'none';
+                // In a real app, this would navigate to a new analysis
+            });
+            
+            // Also close modal when clicking outside the notification
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    modalOverlay.style.display = 'none';
+                    draftNotification.style.display = 'none';
                 }
             });
         });

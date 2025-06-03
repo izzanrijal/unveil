@@ -73,24 +73,27 @@
         }
         
         h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #000000;
         }
         
         .subtitle {
-            font-size: 16px;
+            font-size: 14px;
             color: #666;
-            margin-bottom: 20px;
+            margin-bottom: 0;
+            font-weight: 400;
         }
         
         .partners-scroll {
             display: flex;
             overflow-x: auto;
-            gap: 15px;
-            padding: 10px 0;
+            padding: 15px 15px;
             scroll-behavior: smooth;
             scrollbar-width: none;  /* Firefox */
             -ms-overflow-style: none;  /* IE and Edge */
+            background-color: #f8f9fa;
         }
         
         .partners-scroll::-webkit-scrollbar {
@@ -98,38 +101,39 @@
         }
         
         .partner-card {
-            min-width: 150px;
-            padding: 15px;
-            border-radius: 15px;
+            min-width: 75px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 12px 8px;
+            margin: 0 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
         
         .partner-card.active {
-            border-color: #8a3ffc;
             background-color: #f0e6ff;
         }
         
-        .partner-card.add-new {
-            justify-content: center;
-            border: 2px dashed #ccc;
-            background-color: transparent;
+        .partner-card.active .partner-avatar {
+            border-color: #8a3ffc;
         }
         
         .partner-avatar {
-            width: 64px;
-            height: 64px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background-color: #e9ecef;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            border: 3px solid transparent;
+            transition: all 0.2s ease;
         }
         
         .partner-avatar img {
@@ -139,21 +143,10 @@
         }
         
         .partner-name {
-            font-weight: bold;
+            margin-top: 8px;
+            font-size: 12px;
+            font-weight: 500;
             text-align: center;
-        }
-        
-        .partner-status {
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .high-risk {
-            color: #dc3545;
-        }
-        
-        .low-risk {
-            color: #28a745;
         }
         
         /* Topic selection modal */
@@ -304,12 +297,20 @@
         
         .info-message {
             text-align: center;
-            padding: 10px;
-            background-color: #f0e6ff;
+            padding: 12px 15px;
+            font-size: 13px;
+            color: #666;
+            margin: 10px 15px;
+            background-color: rgba(0, 122, 255, 0.08);
             border-radius: 10px;
-            margin: 15px 0;
-            font-size: 14px;
-            color: #8a3ffc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .info-message i {
+            color: #007AFF;
+            margin-right: 8px;
         }
         
         .add-icon {
@@ -382,21 +383,27 @@
         }
         
         .chat-header {
+            background-color: #ffffff;
+            padding: 16px 20px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
         
         .settings-button {
-            background: none;
-            border: none;
-            font-size: 20px;
-            color: #666;
-            cursor: pointer;
-            padding: 8px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            transition: all 0.3s ease;
+            background-color: transparent;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 16px;
+            color: #007AFF;
         }
         
         .settings-button:hover {
@@ -562,7 +569,6 @@
                     <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner A">
                 </div>
                 <div class="partner-name">Partner A</div>
-                <div class="partner-status high-risk">High risk</div>
             </div>
             
             <div class="partner-card" data-partner="friendB">
@@ -570,13 +576,6 @@
                     <img src="https://randomuser.me/api/portraits/men/40.jpg" alt="Friend B">
                 </div>
                 <div class="partner-name">Friend B</div>
-                <div class="partner-status low-risk">Low risk</div>
-            </div>
-            
-            <div class="partner-card add-new">
-                <div class="add-icon">
-                    <i class="fas fa-plus"></i>
-                </div>
             </div>
         </div>
         
