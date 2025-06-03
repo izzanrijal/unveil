@@ -41,16 +41,13 @@
         }
         
         .header {
-            padding: 15px 20px;
-            background-color: #fff;
-            border-bottom: 1px solid #eee;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 16px 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
         }
         
         .header-title {
@@ -613,7 +610,7 @@
     <!-- Header -->
     <div class="header">
         <div class="header-title">
-            <h1>Previous Analyses</h1>
+            <h1 style="margin-left: 0;">Previous Analyses</h1>
         </div>
         <button class="new-analysis-btn" id="newAnalysisBtn">
             <i class="fas fa-plus"></i> New Analysis
@@ -1158,13 +1155,6 @@
                     document.querySelector('.all-filter').click();
                 });
             }
-            
-            // Back button functionality
-            const backIcon = document.querySelector('.back-icon');
-            
-            backIcon.addEventListener('click', function() {
-                window.location.href = 'index.html';
-            });
             
             // Analysis card click functionality
             analysisCards.forEach(card => {
