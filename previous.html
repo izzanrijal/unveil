@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Analyses | UNVEIL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            max-width: 430px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        
+        .time {
+            font-weight: bold;
+        }
+        
+        .status-icons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .header {
+            background-color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header-title {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-title h1 {
+            font-size: 17px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .back-icon {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .container-fluid {
+            padding: 15px 20px 90px; /* Added bottom padding for navbar */
+            background-color: #f8f9fa;
+            min-height: calc(100vh - 60px); /* Full height minus header */
+        }
+        
+        /* People filter styles */
+        .people-filter-container {
+            margin: 15px 0 25px 0;
+            position: relative;
+        }
+        
+        .people-filter {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 5px 0;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+            -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+        }
+        
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .people-filter::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .person-filter {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+            cursor: pointer;
+        }
+        
+        .person-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .person-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .person-avatar.active {
+            border-color: #8a3ffc;
+        }
+        
+        .all-filter .person-avatar {
+            background-color: #f0e6ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #8a3ffc;
+        }
+        
+        .add-person .person-avatar {
+            background-color: #f0e6ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #8a3ffc;
+        }
+        
+        .person-name {
+            margin-top: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            color: #666;
+        }
+        
+        /* Person summary section */
+        .person-summary {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            color: white;
+            display: none;
+            box-shadow: 0 4px 15px rgba(138, 63, 252, 0.2);
+        }
+        
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .summary-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .summary-date {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .summary-stats {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .summary-stat {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+        
+        .summary-insight {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+        }
+        
+        .insight-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .insight-text {
+            font-size: 13px;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+        
+        /* Timeline section */
+        .timeline-container {
+            margin-top: 20px;
+        }
+        
+        .date-separator {
+            display: flex;
+            align-items: center;
+            margin: 25px 0 15px;
+        }
+        
+        .date-separator-line {
+            flex: 1;
+            height: 1px;
+            background-color: #e0e0e0;
+        }
+        
+        .date-text {
+            margin: 0 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        /* Analysis card styles */
+        .analysis-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .analysis-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-main-content {
+            flex: 1;
+        }
+        
+        .analysis-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .analysis-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+        
+        .analysis-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .analysis-info {
+            flex: 1;
+        }
+        
+        .analysis-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .analysis-time {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .analysis-risk {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .risk-critical {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+        }
+        
+        .risk-medium {
+            background-color: rgba(255, 152, 0, 0.1);
+            color: #ff9800;
+        }
+        
+        .risk-low {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: #4caf50;
+        }
+        
+        .analysis-content {
+            margin-top: 5px;
+        }
+        
+        .analysis-pattern-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 5px;
+        }
+        
+        .analysis-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        .analysis-tag {
+            font-size: 12px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .chat-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+        }
+        
+        .chat-icon {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 50%;
+            background-color: #8a3ffc;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        
+        .chat-icon:hover {
+            background-color: #7433e0;
+            transform: scale(1.05);
+        }
+        
+        /* Empty state styles */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            display: none;
+        }
+        
+        .empty-state-icon {
+            font-size: 60px;
+            color: #d1d1d1;
+            margin-bottom: 20px;
+        }
+        
+        .empty-state-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        .empty-state-description {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 25px;
+        }
+        
+        .empty-state-button {
+            background-color: #8a3ffc;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 25px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .empty-state-button:hover {
+            background-color: #7433e0;
+        }
+        
+        /* Navigation bar */
+        .navigation {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 85%;
+            max-width: 380px;
+            margin: 0 auto;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+            padding: 8px 15px;
+            border-radius: 15px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item.active {
+            color: white;
+            background-color: #8a3ffc;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="time" id="current-time">9:41</div>
+        <div class="status-icons">
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <div class="header">
+        <div class="header-title">
+            <i class="fas fa-arrow-left back-icon"></i>
+            <h1>Previous Analyses</h1>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <!-- People Filter -->
+        <div class="people-filter-container">
+            <div class="people-filter">
+                <div class="person-filter all-filter">
+                    <div class="person-avatar active">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="person-name">All</div>
+                </div>
+                <div class="person-filter">
+                    <div class="person-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah">
+                    </div>
+                    <div class="person-name">Sarah</div>
+                </div>
+                <div class="person-filter">
+                    <div class="person-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael">
+                    </div>
+                    <div class="person-name">Michael</div>
+                </div>
+                <div class="person-filter">
+                    <div class="person-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Alex">
+                    </div>
+                    <div class="person-name">Alex</div>
+                </div>
+                <div class="person-filter">
+                    <div class="person-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="James">
+                    </div>
+                    <div class="person-name">James</div>
+                </div>
+                <div class="person-filter add-person">
+                    <div class="person-avatar">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="person-name">Add New</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Person Summary (Hidden by default) -->
+        <div class="person-summary" id="personSummary">
+            <div class="summary-header">
+                <div class="summary-title">Communication Analysis</div>
+                <div class="summary-date">Last 30 days</div>
+            </div>
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">TOTAL ANALYSES</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">CRITICAL PATTERNS</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="stat-value">65%</div>
+                    <div class="stat-label">RISK SCORE</div>
+                </div>
+            </div>
+            <div class="summary-insight">
+                <div class="insight-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>KEY INSIGHT</span>
+                </div>
+                <div class="insight-text">
+                    Communication patterns show recurring manipulation tactics. Consider discussing boundaries and expectations directly.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Timeline of Analyses -->
+        <div class="timeline-container">
+            <!-- Today -->
+            <div class="date-separator">
+                <div class="date-separator-line"></div>
+                <div class="date-text">Today</div>
+                <div class="date-separator-line"></div>
+            </div>
+            
+            <div class="analysis-card">
+                <div class="card-main-content">
+                    <div class="analysis-header">
+                        <div class="analysis-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael">
+                        </div>
+                        <div class="analysis-info">
+                            <div class="analysis-name">
+                                Michael
+                            </div>
+                            <div class="analysis-time">5 min ago</div>
+                        </div>
+                        <span class="analysis-risk risk-critical">Attention Needed</span>
+                    </div>
+                    <div class="analysis-content">
+                        <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                        <div class="analysis-tags">
+                            <div class="analysis-tag">
+                                <i class="fas fa-eye" style="color: #f44336;"></i>
+                                <span>Primary: Gaslighting</span>
+                            </div>
+                            <div class="analysis-tag">
+                                <i class="fas fa-exclamation-circle" style="color: #ff9800;"></i>
+                                <span>Secondary: Guilt-Tripping</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-section">
+                    <button class="chat-icon" data-contact="Michael">
+                        <i class="fas fa-comment-alt"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="analysis-card">
+                <div class="card-main-content">
+                    <div class="analysis-header">
+                        <div class="analysis-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Alex">
+                        </div>
+                        <div class="analysis-info">
+                            <div class="analysis-name">
+                                Alex
+                            </div>
+                            <div class="analysis-time">3 hours ago</div>
+                        </div>
+                        <span class="analysis-risk risk-low">Low Risk</span>
+                    </div>
+                    <div class="analysis-content">
+                        <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                        <div class="analysis-tags">
+                            <div class="analysis-tag">
+                                <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+                                <span>Primary: Healthy Communication</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-section">
+                    <button class="chat-icon" data-contact="Alex">
+                        <i class="fas fa-comment-alt"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Yesterday -->
+            <div class="date-separator">
+                <div class="date-separator-line"></div>
+                <div class="date-text">Yesterday</div>
+                <div class="date-separator-line"></div>
+            </div>
+            
+            <div class="analysis-card">
+                <div class="card-main-content">
+                    <div class="analysis-header">
+                        <div class="analysis-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah">
+                        </div>
+                        <div class="analysis-info">
+                            <div class="analysis-name">
+                                Sarah
+                            </div>
+                            <div class="analysis-time">1 day ago</div>
+                        </div>
+                        <span class="analysis-risk risk-medium">Moderate</span>
+                    </div>
+                    <div class="analysis-content">
+                        <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                        <div class="analysis-tags">
+                            <div class="analysis-tag">
+                                <i class="fas fa-volume-mute" style="color: #9c27b0;"></i>
+                                <span>Primary: Silent Treatment</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-section">
+                    <button class="chat-icon" data-contact="Sarah">
+                        <i class="fas fa-comment-alt"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Last Week -->
+            <div class="date-separator">
+                <div class="date-separator-line"></div>
+                <div class="date-text">Last Week</div>
+                <div class="date-separator-line"></div>
+            </div>
+            
+            <div class="analysis-card">
+                <div class="card-main-content">
+                    <div class="analysis-header">
+                        <div class="analysis-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="James">
+                        </div>
+                        <div class="analysis-info">
+                            <div class="analysis-name">
+                                James
+                            </div>
+                            <div class="analysis-time">6 days ago</div>
+                        </div>
+                        <span class="analysis-risk risk-medium">Moderate</span>
+                    </div>
+                    <div class="analysis-content">
+                        <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                        <div class="analysis-tags">
+                            <div class="analysis-tag">
+                                <i class="fas fa-random" style="color: #ff9800;"></i>
+                                <span>Primary: Stonewalling</span>
+                            </div>
+                            <div class="analysis-tag">
+                                <i class="fas fa-comment-slash" style="color: #9c27b0;"></i>
+                                <span>Secondary: Avoidance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-section">
+                    <button class="chat-icon" data-contact="James">
+                        <i class="fas fa-comment-alt"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="analysis-card">
+                <div class="card-main-content">
+                    <div class="analysis-header">
+                        <div class="analysis-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael">
+                        </div>
+                        <div class="analysis-info">
+                            <div class="analysis-name">
+                                Michael
+                            </div>
+                            <div class="analysis-time">1 week ago</div>
+                        </div>
+                        <span class="analysis-risk risk-critical">Attention Needed</span>
+                    </div>
+                    <div class="analysis-content">
+                        <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                        <div class="analysis-tags">
+                            <div class="analysis-tag">
+                                <i class="fas fa-exclamation-triangle" style="color: #f44336;"></i>
+                                <span>Primary: Manipulation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-section">
+                    <button class="chat-icon" data-contact="Michael">
+                        <i class="fas fa-comment-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Empty State (Hidden by default) -->
+        <div class="empty-state">
+            <div class="empty-state-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <h3 class="empty-state-title">No analyses found</h3>
+            <p class="empty-state-description">There are no analysis results matching your filter.</p>
+            <button class="empty-state-button">Clear Filters</button>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <div class="navigation">
+        <a href="index.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div>Home</div>
+        </a>
+        <a href="#" class="nav-item active">
+            <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+            <div>Insights</div>
+        </a>
+        <a href="chat.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-comment-alt"></i></div>
+            <div>Chat</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
+            <div>Profile</div>
+        </a>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update time in status bar
+            function updateTime() {
+                const now = new Date();
+                let hours = now.getHours();
+                let minutes = now.getMinutes();
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById('current-time').textContent = hours + ':' + minutes;
+            }
+            
+            updateTime();
+            setInterval(updateTime, 60000); // Update every minute
+            
+            // Function to check if a date separator has visible cards after it
+            function updateDateSeparatorVisibility() {
+                const dateSeparators = document.querySelectorAll('.date-separator');
+                
+                dateSeparators.forEach(separator => {
+                    let hasVisibleContent = false;
+                    let nextElement = separator.nextElementSibling;
+                    
+                    // Check all elements until the next date separator
+                    while (nextElement && !nextElement.classList.contains('date-separator')) {
+                        if (nextElement.classList.contains('analysis-card') && 
+                            nextElement.style.display !== 'none') {
+                            hasVisibleContent = true;
+                            break;
+                        }
+                        nextElement = nextElement.nextElementSibling;
+                    }
+                    
+                    // Hide or show the date separator based on content
+                    separator.style.display = hasVisibleContent ? 'flex' : 'none';
+                });
+            }
+            
+            // Person filter functionality
+            const personFilters = document.querySelectorAll('.person-filter');
+            const analysisCards = document.querySelectorAll('.analysis-card');
+            const emptyState = document.querySelector('.empty-state');
+            const timelineContainer = document.querySelector('.timeline-container');
+            
+            personFilters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    // Remove active class from all filters
+                    personFilters.forEach(f => f.querySelector('.person-avatar').classList.remove('active'));
+                    
+                    // Add active class to clicked filter
+                    this.querySelector('.person-avatar').classList.add('active');
+                    
+                    // Get selected person name
+                    const personName = this.querySelector('.person-name').textContent;
+                    
+                    // If it's the "Add New" button, handle that separately
+                    if (personName === 'Add New') {
+                        console.log('Opening add new person modal');
+                        // In a real app, this would open a modal or navigate to add person screen
+                        return;
+                    }
+                    
+                    // Handle person summary visibility
+                    const personSummary = document.getElementById('personSummary');
+                    if (personName === 'All') {
+                        personSummary.style.display = 'none';
+                    } else {
+                        // In a real app, we would fetch this person's data
+                        // For now, just show the mockup summary
+                        personSummary.style.display = 'block';
+                        
+                        // Update summary with person-specific data (mockup)
+                        personSummary.querySelector('.summary-title').textContent = 
+                            `${personName}'s Communication Analysis`;
+                            
+                        // In a real app, we would update these values based on the person
+                        if (personName === 'Michael') {
+                            personSummary.querySelector('.summary-stat:nth-child(1) .stat-value').textContent = '8';
+                            personSummary.querySelector('.summary-stat:nth-child(2) .stat-value').textContent = '3';
+                            personSummary.querySelector('.summary-stat:nth-child(3) .stat-value').textContent = '65%';
+                            personSummary.querySelector('.insight-text').textContent = 
+                                'Communication patterns show recurring manipulation tactics. Consider discussing boundaries and expectations directly.';
+                        } else if (personName === 'Sarah') {
+                            personSummary.querySelector('.summary-stat:nth-child(1) .stat-value').textContent = '5';
+                            personSummary.querySelector('.summary-stat:nth-child(2) .stat-value').textContent = '1';
+                            personSummary.querySelector('.summary-stat:nth-child(3) .stat-value').textContent = '42%';
+                            personSummary.querySelector('.insight-text').textContent = 
+                                'Occasional silent treatment detected. Try initiating conversations about feelings when tensions are low.';
+                        } else if (personName === 'Alex') {
+                            personSummary.querySelector('.summary-stat:nth-child(1) .stat-value').textContent = '6';
+                            personSummary.querySelector('.summary-stat:nth-child(2) .stat-value').textContent = '0';
+                            personSummary.querySelector('.summary-stat:nth-child(3) .stat-value').textContent = '15%';
+                            personSummary.querySelector('.insight-text').textContent = 
+                                'Healthy communication patterns observed. Continue practicing active listening and openness.';
+                        } else if (personName === 'James') {
+                            personSummary.querySelector('.summary-stat:nth-child(1) .stat-value').textContent = '4';
+                            personSummary.querySelector('.summary-stat:nth-child(2) .stat-value').textContent = '1';
+                            personSummary.querySelector('.summary-stat:nth-child(3) .stat-value').textContent = '38%';
+                            personSummary.querySelector('.insight-text').textContent = 
+                                'Stonewalling detected in recent conversations. Consider scheduling regular check-ins to improve communication.';
+                        }
+                    }
+                    
+                    // Filter cards based on selection
+                    let visibleCount = 0;
+                    
+                    analysisCards.forEach(card => {
+                        const cardName = card.querySelector('.analysis-name').textContent.trim();
+                        
+                        if (personName === 'All' || cardName === personName) {
+                            card.style.display = 'flex';
+                            visibleCount++;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    
+                    // Update date separators visibility based on filtered content
+                    updateDateSeparatorVisibility();
+                    
+                    // Show empty state if no cards match filter
+                    if (visibleCount === 0) {
+                        timelineContainer.style.display = 'none';
+                        emptyState.style.display = 'block';
+                        // Hide person summary if no matching cards
+                        personSummary.style.display = 'none';
+                    } else {
+                        timelineContainer.style.display = 'block';
+                        emptyState.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Run initially to handle any empty sections on page load
+            updateDateSeparatorVisibility();
+            
+            // Empty state button to clear filters
+            const clearFilterButton = document.querySelector('.empty-state-button');
+            if (clearFilterButton) {
+                clearFilterButton.addEventListener('click', function() {
+                    // Click the "All" filter
+                    document.querySelector('.all-filter').click();
+                });
+            }
+            
+            // Back button functionality
+            const backIcon = document.querySelector('.back-icon');
+            
+            backIcon.addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+            
+            // Analysis card click functionality
+            analysisCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // In a real app, this would navigate to the detailed analysis view
+                    const personName = this.querySelector('.analysis-name').textContent.trim();
+                    console.log(`Viewing detailed analysis for ${personName}`);
+                    // window.location.href = `analysis.html?person=${encodeURIComponent(personName)}`;
+                });
+                
+                // Prevent chat icon click from triggering card click
+                const chatIcon = card.querySelector('.chat-icon');
+                if (chatIcon) {
+                    chatIcon.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const contactName = this.getAttribute('data-contact');
+                        console.log(`Opening chat with ${contactName}`);
+                        // window.location.href = `chat.html?contact=${encodeURIComponent(contactName)}`;
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
