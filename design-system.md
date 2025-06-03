@@ -147,7 +147,6 @@ This design system document provides guidelines for creating consistent user int
         </div>
         <div class="analysis-content">
             <h3 class="analysis-pattern-title">Pattern Title</h3>
-            <div class="analysis-summary">Summary text here...</div>
             <div class="analysis-tags">
                 <!-- Tags content -->
             </div>
