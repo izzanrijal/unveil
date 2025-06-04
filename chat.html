@@ -125,15 +125,17 @@
             margin-right: 40px; /* Push beyond visible area */
         }
         
-        /* Create stacking effect at the right edge */
+        /* Small indicator at the edge instead of gradient */
         .partners-scroll.multi-cards::after {
             content: '';
             position: absolute;
-            top: 0;
-            right: 0;
-            height: 100%;
-            width: 40px;
-            background: linear-gradient(to right, rgba(248, 249, 250, 0), rgba(248, 249, 250, 0.9) 40%, #f8f9fa);
+            top: 50%;
+            right: 5px;
+            height: 30px;
+            width: 3px;
+            background-color: rgba(138, 63, 252, 0.3);
+            border-radius: 3px;
+            transform: translateY(-50%);
             pointer-events: none;
             z-index: 3;
         }
@@ -653,6 +655,20 @@
                     <img src="https://randomuser.me/api/portraits/men/40.jpg" alt="Friend B">
                 </div>
                 <div class="partner-name">Friend B</div>
+            </div>
+            
+            <div class="partner-card" data-partner="partnerC">
+                <div class="partner-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Partner C">
+                </div>
+                <div class="partner-name">Partner C</div>
+            </div>
+            
+            <div class="partner-card" data-partner="partnerD">
+                <div class="partner-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/28.jpg" alt="Partner D">
+                </div>
+                <div class="partner-name">Partner D</div>
             </div>
         </div>
         
@@ -1203,26 +1219,7 @@
                 });
             });
             
-            // For demonstration purposes - add a button to add more partner cards
-            const container = document.querySelector('.container');
-            const demoControls = document.createElement('div');
-            demoControls.style.marginTop = '20px';
-            demoControls.style.textAlign = 'center';
-            demoControls.innerHTML = `
-                <button id="addPartnerBtn" style="padding: 8px 15px; background: #8a3ffc; color: white; border: none; border-radius: 8px; cursor: pointer;">
-                    Add Partner (Demo)
-                </button>
-            `;
-            
-            // Insert before chat container
-            container.insertBefore(demoControls, document.getElementById('chatContainer'));
-            
-            // Add event listener to the demo button
-            document.getElementById('addPartnerBtn').addEventListener('click', function() {
-                const names = ['Alex', 'Jamie', 'Taylor', 'Jordan', 'Casey', 'Riley'];
-                const randomName = names[Math.floor(Math.random() * names.length)];
-                addPartnerCard(randomName);
-            });
+            // No demo button needed - we have 4 partners by default
             
             // Add message functionality
             const messageInput = document.querySelector('.message-input');
