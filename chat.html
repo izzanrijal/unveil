@@ -94,6 +94,53 @@
             scrollbar-width: none;  /* Firefox */
             -ms-overflow-style: none;  /* IE and Edge */
             background-color: #f8f9fa;
+            position: relative;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            scroll-snap-type: x mandatory; /* Enable scroll snapping */
+            width: calc(100% - 30px); /* Account for padding */
+        }
+        
+        /* For exactly 2 cards, distribute them evenly */
+        .partners-scroll.two-cards {
+            justify-content: space-between;
+        }
+        
+        /* For 3 or more cards, create stacking effect at the right edge */
+        .partners-scroll.multi-cards {
+            position: relative;
+            padding-right: 40px; /* Space for the stacked effect */
+            justify-content: flex-start; /* Align cards to the left */
+            overflow-x: scroll; /* Ensure horizontal scrolling */
+        }
+        
+        .partners-scroll.multi-cards .partner-card {
+            flex-shrink: 0;
+            min-width: 100px; /* Ensure minimum width */
+            transition: transform 0.3s ease;
+            margin-right: 10px; /* Add spacing between cards */
+        }
+        
+        /* Make the last card appear partially off-screen */
+        .partners-scroll.multi-cards .partner-card:last-child {
+            margin-right: 40px; /* Push beyond visible area */
+        }
+        
+        /* Create stacking effect at the right edge */
+        .partners-scroll.multi-cards::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 40px;
+            background: linear-gradient(to right, rgba(248, 249, 250, 0), rgba(248, 249, 250, 0.9) 40%, #f8f9fa);
+            pointer-events: none;
+            z-index: 3;
+        }
+        
+        .partners-scroll.multi-cards .partner-card:hover {
+            transform: translateY(-5px);
+            z-index: 2;
         }
         
         .partners-scroll::-webkit-scrollbar {
@@ -113,6 +160,15 @@
             padding: 12px 8px;
             margin: 0 5px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            position: relative;
+            z-index: 1;
+            scroll-snap-align: start; /* Enable scroll snapping */
+        }
+        
+        /* For exactly 2 cards, make them wider */
+        .partners-scroll.two-cards .partner-card {
+            flex: 1;
+            max-width: 48%;
         }
         
         .partner-card.active {
@@ -740,7 +796,51 @@
     <script>
         // JavaScript for horizontal sliding functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const partnerCards = document.querySelectorAll('.partner-card:not(.add-new)');
+            // Partner cards
+            const partnerCards = document.querySelectorAll('.partner-card');
+            const partnersScroll = document.querySelector('.partners-scroll');
+            
+            // Apply appropriate class based on number of partner cards
+            function updatePartnerCardsLayout() {
+                const cardCount = partnersScroll.querySelectorAll('.partner-card').length;
+                
+                // Remove existing classes
+                partnersScroll.classList.remove('two-cards', 'multi-cards');
+                
+                // Apply appropriate class based on count
+                if (cardCount === 2) {
+                    partnersScroll.classList.add('two-cards');
+                } else if (cardCount > 2) {
+                    partnersScroll.classList.add('multi-cards');
+                }
+            }
+            
+            // Initialize layout
+            updatePartnerCardsLayout();
+            
+            // Function to add a new partner card (for demonstration)
+            window.addPartnerCard = function(name, imageUrl) {
+                const newCard = document.createElement('div');
+                newCard.className = 'partner-card';
+                newCard.setAttribute('data-partner', 'partner' + (partnersScroll.children.length + 1));
+                
+                newCard.innerHTML = `
+                    <div class="partner-avatar">
+                        <img src="${imageUrl || 'https://randomuser.me/api/portraits/men/' + (Math.floor(Math.random() * 50) + 1) + '.jpg'}" alt="${name}">
+                    </div>
+                    <div class="partner-name">${name}</div>
+                `;
+                
+                partnersScroll.appendChild(newCard);
+                updatePartnerCardsLayout();
+                
+                // Add click event to the new card
+                newCard.addEventListener('click', function() {
+                    const partnerId = this.getAttribute('data-partner');
+                    showTopicModal(partnerId);
+                });
+            };
+            
             const topicModal = document.getElementById('topicModal');
             const topicOptions = document.getElementById('topicOptions');
             let selectedPartnerId = null;
@@ -1101,6 +1201,27 @@
                     const partnerId = this.getAttribute('data-partner');
                     showTopicModal(partnerId);
                 });
+            });
+            
+            // For demonstration purposes - add a button to add more partner cards
+            const container = document.querySelector('.container');
+            const demoControls = document.createElement('div');
+            demoControls.style.marginTop = '20px';
+            demoControls.style.textAlign = 'center';
+            demoControls.innerHTML = `
+                <button id="addPartnerBtn" style="padding: 8px 15px; background: #8a3ffc; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                    Add Partner (Demo)
+                </button>
+            `;
+            
+            // Insert before chat container
+            container.insertBefore(demoControls, document.getElementById('chatContainer'));
+            
+            // Add event listener to the demo button
+            document.getElementById('addPartnerBtn').addEventListener('click', function() {
+                const names = ['Alex', 'Jamie', 'Taylor', 'Jordan', 'Casey', 'Riley'];
+                const randomName = names[Math.floor(Math.random() * names.length)];
+                addPartnerCard(randomName);
             });
             
             // Add message functionality
