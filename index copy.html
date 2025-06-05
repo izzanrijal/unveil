@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unveil App Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="avatar-selector.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            max-width: 430px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        
+        .time {
+            font-weight: bold;
+        }
+        
+        .status-icons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .header {
+            background-color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .greeting {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .greeting h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .greeting p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+        
+        .notification-icon {
+            position: relative;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff4d4f;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ccc;
+            overflow: hidden;
+        }
+        
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .upload-button {
+            background-color: #d946ef;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 4px 10px rgba(217, 70, 239, 0.3);
+        }
+        .container-fluid {
+            padding: 15px 20px 90px; /* Added bottom padding for navbar */
+            background-color: #f8f9fa;
+            min-height: calc(100vh - 60px); /* Full height minus header */
+        }
+        
+        .insights-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            color: #333;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .insights-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .insights-label {
+            background-color: rgba(99, 102, 241, 0.1);
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #6366f1;
+        }
+        
+        .insights-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .insights-date {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .insights-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .positive {
+            background-color: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+        
+        .negative {
+            background-color: rgba(248, 113, 113, 0.2);
+            color: #f87171;
+        }
+        
+        .stat-info {
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .insights-recommendation {
+            background-color: #8a3ffc;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .recommendation-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+        
+        .recommendation-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #ffffff;
+        }
+        
+        .insights-action {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .insights-action:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .section-link {
+            font-size: 14px;
+            color: #8a3ffc;
+            font-weight: 500;
+        }
+        
+        .analysis-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            position: relative;
+            min-height: 160px;
+        }
+        
+        .card-main-content {
+            flex: 1;
+            padding-right: 80px; /* Space for the chat section */
+            min-width: 0; /* Prevent flex item from overflowing */
+        }
+        
+        .analysis-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .analysis-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .analysis-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .analysis-info {
+            flex: 1;
+            min-width: 0;
+            margin-right: 10px;
+        }
+        
+        .analysis-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .analysis-time {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .analysis-risk {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0;
+        }
+        
+        .risk-critical {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .risk-medium {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        .risk-low {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .chat-section {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 70px;
+        }
+        
+        .chat-icon {
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            border-radius: 50%;
+            background-color: #8a3ffc;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 0;
+            margin-top: 8px;
+            box-shadow: 0 4px 10px rgba(138, 63, 252, 0.3);
+        }
+        
+        .chat-icon:hover {
+            background-color: #7b2ff7;
+            transform: scale(1.05);
+        }
+        
+        .chat-icon:active {
+            transform: scale(0.95);
+        }
+        
+        .chat-icon i {
+            font-size: 20px;
+        }
+        
+        .analysis-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+        
+        .analysis-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            position: relative;
+            padding-right: 15px;
+        }
+        
+        .analysis-pattern-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .analysis-quote {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        
+        .analysis-summary {
+            color: #555;
+            margin-bottom: 5px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .analysis-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .analysis-tag {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        
+        .analysis-tag span {
+            font-weight: 500;
+        }
+        
+        .contact-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .contact-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .contact-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-name {
+            font-weight: bold;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .contact-date {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+        
+        .contact-preview {
+            font-size: 14px;
+            color: #666;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .risk-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .risk-high {
+            background-color: #dc3545;
+        }
+        
+        .risk-medium {
+            background-color: #ffc107;
+        }
+        
+        .risk-low {
+            background-color: #28a745;
+        }
+        
+        .upload-section {
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .upload-section-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0;
+            color: #000;
+            letter-spacing: -0.24px;
+            text-transform: uppercase;
+        }
+
+        .info-button {
+            background: none;
+            border: none;
+            color: #007AFF;
+            font-size: 20px;
+            padding: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .info-button:active {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            width: 85%;
+            max-width: 400px;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        .modal-header {
+            padding: 16px;
+            border-bottom: 1px solid #e5e5ea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #007AFF;
+            padding: 0 10px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 16px;
+        }
+
+        .modal-body p {
+            margin: 0;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .upload-instruction {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .text-white {
+            color: white;
+            background-color: rgba(138, 63, 252, 0.8);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(138, 63, 252, 0.2);
+        }
+        
+        .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.1);
+            color: #333;
+            margin-left: 10px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .info-tooltip {
+            position: absolute;
+            top: 30px;
+            right: -10px;
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.4;
+            z-index: 100;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            text-align: left;
+        }
+        
+        .info-icon:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .tutorial-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px dotted #fff;
+        }
+        
+        .tutorial-link:hover {
+            text-decoration: underline;
+        }
+        
+        .upload-card-button {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            background-color: #8a3ffc;
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(138, 63, 252, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .upload-card-button i {
+            font-size: 16px;
+            margin-right: 8px;
+        }
+        
+        .upload-card-button:hover {
+            background-color: #7433e0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(138, 63, 252, 0.3);
+        }
+        
+        .upload-card-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(138, 63, 252, 0.2);
+        }
+        
+        .upload-icon {
+            font-size: 24px;
+        }
+        
+        /* Navigation Bar */
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            padding: 15px 0;
+            border-radius: 30px;
+            max-width: 90%;
+            width: 350px;
+            margin: 0 auto;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+            padding: 8px 16px;
+            transition: all 0.2s ease;
+            border-radius: 12px;
+        }
+        
+        .nav-item.active {
+            color: white;
+            background-color: #8a3ffc;
+            font-weight: 500;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Upload Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .upload-modal {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            width: 85%;
+            max-width: 350px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-header {
+            margin-bottom: 15px;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .modal-close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 20px;
+            color: #999;
+            cursor: pointer;
+        }
+        
+        .upload-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .upload-option {
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .upload-option:hover {
+            background-color: #f0e6ff;
+        }
+        
+        .option-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #8a3ffc;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+        }
+        
+        .option-details {
+            flex: 1;
+        }
+        
+        .option-title {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        .option-description {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .contact-select {
+            margin-top: 20px;
+        }
+        
+        .select-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .custom-select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background-color: #f8f9fa;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .upload-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 25px;
+            background-color: #8a3ffc;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .upload-btn:hover {
+            opacity: 0.9;
+        }
+        
+        /* Timeline Section */
+        .timeline-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .view-all {
+            font-size: 14px;
+            color: #8a3ffc;
+            font-weight: normal;
+        }
+        
+        .timeline-container {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #eee;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -30px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #8a3ffc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .timeline-dot i {
+            color: white;
+            font-size: 10px;
+        }
+        
+        .timeline-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-title {
+            font-weight: bold;
+        }
+        
+        .timeline-date {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .timeline-description {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Fix for line-clamp compatibility */
+        .contact-preview {
+            font-size: 14px;
+            color: #666;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="time">9:41</div>
+        <div class="status-icons">
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <div class="header">
+        <div class="greeting">
+            <h1>Hi, Maya <span>👋</span></h1>
+            <p>Unveil App: Relationship insights with privacy</p>
+        </div>
+        <div class="notification-icon">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge">3</span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <!-- Upload button removed from here and moved to main card -->
+        
+        <!-- Insights Summary Card -->
+        <div class="insights-card">
+            <div class="insights-header">
+                <div>
+                    <div class="insights-label">PERSONALIZED ANALYSIS</div>
+                    <div class="insights-title">Communication Insights</div>
+                </div>
+                <div class="insights-date">June 2, 2025</div>
+            </div>
+            
+            <div class="insights-recommendation">
+                <div class="recommendation-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>KEY INSIGHT</span>
+                </div>
+                <div class="recommendation-text">
+                    <strong>Assertive Communication:</strong> You've been responding more assertively when boundaries are crossed. Keep practicing clear communication when you feel uncomfortable.
+                </div>
+            </div>
+        </div>
+        
+        <div class="upload-section">
+            <div class="section-header">
+                <h3 class="upload-section-title">ANALYZE YOUR CONVERSATIONS</h3>
+                <button class="info-button" aria-label="Information">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+            </div>
+            <div id="infoModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>How to Analyze Conversations</h3>
+                        <button class="close-button">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Upload audio or video from your chat history to get more personalized insights. Learn how to export your chat history by watching the <a href="https://www.youtube.com/watch?v=example-tutorial" class="tutorial-link">tutorial video</a>.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="upload-card-button" id="newUploadBtn">
+                <i class="fas fa-plus"></i>
+                Upload Chat History
+            </button>
+        </div>
+        
+        <!-- Recent Analyses Section -->
+        <div class="section-header">
+            <div class="section-title">Recent Analyses</div>
+            <div class="section-link">See All</div>
+        </div>
+        
+        <!-- Analysis Cards -->
+        <div class="analysis-card">
+            <div class="card-main-content">
+                <div class="analysis-header">
+                    <div class="analysis-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner A">
+                    </div>
+                    <div class="analysis-info">
+                        <div class="analysis-name">
+                            Partner A
+                        </div>
+                        <div class="analysis-time">5 min ago</div>
+                    </div>
+                    <span class="analysis-risk risk-critical">Attention Needed</span>
+                </div>
+                <div class="analysis-content">
+                    <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                    <div class="analysis-tags">
+                        <div class="analysis-tag">
+                            <i class="fas fa-eye" style="color: #f44336;"></i>
+                            <span>Primary: Gaslighting</span>
+                        </div>
+                        <div class="analysis-tag">
+                            <i class="fas fa-exclamation-circle" style="color: #ff9800;"></i>
+                            <span>Secondary: Guilt-Tripping</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-section">
+                <button class="chat-icon" data-contact="Partner A">
+                    <i class="fas fa-comment-alt"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="analysis-card">
+            <div class="card-main-content">
+                <div class="analysis-header">
+                    <div class="analysis-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Friend S">
+                    </div>
+                    <div class="analysis-info">
+                        <div class="analysis-name">
+                            Friend S
+                        </div>
+                        <div class="analysis-time">1 day ago</div>
+                    </div>
+                    <span class="analysis-risk risk-medium">Moderate</span>
+                </div>
+                <div class="analysis-content">
+                    <h3 class="analysis-pattern-title">Communication Pattern Detected</h3>
+                    <div class="analysis-tags">
+                        <div class="analysis-tag">
+                            <i class="fas fa-volume-mute" style="color: #9c27b0;"></i>
+                            <span>Primary: Silent Treatment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-section">
+                <button class="chat-icon" data-contact="Friend S">
+                    <i class="fas fa-comment-alt"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="analysis-card">
+            <div class="card-main-content">
+                <div class="analysis-header">
+                    <div class="analysis-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Colleague R">
+                    </div>
+                    <div class="analysis-info">
+                        <div class="analysis-name">
+                            Colleague R
+                        </div>
+                        <div class="analysis-time">3 days ago</div>
+                    </div>
+                    <span class="analysis-risk risk-low">Healthy</span>
+                </div>
+                <div class="analysis-content">
+                    <h3 class="analysis-pattern-title">No Concerning Patterns</h3>
+                    <div class="analysis-tags">
+                        <div class="analysis-tag">
+                            <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+                            <span>No concerning patterns detected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-section">
+                <button class="chat-icon" data-contact="Colleague R">
+                    <i class="fas fa-comment-alt"></i>
+                </button>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <!-- Upload Modal -->
+    <div class="modal-overlay" id="uploadModal">
+        <div class="upload-modal">
+            <div class="modal-header">
+                <div class="modal-title">Upload Conversation</div>
+                <div class="modal-close" id="closeUploadModal">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="upload-options">
+                <div class="upload-option" id="uploadChat">
+                    <div class="option-icon">
+                        <i class="fas fa-comment-alt"></i>
+                    </div>
+                    <div class="option-details">
+                        <div class="option-title">Chat Screenshot</div>
+                        <div class="option-description">Upload screenshots of your text conversations</div>
+                    </div>
+                </div>
+                <div class="upload-option" id="uploadAudio">
+                    <div class="option-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <div class="option-details">
+                        <div class="option-title">Voice Recording</div>
+                        <div class="option-description">Upload or record voice conversations</div>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-select">
+                <label class="select-label">Assign to contact:</label>
+                <div class="avatar-selector">
+                    <div class="avatar-toggle" id="avatarToggle">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Select Contact" class="avatar-preview">
+                        <span>Select Contact</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="avatar-dropdown" id="avatarDropdown">
+                        <div class="avatar-option new-contact">
+                            <div class="avatar-icon"><i class="fas fa-plus"></i></div>
+                            <span>Create new contact</span>
+                        </div>
+                        <div class="avatar-option" data-value="contact1">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex Johnson">
+                            <span>Alex Johnson</span>
+                        </div>
+                        <div class="avatar-option" data-value="contact2">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Williams">
+                            <span>Sarah Williams</span>
+                        </div>
+                        <div class="avatar-option" data-value="contact3">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Michael Chen">
+                            <span>Michael Chen</span>
+                        </div>
+                        <div class="avatar-option" data-value="contact4">
+                            <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="David Miller">
+                            <span>David Miller</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="upload-btn" id="confirmUpload">Upload</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Timeline section removed as requested -->
+    
+    <!-- Bottom Navigation -->
+    <div class="navigation">
+        <a href="#" class="nav-item active">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div>Home</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+            <div>Insights</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-comment-alt"></i></div>
+            <div>Chat</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
+            <div>Profile</div>
+        </a>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update time in status bar
+            const updateTime = () => {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                document.querySelector('.time').textContent = `${hours}:${minutes}`;
+            };
+            
+            updateTime();
+            setInterval(updateTime, 60000); // Update every minute
+            
+            // Upload button functionality
+            const uploadButton = document.getElementById('newUploadBtn');
+            const uploadModal = document.getElementById('uploadModal');
+            const closeUploadModal = document.getElementById('closeUploadModal');
+            const confirmUpload = document.getElementById('confirmUpload');
+            
+            // Avatar selector functionality
+            const avatarToggle = document.getElementById('avatarToggle');
+            const avatarDropdown = document.getElementById('avatarDropdown');
+            const avatarOptions = document.querySelectorAll('.avatar-option');
+            let selectedContact = '';
+            
+            uploadButton.addEventListener('click', function() {
+                uploadModal.classList.add('active');
+            });
+            
+            // Toggle avatar dropdown
+            avatarToggle.addEventListener('click', function() {
+                avatarDropdown.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!avatarToggle.contains(e.target) && !avatarDropdown.contains(e.target)) {
+                    avatarDropdown.classList.remove('active');
+                }
+            });
+            
+            // Handle avatar selection
+            avatarOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    selectedContact = value;
+                    
+                    if (this.classList.contains('new-contact')) {
+                        avatarToggle.querySelector('span').textContent = 'Create new contact';
+                        avatarToggle.querySelector('img').src = '';
+                        avatarToggle.querySelector('img').style.display = 'none';
+                        avatarToggle.querySelector('.avatar-icon').style.display = 'flex';
+                    } else {
+                        const img = this.querySelector('img');
+                        const name = this.querySelector('span').textContent;
+                        
+                        avatarToggle.querySelector('span').textContent = name;
+                        avatarToggle.querySelector('img').src = img.src;
+                        avatarToggle.querySelector('img').style.display = 'block';
+                        if (avatarToggle.querySelector('.avatar-icon')) {
+                            avatarToggle.querySelector('.avatar-icon').style.display = 'none';
+                        }
+                    }
+                    
+                    avatarDropdown.classList.remove('active');
+                });
+            });
+            
+            closeUploadModal.addEventListener('click', function() {
+                uploadModal.classList.remove('active');
+            });
+            
+            // Close modal when clicking outside
+            uploadModal.addEventListener('click', function(e) {
+                if (e.target === uploadModal) {
+                    uploadModal.classList.remove('active');
+                }
+            });
+            
+            // Handle upload confirmation
+            confirmUpload.addEventListener('click', function() {
+                const contactSelect = document.getElementById('contactSelect');
+                const selectedContact = contactSelect.value;
+                
+                if (selectedContact) {
+                    // Simulate upload success
+                    uploadModal.classList.remove('active');
+                    
+                    // Show success message (in a real app, this would be after actual upload)
+                    alert('Conversation uploaded successfully!');
+                    
+                    // In a real app, you would process the upload here
+                    console.log('Uploading conversation for contact:', selectedContact);
+                } else {
+                    alert('Please select a contact');
+                }
+            });
+            
+            // Analysis card click functionality
+            const analysisCards = document.querySelectorAll('.analysis-card');
+            
+            analysisCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // In a real app, this would navigate to a detailed view
+                    console.log('Card clicked: ' + this.querySelector('.analysis-name').textContent.trim().split('\n')[0]);
+                    
+                    // Add chat icon click handler to stop event propagation
+                    const chatIcon = this.querySelector('.chat-icon');
+                    if (chatIcon) {
+                        chatIcon.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            console.log('Chat icon clicked');
+                        });
+                    }
+                });
+            });
+            
+            // Chat icon click handler
+            document.querySelectorAll('.chat-icon').forEach(icon => {
+                icon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    console.log('Chat icon clicked for: ' + this.closest('.analysis-card').querySelector('.analysis-name').textContent.trim().split('\n')[0]);
+                    // In a real app, this would open a chat interface
+                });
+            });
+            
+            // Insights action button click handler
+            const insightsAction = document.querySelector('.insights-action');
+            if (insightsAction) {
+                insightsAction.addEventListener('click', function() {
+                    console.log('Navigating to detailed insights analysis');
+                    // In a real app, this would navigate to detailed insights page
+                });
+            }
+
+            // Chat icon click handler
+            document.querySelectorAll('.chat-icon').forEach(icon => {
+                icon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const contactName = this.getAttribute('data-contact');
+                    console.log(`Opening chat with ${contactName}`);
+                    // In a real app, this would navigate to the chat interface
+                    // window.location.href = `chat.html?contact=${encodeURIComponent(contactName)}`;
+                });
+            });
+            
+            // Modal functionality
+            const infoButton = document.querySelector('.info-button');
+            const modal = document.getElementById('infoModal');
+            const closeButton = document.querySelector('.close-button');
+            
+            if (infoButton && modal) {
+                // Show modal when info button is clicked
+                infoButton.addEventListener('click', function() {
+                    modal.style.display = 'flex';
+                });
+                
+                // Close modal when close button is clicked
+                closeButton.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+                
+                // Close modal when clicking outside the modal content
+                window.addEventListener('click', function(event) {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
