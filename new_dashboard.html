@@ -130,12 +130,13 @@
             font-size: 10px;
             font-weight: bold;
         }
-    /* Main Container */
-    .container {
-        padding: 0 20px;
-    }
-    
-    /* Stats Section */
+        
+        /* Main Container */
+        .container {
+            padding: 0 20px;
+        }
+        
+        /* Stats Section */
         .stats-container {
             padding: 0 20px;
             margin-bottom: 20px;
@@ -453,53 +454,6 @@
         }
         
         /* Recent Analyses Section */
-        .analyses-container {
-            padding: 0 20px;
-            margin-bottom: 80px; /* Extra space for fixed navigation */
-        }
-        
-        .analysis-card {
-            background-color: white;
-            border-radius: 20px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            display: flex;
-            position: relative;
-        }
-        
-        .card-main-content {
-            flex: 1;
-        }
-        
-        .analysis-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        
-        .analysis-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: 12px;
-        }
-        
-        .analysis-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .analysis-info {
-            flex: 1;
-        }
-        
-        .analysis-name {
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
         
         .analysis-time {
             font-size: 12px;
@@ -630,9 +584,6 @@
     <div class="header">
         <div class="header-top">
             <div class="user-info">
-                <div class="avatar">
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User Avatar">
-                </div>
                 <div class="greeting">
                     <h1>Hi, Maya 👋</h1>
                     <p>Unveil: Relationship insights with privacy</p>
@@ -643,28 +594,7 @@
                 <span class="notification-badge">3</span>
             </div>
         </div>
-        
-        <!-- Communication Level Card -->
-        <div class="level-container">
-            <div class="level-card">
-                <div class="level-header">
-                    <div class="level-icon">
-                        <i class="fas fa-comment-dots"></i>
-                    </div>
-                    <div class="level-options">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </div>
-                </div>
-                <div class="level-info">
-                    <div class="level-label">Advanced level</div>
-                    <div class="level-title">Assertive Communication</div>
-                </div>
-                <button class="level-button">
-                    <span>Continue Lesson</span>
-                </button>
-            </div>
-        </div>
-        
+
         <!-- Stats Section -->
         <div class="stats-container">
             <div class="stats-card">
@@ -733,10 +663,9 @@
         <!-- Recent Analyses Section -->
         <div class="recent-analyses-container">
             <div class="section-header">
-                <div class="section-title">Relationship Insights</div>
-                <div class="section-action">See all</div>
+                <div class="section-title">Recent Analyses</div>
+                <div class="section-link">See All</div>
             </div>
-            
             <!-- Analysis Cards -->
             <div class="analysis-card">
                 <div class="card-main-content">
@@ -745,9 +674,7 @@
                             <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner A">
                         </div>
                         <div class="analysis-info">
-                            <div class="analysis-name">
-                                Partner A
-                            </div>
+                            <div class="analysis-name">Partner A</div>
                             <div class="analysis-time">5 min ago</div>
                         </div>
                         <span class="analysis-risk risk-critical">Attention Needed</span>
@@ -772,7 +699,6 @@
                     </button>
                 </div>
             </div>
-            
             <div class="analysis-card">
                 <div class="card-main-content">
                     <div class="analysis-header">
@@ -780,9 +706,7 @@
                             <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Friend S">
                         </div>
                         <div class="analysis-info">
-                            <div class="analysis-name">
-                                Friend S
-                            </div>
+                            <div class="analysis-name">Friend S</div>
                             <div class="analysis-time">1 day ago</div>
                         </div>
                         <span class="analysis-risk risk-medium">Moderate</span>
@@ -803,7 +727,6 @@
                     </button>
                 </div>
             </div>
-            
             <div class="analysis-card">
                 <div class="card-main-content">
                     <div class="analysis-header">
@@ -811,9 +734,7 @@
                             <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Colleague R">
                         </div>
                         <div class="analysis-info">
-                            <div class="analysis-name">
-                                Colleague R
-                            </div>
+                            <div class="analysis-name">Colleague R</div>
                             <div class="analysis-time">3 days ago</div>
                         </div>
                         <span class="analysis-risk risk-low">Healthy</span>

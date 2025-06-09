@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unveil App Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="avatar-selector.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            max-width: 430px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        
+        .time {
+            font-weight: bold;
+        }
+        
+        .status-icons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .header {
+            background-color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .greeting {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .greeting h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .greeting p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+        
+        .notification-icon {
+            position: relative;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff4d4f;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ccc;
+            overflow: hidden;
+        }
+        
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .upload-button {
+            background-color: #d946ef;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 4px 10px rgba(217, 70, 239, 0.3);
+        }
+        
+        .container-fluid {
+            padding: 15px 20px 90px; /* Added bottom padding for navbar */
+            background-color: #f8f9fa;
+            min-height: calc(100vh - 60px); /* Full height minus header */
+        }
+        
+        /* Styling for stats-card */
+        .stats-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stats-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #f2f3f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .stats-info {
+            margin-bottom: 15px;
+        }
+        
+        .stats-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stats-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .progress-container {
+            margin-bottom: 15px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #f2f3f5;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #4285f4;
+            border-radius: 4px;
+        }
+        
+        .progress-text {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .stats-message {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Styling for categories-row */
+        .categories-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        
+        .category-card {
+            flex: 0 0 75%;
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-card.relationships {
+            background-color: #e8f5fe;
+        }
+        
+        .category-card.friends {
+            background-color: #e6f7ed;
+        }
+        
+        .category-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .category-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .category-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .category-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 12px;
+            font-weight: 500;
+            align-self: flex-start;
+            cursor: pointer;
+        }
+        
+        .category-card.relationships .category-button {
+            background-color: #4285f4;
+        }
+        
+        .category-card.friends .category-button {
+            background-color: #34a853;
+        }
+        
+        /* Analysis Cards Styling */
+        .analysis-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            position: relative;
+        }
+        
+        .card-main-content {
+            flex: 1;
+        }
+        
+        .analysis-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .analysis-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 12px;
+        }
+        
+        .analysis-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .analysis-info {
+            flex: 1;
+        }
+        
+        .analysis-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .analysis-time {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .analysis-risk {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .risk-critical {
+            background-color: #ffebee;
+            color: #f44336;
+        }
+        
+        .risk-medium {
+            background-color: #fff8e1;
+            color: #ff9800;
+        }
+        
+        .risk-low {
+            background-color: #e8f5e9;
+            color: #4caf50;
+        }
+        
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 85%;
+            max-width: 380px;
+            margin: 0 auto;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+            padding: 8px 15px;
+            border-radius: 15px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .nav-item.active {
+            color: white;
+            background-color: #8a3ffc;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .upload-modal {
+            background-color: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        
+        .file-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        
+        .file-label i {
+            font-size: 40px;
+            color: #8a3ffc;
+        }
+        
+        .upload-info {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        
+        /* Upload Section Styles */
+        .upload-section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .upload-section-title h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .upload-section-title p {
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="time">9:41</div>
+        <div class="status-icons">
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <div class="header">
+        <div class="greeting">
+            <h1>Hi, Maya <span>👋</span></h1>
+            <p>Unveil App: Relationship insights with privacy</p>
+        </div>
+        <div class="notification-icon">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge">3</span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <!-- Stats Card from new_dashboard.html -->
+        <div class="stats-card" data-component-name="<div />">
+            <div class="stats-header">
+                <div class="stats-icon">
+                    <i class="far fa-chart-bar"></i>
+                </div>
+                <div class="stats-options">
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+            </div>
+            <div class="stats-info">
+                <div class="stats-title">72%</div>
+                <div class="stats-subtitle">Relationship health score</div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 72%;"></div>
+                </div>
+                <div class="progress-text">Based on your recent conversations</div>
+            </div>
+            <div class="stats-message" data-component-name="<div />">Your communication patterns are improving!</div>
+        </div>
+        
+        <!-- Categories Row from new_dashboard.html -->
+        <div class="categories-row" data-component-name="<div />">
+            <div class="category-card relationships" data-component-name="<div />">
+                <div class="category-content" data-component-name="<div />">
+                    <div class="category-label" data-component-name="<div />">Dating Relationships</div>
+                    <div class="category-title" data-component-name="<div />">Boundary Setting</div>
+                    <button class="category-button" data-component-name="<button />">View Insights</button>
+                </div>
+            </div>
+            <div class="category-card friends" data-component-name="<div />">
+                <div class="category-content" data-component-name="<div />">
+                    <div class="category-label" data-component-name="<div />">Work Relationships</div>
+                    <div class="category-title" data-component-name="<div />">Professional Communication</div>
+                    <button class="category-button" data-component-name="<button />">View Insights</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <div class="upload-section-title">
+                <h3>Upload Conversations</h3>
+                <p>Upload your chat logs for analysis</p>
+            </div>
+            <button class="upload-button" id="uploadBtn">
+                <i class="fas fa-upload"></i>
+                Upload Files
+            </button>
+        </div>
+        
+        <!-- Analysis Cards -->
+        <div class="analysis-cards">
+    
+        </div>
+    </div>
+    
+    <!-- Navigation -->
+    <div class="navigation">
+        <a href="#" class="nav-item active">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div>Home</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+            <div>Insights</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-comment-alt"></i></div>
+            <div>Chat</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
+            <div>Profile</div>
+        </a>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal-overlay" id="uploadModal">
+        <div class="upload-modal">
+            <div class="modal-header">
+                <div class="modal-title">Upload Files</div>
+                <div class="modal-close" id="closeModal">&times;</div>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area">
+                    <input type="file" id="fileInput" multiple hidden>
+                    <label for="fileInput" class="file-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Click to upload files</span>
+                    </label>
+                </div>
+                <div class="upload-info">
+                    <p>Supported formats: .txt, .pdf, .docx</p>
+                    <p>Max file size: 5MB</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Modal functionality
+        document.getElementById('uploadBtn').addEventListener('click', function() {
+            document.getElementById('uploadModal').classList.add('active');
+        });
+        
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('uploadModal').classList.remove('active');
+        });
+        
+        // JavaScript to handle active state based on current page
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                // Check if the link's href matches the current page
+                if (item.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+                
+                // Add click handler for smooth transitions
+                item.addEventListener('click', function(e) {
+                    // Remove active class from all items
+                    navItems.forEach(i => i.classList.remove('active'));
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
