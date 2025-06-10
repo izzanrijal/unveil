@@ -21,7 +21,46 @@
             margin: 0 auto;
             position: relative;
             min-height: 100vh;
-            overflow-x: hidden;
+        }
+        
+        /* Navigation Bar */
+        .navigation {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 85%;
+            max-width: 380px;
+            margin: 0 auto;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+            padding: 8px 15px;
+            border-radius: 15px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item.active {
+            color: white;
+            background-color: #8a3ffc;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
         }
         
         .status-bar {
@@ -1532,5 +1571,24 @@
             });
         });
     </script>
+    <!-- Bottom Navigation -->
+    <div class="navigation">
+        <a href="index.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div>Home</div>
+        </a>
+        <a href="previous.html" class="nav-item active">
+            <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+            <div>Insights</div>
+        </a>
+        <a href="chat.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-comment-alt"></i></div>
+            <div>Chat</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
+            <div>Profile</div>
+        </a>
+    </div>
 </body>
 </html>

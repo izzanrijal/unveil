@@ -26,6 +26,46 @@
             overflow-x: hidden;
         }
         
+        /* Navigation Bar */
+        .navigation {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 85%;
+            max-width: 380px;
+            margin: 0 auto;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+            padding: 8px 15px;
+            border-radius: 15px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item.active {
+            color: white;
+            background-color: #8a3ffc;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
         .status-bar {
             display: flex;
             justify-content: space-between;
@@ -131,7 +171,7 @@
         
         .insights-card {
             background: white;
-            border-radius: 20px;
+            border-radius: 25px;
             padding: 20px;
             color: #333;
             margin-bottom: 25px;
@@ -223,9 +263,6 @@
         }
         
         .insights-recommendation {
-            background-color: #8a3ffc;
-            border-radius: 15px;
-            padding: 15px;
             margin-bottom: 15px;
         }
         
@@ -236,13 +273,14 @@
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 10px;
-            color: #ffffff;
+            color: #333333;
         }
         
         .recommendation-text {
             font-size: 14px;
             line-height: 1.5;
-            color: #ffffff;
+            color: #000000;
+            padding: 10px 0;
         }
         
         .insights-action {
@@ -282,12 +320,11 @@
         
         .analysis-card {
             background-color: white;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 15px;
             margin-bottom: 15px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             position: relative;
-            min-height: 160px;
         }
         
         .card-main-content {
@@ -544,12 +581,284 @@
             background-color: #28a745;
         }
         
-        .upload-section {
-            background-color: white;
+        .action-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .action-card {
+            background: white;
             border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .card-header i {
+            font-size: 16px;
+            color: #555;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .card-header span {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #555;
+        }
+
+        .card-counter {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .count-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .counter-description {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #555;
+            margin-top: 6px;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.3;
+        }
+        
+        .counter-description i {
+            font-size: 10px;
+            color: #4a5568;
+        }
+
+        .divider {
+            color: #ccc;
+            margin: 0 5px;
+        }
+
+        .card-counter.centered {
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .quality-description {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #555;
+            margin-top: 6px;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.3;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .quality-description i {
+            font-size: 10px;
+            color: #4a5568;
+        }
+        
+        [data-tooltip] {
+            position: relative;
+            cursor: help;
+        }
+        
+        [data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            margin-bottom: 8px;
+            pointer-events: none;
+        }
+
+        .centered {
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rating {
+            font-size: 42px;
+            font-weight: 700;
+            color: #8a3ffc;
+            line-height: 1;
+        }
+        
+        .this-week {
+            font-size: 42px;
+            font-weight: 700;
+            color: #8a3ffc;
+            line-height: 1;
+        }
+        
+        .count-out-of {
+            font-size: 24px;
+            font-weight: 500;
+            color: #777;
+            margin-left: 2px;
+        }
+
+        .rating-out-of {
+            font-size: 24px;
+            font-weight: 500;
+            color: #777;
+            margin-left: 2px;
+        }
+
+        .start-analysis-btn {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .start-analysis-button {
+            width: 100%;
+            height: 44px;
+            border-radius: 22px;
+            background-color: #00BFA5;
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 191, 165, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .quality-description {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        
+        .counter-wrapper {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 8px;
+            margin: -25px 0 0 0;
+            height: 60px;
+            align-items: baseline;
+        }
+        
+        .count-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 50px;
+            justify-content: flex-start;
+            height: 100%;
+            position: relative;
+        }
+        
+        .count-item:first-child {
+            padding-top: 8px;
+        }
+        
+        .count-number {
+            font-size: 42px;
+            font-weight: 700;
+            color: #8a3ffc;
+            line-height: 1;
+        }
+        
+        .count-total {
+            font-size: 24px;
+            color: #777;
+        }
+        
+        .count-label {
+            font-size: 11px;
+            color: #666;
+            margin-top: 2px;
+            text-align: center;
+        }
+        
+        .count-separator {
+            font-size: 20px;
+            font-weight: 500;
+            color: #999;
+            margin: 0 2px;
+            padding-bottom: 12px;
+        }
+
+        .start-analysis-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(156, 39, 176, 0.4);
+        }
+
+        .start-analysis-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(156, 39, 176, 0.3);
+        }
+
+        .avatar-container {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .avatar-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #8a3ffc;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .add-profile {
+            background-color: #f0f0f0;
+            color: #666;
         }
         
         .section-header {
@@ -826,6 +1135,56 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
+        .action-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .action-card.relationships {
+            background-color: #ffe8e8;
+        }
+        
+        .action-card.friends {
+            background-color: #e8f4ff;
+        }
+        
+        .wisdom-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .wisdom-content {
+            padding: 10px 0;
+        }
+        
+        .wisdom-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #8a3ffc;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .wisdom-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            line-height: 1.5;
+            padding-left: 24px;
+        }
+        
         .modal-header {
             margin-bottom: 15px;
         }
@@ -1041,7 +1400,7 @@
     <div class="header">
         <div class="greeting">
             <h1>Hi, Maya <span>👋</span></h1>
-            <p>Unveil App: Relationship insights with privacy</p>
+
         </div>
         <div class="notification-icon">
             <i class="fas fa-bell"></i>
@@ -1053,49 +1412,94 @@
     <div class="container-fluid">
         <!-- Upload button removed from here and moved to main card -->
         
-        <!-- Insights Summary Card -->
-        <div class="insights-card">
-            <div class="insights-header">
-                <div>
-                    <div class="insights-label">PERSONALIZED ANALYSIS</div>
-                    <div class="insights-title">Communication Insights</div>
+        <!-- Daily Wisdom Card -->
+        <div class="wisdom-card">
+            <div class="wisdom-content">
+                <div class="wisdom-title">
+                    <i class="fas fa-quote-left"></i>
+                    <span>PERSONALIZED DAILY WISDOM</span>
                 </div>
-                <div class="insights-date">June 2, 2025</div>
-            </div>
-            
-            <div class="insights-recommendation">
-                <div class="recommendation-title">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>KEY INSIGHT</span>
-                </div>
-                <div class="recommendation-text">
-                    <strong>Assertive Communication:</strong> You've been responding more assertively when boundaries are crossed. Keep practicing clear communication when you feel uncomfortable.
+                <div class="wisdom-text">
+                    Trust your intuition when communication feels off. Your perception matters more than doubt.
                 </div>
             </div>
         </div>
         
-        <div class="upload-section">
-            <div class="section-header">
-                <h3 class="upload-section-title">ANALYZE YOUR CONVERSATIONS</h3>
-                <button class="info-button" aria-label="Information">
-                    <i class="fas fa-info-circle"></i>
-                </button>
-            </div>
-            <div id="infoModal" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>How to Analyze Conversations</h3>
-                        <button class="close-button">&times;</button>
+        <div class="action-cards">
+            <!-- Card 1: Manipulation Attempts Detected Counter -->
+            <div class="action-card" style="background-color: #E8F5E9;">
+                <div class="card-header">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Manipulation Detected</span>
+                </div>
+                <div class="card-counter centered">
+                    <div class="counter-wrapper">
+                        <div class="count-item">
+                            <span class="count-number">5</span>
+                            <span class="count-label">This week</span>
+                        </div>
+                        <div class="count-separator">/</div>
+                        <div class="count-item">
+                            <span class="count-number count-total">23</span>
+                            <span class="count-label">Total</span>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <p>Upload audio or video from your chat history to get more personalized insights. Learn how to export your chat history by watching the <a href="https://www.youtube.com/watch?v=example-tutorial" class="tutorial-link">tutorial video</a>.</p>
+
+                </div>
+            </div>
+
+            <!-- Card 2: Response Quality -->
+            <div class="action-card" style="background-color: #FFF3E0;" data-tooltip="Your response quality score this month (1-5)">
+                <div class="card-header">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Response Quality</span>
+                </div>
+                <div class="card-counter centered">
+                    <div class="count-value">
+                        <span class="rating">5.5</span><span class="rating-out-of">/10</span>
+                    </div>
+                    <div class="quality-description">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Your manipulation response effectiveness</span>
                     </div>
                 </div>
             </div>
-            <button class="upload-card-button" id="newUploadBtn">
-                <i class="fas fa-plus"></i>
-                Upload Chat History
-            </button>
+
+            <!-- Card 3: Start New Analysis -->
+            <div class="action-card" style="background-color: #E1F5FE;">
+                <div class="card-header">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Start Analysis</span>
+                </div>
+                <div class="start-analysis-btn">
+                    <button class="start-analysis-button">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Tap to Analyze</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card 4: Profile Avatars -->
+            <div class="action-card" style="background-color: #F3E5F5;">
+                <div class="card-header">
+                    <i class="fas fa-user-friends"></i>
+                    <span>Persons</span>
+                </div>
+                <div class="avatar-container">
+                    <div class="avatar-circle" style="background-color: #8a3ffc; z-index: 3; margin-right: -10px;">
+                        <span>IR</span>
+                    </div>
+                    <div class="avatar-circle" style="background-color: #00BFA5; z-index: 2; margin-right: -10px;">
+                        <span>AB</span>
+                    </div>
+                    <div class="avatar-circle" style="background-color: #FF6B6B; z-index: 1; margin-right: 0;">
+                        <span>CD</span>
+                    </div>
+                    <div class="avatar-circle add-profile" style="z-index: 4;">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- Recent Analyses Section -->
@@ -1108,8 +1512,8 @@
         <div class="analysis-card">
             <div class="card-main-content">
                 <div class="analysis-header">
-                    <div class="analysis-avatar">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner A">
+                    <div class="analysis-avatar" style="background-color: #8a3ffc; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">
+                        PA
                     </div>
                     <div class="analysis-info">
                         <div class="analysis-name">
@@ -1143,8 +1547,8 @@
         <div class="analysis-card">
             <div class="card-main-content">
                 <div class="analysis-header">
-                    <div class="analysis-avatar">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Friend S">
+                    <div class="analysis-avatar" style="background-color: #00BFA5; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">
+                        FS
                     </div>
                     <div class="analysis-info">
                         <div class="analysis-name">
@@ -1174,8 +1578,8 @@
         <div class="analysis-card">
             <div class="card-main-content">
                 <div class="analysis-header">
-                    <div class="analysis-avatar">
-                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Colleague R">
+                    <div class="analysis-avatar" style="background-color: #FF6B6B; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">
+                        CR
                     </div>
                     <div class="analysis-info">
                         <div class="analysis-name">
@@ -1183,7 +1587,7 @@
                         </div>
                         <div class="analysis-time">3 days ago</div>
                     </div>
-                    <span class="analysis-risk risk-low">Healthy</span>
+                    <span class="analysis-risk risk-low">Low Risk</span>
                 </div>
                 <div class="analysis-content">
                     <h3 class="analysis-pattern-title">No Concerning Patterns</h3>
@@ -1464,5 +1868,24 @@
         });
     </script>
     <script src="script.js"></script>
+<!-- Bottom Navigation -->
+    <div class="navigation">
+        <a href="index.html" class="nav-item active">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div>Home</div>
+        </a>
+        <a href="previous.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+            <div>Insights</div>
+        </a>
+        <a href="chat.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-comment-alt"></i></div>
+            <div>Chat</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
+            <div>Profile</div>
+        </a>
+    </div>
 </body>
 </html>

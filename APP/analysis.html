@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results | UNVEIL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333333;
+            max-width: 430px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        
+        .time {
+            font-weight: bold;
+        }
+        
+        .status-icons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .header {
+            background-color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .container-fluid {
+            padding: 15px 20px 90px; /* Added bottom padding for navbar */
+            background-color: #f8f9fa;
+            min-height: calc(100vh - 60px); /* Full height minus header */
+        }
+        
+        .analysis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .risk-badge {
+            background-color: #f44336;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .date {
+            font-size: 12px;
+            color: #666666;
+            margin-top: 5px;
+        }
+        
+        .score-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .score-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333333;
+        }
+        
+        .score-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #8a3ffc;
+            margin-bottom: 10px;
+        }
+        
+        .progress-container {
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 8px;
+            width: 100%;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            width: 0;
+            transition: width 1s ease-in-out;
+        }
+        
+        .score-description {
+            color: #666666;
+            font-size: 14px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 25px 0 15px 0;
+            color: #333333;
+        }
+        
+        .behavior-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .behavior-title {
+            color: #f44336;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .behavior-title i {
+            font-size: 14px;
+        }
+        
+        .behavior-description {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .behavior-example {
+            background-color: #f5f5f5;
+            border-left: 3px solid #8a3ffc;
+            padding: 12px;
+            border-radius: 6px;
+            font-style: italic;
+            color: #444;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .recommendation-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .recommendation-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .recommendation-item:hover {
+            background-color: rgba(138, 63, 252, 0.05);
+        }
+        
+        .recommendation-icon {
+            background-color: #8a3ffc;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .recommendation-text {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.5;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 85%;
+            max-width: 380px;
+            margin: 0 auto;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+            padding: 8px 15px;
+            border-radius: 15px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item.active {
+            color: white;
+            background-color: #8a3ffc;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .back-button {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            padding: 12px 24px;
+            background-color: #8a3ffc;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(138, 63, 252, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: #7433e0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(138, 63, 252, 0.3);
+        }
+        
+        .back-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(138, 63, 252, 0.2);
+        }
+        
+        .highlighted {
+            background-color: rgba(138, 63, 252, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="time" id="current-time">9:41</div>
+        <div class="status-icons">
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <i class="fas fa-arrow-left" style="margin-right: 15px; cursor: pointer;"></i>
+            <h1 style="font-size: 1.2rem; font-weight: 600; margin: 0; padding: 0;">
+                Analysis Results
+            </h1>
+        </div>
+        <div class="notification-icon">
+
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="analysis-header" style="margin-bottom: 20px;">
+            <div style="display: grid; grid-template-columns: 1fr auto; align-items: center; width: 100%;">
+                <div class="profile-info" style="display: flex; align-items: center;">
+                    <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Profile" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 16px;">Widana Putra</div>
+                        <div style="font-size: 12px; color: #666;">Business Partner</div>
+                    </div>
+                </div>
+                <div class="date" style="justify-self: end; text-align: right; font-size: 13px; color: #666; min-width: 110px;">
+                    Analyzed on<br>May 10, 2025
+                </div>
+            </div>
+        </div>
+        
+        <div class="score-container">
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <i class="fas fa-exclamation-triangle" style="color: #f44336; margin-right: 10px; font-size: 20px;"></i>
+                <div>
+                    <div style="font-size: 18px; font-weight: 600; color: #333;">Red-Flag Manipulative Spot-On</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 4px;">Detected with 68% confidence</div>
+                </div>
+            </div>
+            <div style="background-color: #f0e6ff; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                <div style="font-weight: 500; margin-bottom: 5px; color: #333;">Analysis Summary</div>
+                <div style="color: #555; line-height: 1.5; font-size: 14px;">
+                    Our analysis indicates this person is using deliberate manipulative techniques designed to influence the conversation partner without regard for their wellbeing.
+                </div>
+            </div>
+            <div style="margin-top: 15px; display: flex; align-items: center;">
+                <i class="fas fa-exclamation-circle" style="color: #f44336; margin-right: 8px;"></i>
+                <div style="font-size: 13px; color: #666;">High concern level - recommend caution</div>
+            </div>
+        </div>
+
+        <div class="conversation-summary" style="background-color: white; border-radius: 15px; padding: 20px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+            <div style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #333;">Conversation Summary</div>
+            <div style="color: #555; line-height: 1.6; font-size: 14px;">
+                <p>Widana has been asking you to invest in a new business opportunity. The conversation started with casual catching up but quickly shifted to discussing an "exclusive investment opportunity" that he claims will yield 30% returns within 3 months.</p>
+                <p style="margin-top: 10px;">When you expressed hesitation, he began using emotional appeals and suggesting that you don't trust him. He mentioned past favors he's done for you and implied you're being ungrateful by not supporting his venture.</p>
+            </div>
+        </div>
+        
+        <!-- Smart Prompt Bar -->
+        <div class="smart-prompt-bar" style="background: #f0e6ff; border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; display: flex; align-items: center;">
+          <i class="fas fa-robot" style="color: #8a3ffc; margin-right: 12px; font-size: 20px;"></i>
+          <span style="flex: 1;">Want more insights or advice about <b>Widana</b>? <span style="color:#8a3ffc;">Ask the AI now.</span></span>
+          <button class="ask-ai-btn" style="background: #8a3ffc; color: #fff; border: none; border-radius: 8px; padding: 7px 18px; margin-left: 15px; cursor: pointer;">Ask AI</button>
+        </div>
+
+        <!-- Suggested Questions -->
+        <div class="suggested-questions" style="display: flex; gap: 10px; overflow-x: auto; margin-bottom: 22px;">
+          <button class="suggested-question" style="background: #fff; border: 1px solid #8a3ffc; color: #8a3ffc; border-radius: 16px; padding: 7px 18px; cursor: pointer;">How should I respond?</button>
+          <button class="suggested-question" style="background: #fff; border: 1px solid #8a3ffc; color: #8a3ffc; border-radius: 16px; padding: 7px 18px; cursor: pointer;">Is this behavior typical?</button>
+          <button class="suggested-question" style="background: #fff; border: 1px solid #8a3ffc; color: #8a3ffc; border-radius: 16px; padding: 7px 18px; cursor: pointer;">What are the risks?</button>
+        </div>
+
+        <div class="section-title">Detected Manipulative Behaviors</div>
+        
+        <div class="behavior-card">
+            <div class="behavior-title">
+                <i class="fas fa-chevron-down"></i>
+                <i class="fas fa-mask"></i>
+                Gaslighting
+            </div>
+            <div class="behavior-description">Pattern of denying reality and making you question your perception</div>
+            <div class="behavior-example" style="background-color: #f0e6ff; border-left: none;">"You're being too sensitive. That never happened the way you're describing it."</div>
+            <div class="ai-comment" style="margin-top: 10px; padding: 15px; background-color: white; border-radius: 12px; font-size: 13px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+                <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                    <i class="fas fa-robot" style="color: #8a3ffc; margin-right: 8px; font-size: 16px;"></i>
+                    <strong style="color: #333;">AI Analysis</strong>
+                </div>
+                <div style="color: #555; line-height: 1.4;">Your business partner is denying the reality of previous conversations about the investment risks, attempting to make you doubt your own recollection of events.</div>
+            </div>
+        </div>
+        
+        <div class="behavior-card">
+            <div class="behavior-title">
+                <i class="fas fa-chevron-down"></i>
+                <i class="fas fa-heart-broken"></i>
+                Guilt-Tripping
+            </div>
+            <div class="behavior-description">Using shame or guilt to manipulate your actions</div>
+            <div class="behavior-example" style="background-color: #f0e6ff; border-left: none;">"After everything I've done for you, this is how you treat me?"</div>
+            <div class="ai-comment" style="margin-top: 10px; padding: 15px; background-color: white; border-radius: 12px; font-size: 13px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+                <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                    <i class="fas fa-robot" style="color: #8a3ffc; margin-right: 8px; font-size: 16px;"></i>
+                    <strong style="color: #333;">AI Analysis</strong>
+                </div>
+                <div style="color: #555; line-height: 1.4;">Widana is using a common guilt-tripping technique by referencing past favors to pressure you into this investment opportunity. This tactic aims to make you feel obligated to reciprocate.</div>
+            </div>
+        </div>
+
+        <div class="section-title">Recommendations</div>
+        
+        <div class="recommendation-card">
+            <div class="recommendation-item">
+                <div class="recommendation-icon">1</div>
+                <div class="recommendation-text">Consider discussing these patterns with a trusted friend or counselor</div>
+            </div>
+            
+            <div class="recommendation-item">
+                <div class="recommendation-icon">2</div>
+                <div class="recommendation-text">Document instances of gaslighting to maintain clarity about your experiences</div>
+            </div>
+            
+            <div class="recommendation-item">
+                <div class="recommendation-icon">3</div>
+                <div class="recommendation-text">Set clear boundaries around guilt-inducing conversations</div>
+            </div>
+        </div>
+
+
+    </div>
+    
+<!-- Bottom Navigation -->
+    <div class="navigation">
+        <a href="index.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div>Home</div>
+        </a>
+        <a href="previous.html" class="nav-item active">
+            <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+            <div>Insights</div>
+        </a>
+        <a href="chat.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-comment-alt"></i></div>
+            <div>Chat</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
+            <div>Profile</div>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update time in status bar
+            function updateTime() {
+                const now = new Date();
+                let hours = now.getHours();
+                let minutes = now.getMinutes();
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById('current-time').textContent = hours + ':' + minutes;
+            }
+            
+            updateTime();
+            setInterval(updateTime, 60000); // Update every minute
+            
+            // Animation for the progress bar
+            const progressBar = document.getElementById('evil-score-bar');
+            setTimeout(() => {
+                progressBar.style.width = '85%';
+            }, 300);
+
+            // Make behavior cards expandable/collapsible
+            const behaviorCards = document.querySelectorAll('.behavior-card');
+            
+            behaviorCards.forEach(card => {
+                const title = card.querySelector('.behavior-title');
+                const description = card.querySelector('.behavior-description');
+                const example = card.querySelector('.behavior-example');
+                const chevron = title.querySelector('.fa-chevron-down');
+                
+                title.addEventListener('click', () => {
+                    const isHidden = description.style.display === 'none';
+                    
+                    if (isHidden) {
+                        description.style.display = 'block';
+                        example.style.display = 'block';
+                        chevron.classList.remove('fa-chevron-right');
+                        chevron.classList.add('fa-chevron-down');
+                    } else {
+                        description.style.display = 'none';
+                        example.style.display = 'none';
+                        chevron.classList.remove('fa-chevron-down');
+                        chevron.classList.add('fa-chevron-right');
+                    }
+                });
+            });
+            
+            // Make recommendations interactive
+            const recommendationItems = document.querySelectorAll('.recommendation-item');
+            
+            recommendationItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    item.classList.toggle('highlighted');
+                });
+            });
+            
+            // Back button functionality
+            const backIcon = document.querySelector('.fa-arrow-left');
+            
+            backIcon.addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+        // Smart Prompt Bar and Suggested Questions logic
+        const askAiBtn = document.querySelector('.ask-ai-btn');
+        if (askAiBtn) {
+            askAiBtn.addEventListener('click', function() {
+                window.location.href = 'chat.html?ask=' + encodeURIComponent("Can you give me more insights about Widana's behavior?");
+            });
+        }
+        document.querySelectorAll('.suggested-question').forEach(btn => {
+            btn.addEventListener('click', function() {
+                window.location.href = 'chat.html?ask=' + encodeURIComponent(this.textContent + ' (about Widana)');
+            });
+        });
+        });
+    </script>
+</body>
+</html>
