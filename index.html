@@ -561,10 +561,22 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .card-header i {
+            font-size: 16px;
+            color: #555;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .card-header span {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #555;
         }
 
         .card-counter {
@@ -575,23 +587,74 @@
         }
 
         .count-value {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             color: #333;
             text-align: center;
+            margin-bottom: 4px;
         }
 
         .count-label {
             display: flex;
             justify-content: space-around;
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
+            font-size: 11px;
+            color: #777;
+            margin-top: 4px;
+            font-weight: 500;
         }
 
         .divider {
             color: #ccc;
             margin: 0 5px;
+        }
+
+        .card-counter.centered {
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .quality-description {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #555;
+            margin-top: 6px;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.3;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .quality-description i {
+            font-size: 10px;
+            color: #4a5568;
+        }
+        
+        [data-tooltip] {
+            position: relative;
+            cursor: help;
+        }
+        
+        [data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            margin-bottom: 8px;
+            pointer-events: none;
         }
 
         .centered {
@@ -600,8 +663,17 @@
         }
 
         .rating {
-            font-size: 36px;
+            font-size: 42px;
+            font-weight: 700;
             color: #8a3ffc;
+            line-height: 1;
+        }
+        
+        .rating-out-of {
+            font-size: 24px;
+            font-weight: 500;
+            color: #777;
+            margin-left: 2px;
         }
 
         .start-analysis-btn {
@@ -1230,14 +1302,18 @@
             </div>
 
             <!-- Card 2: Response Quality -->
-            <div class="action-card" style="background-color: #E3F2FD;">
+            <div class="action-card" style="background-color: #E3F2FD;" data-tooltip="Your response quality score this month (1-5)">
                 <div class="card-header">
                     <i class="fas fa-reply"></i>
                     <span>Response Quality</span>
                 </div>
                 <div class="card-counter centered">
                     <div class="count-value">
-                        <span class="rating">5</span>
+                        <span class="rating">5.5</span><span class="rating-out-of">/10</span>
+                    </div>
+                    <div class="quality-description">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Your manipulation response effectiveness</span>
                     </div>
                 </div>
             </div>
