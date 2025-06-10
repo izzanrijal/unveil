@@ -131,7 +131,7 @@
         
         .insights-card {
             background: white;
-            border-radius: 25px;
+            border-radius: 20px;
             padding: 20px;
             color: #333;
             margin-bottom: 25px;
@@ -223,6 +223,9 @@
         }
         
         .insights-recommendation {
+            background-color: #8a3ffc;
+            border-radius: 15px;
+            padding: 15px;
             margin-bottom: 15px;
         }
         
@@ -233,14 +236,13 @@
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 10px;
-            color: #333333;
+            color: #ffffff;
         }
         
         .recommendation-text {
             font-size: 14px;
             line-height: 1.5;
-            color: #000000;
-            padding: 10px 0;
+            color: #ffffff;
         }
         
         .insights-action {
@@ -280,11 +282,12 @@
         
         .analysis-card {
             background-color: white;
-            border-radius: 20px;
+            border-radius: 15px;
             padding: 15px;
             margin-bottom: 15px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             position: relative;
+            min-height: 160px;
         }
         
         .card-main-content {
@@ -541,126 +544,12 @@
             background-color: #28a745;
         }
         
-        .action-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .action-card {
-            background: white;
+        .upload-section {
+            background-color: white;
             border-radius: 20px;
-            padding: 15px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .card-counter {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .count-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
-            text-align: center;
-        }
-
-        .count-label {
-            display: flex;
-            justify-content: space-around;
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .divider {
-            color: #ccc;
-            margin: 0 5px;
-        }
-
-        .centered {
-            align-items: center;
-            justify-content: center;
-        }
-
-        .rating {
-            font-size: 36px;
-            color: #8a3ffc;
-        }
-
-        .start-analysis-btn {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .start-analysis-button {
-            width: 100%;
-            height: 44px;
-            border-radius: 22px;
-            background: linear-gradient(135deg, #9c27b0, #673ab7);
-            border: none;
-            color: white;
-            font-weight: 600;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(156, 39, 176, 0.3);
-            transition: all 0.2s ease;
-        }
-
-        .start-analysis-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(156, 39, 176, 0.4);
-        }
-
-        .start-analysis-button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(156, 39, 176, 0.3);
-        }
-
-        .avatar-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 5px;
-        }
-
-        .avatar-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #8a3ffc;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .add-profile {
-            background-color: #f0f0f0;
-            color: #666;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
         
         .section-header {
@@ -937,38 +826,6 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .wisdom-card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .wisdom-content {
-            padding: 10px 0;
-        }
-        
-        .wisdom-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #8a3ffc;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .wisdom-text {
-            font-size: 16px;
-            font-weight: 500;
-            color: #333;
-            line-height: 1.5;
-            padding-left: 24px;
-        }
-        
         .modal-header {
             margin-bottom: 15px;
         }
@@ -1196,81 +1053,49 @@
     <div class="container-fluid">
         <!-- Upload button removed from here and moved to main card -->
         
-        <!-- Daily Wisdom Card -->
-        <div class="wisdom-card">
-            <div class="wisdom-content">
-                <div class="wisdom-title">
-                    <i class="fas fa-quote-left"></i>
-                    <span>DAILY WISDOM</span>
+        <!-- Insights Summary Card -->
+        <div class="insights-card">
+            <div class="insights-header">
+                <div>
+                    <div class="insights-label">PERSONALIZED ANALYSIS</div>
+                    <div class="insights-title">Communication Insights</div>
                 </div>
-                <div class="wisdom-text">
-                    Trust your intuition when communication feels off. Your perception matters more than doubt.
+                <div class="insights-date">June 2, 2025</div>
+            </div>
+            
+            <div class="insights-recommendation">
+                <div class="recommendation-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>KEY INSIGHT</span>
+                </div>
+                <div class="recommendation-text">
+                    <strong>Assertive Communication:</strong> You've been responding more assertively when boundaries are crossed. Keep practicing clear communication when you feel uncomfortable.
                 </div>
             </div>
         </div>
         
-        <div class="action-cards">
-            <!-- Card 1: Manipulation Attempts Detected Counter -->
-            <div class="action-card" style="background-color: #FCE4EC;">
-                <div class="card-header">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>Manipulation Detected</span>
-                </div>
-                <div class="card-counter">
-                    <div class="count-value">
-                        <span class="this-week">5</span>
-                        <span class="divider">/</span>
-                        <span class="total">23</span>
+        <div class="upload-section">
+            <div class="section-header">
+                <h3 class="upload-section-title">ANALYZE YOUR CONVERSATIONS</h3>
+                <button class="info-button" aria-label="Information">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+            </div>
+            <div id="infoModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>How to Analyze Conversations</h3>
+                        <button class="close-button">&times;</button>
                     </div>
-                    <div class="count-label">
-                        <span>this week</span>
-                        <span>total</span>
+                    <div class="modal-body">
+                        <p>Upload audio or video from your chat history to get more personalized insights. Learn how to export your chat history by watching the <a href="https://www.youtube.com/watch?v=example-tutorial" class="tutorial-link">tutorial video</a>.</p>
                     </div>
                 </div>
             </div>
-
-            <!-- Card 2: Response Quality -->
-            <div class="action-card" style="background-color: #E3F2FD;">
-                <div class="card-header">
-                    <i class="fas fa-reply"></i>
-                    <span>Response Quality</span>
-                </div>
-                <div class="card-counter centered">
-                    <div class="count-value">
-                        <span class="rating">5</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3: Start New Analysis -->
-            <div class="action-card" style="background-color: #F0F4C3;">
-                <div class="card-header">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Start Analysis</span>
-                </div>
-                <div class="start-analysis-btn">
-                    <button class="start-analysis-button">
-                        <i class="fas fa-plus-circle"></i>
-                        <span>Tap to Analyze</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Card 4: Profile Avatars -->
-            <div class="action-card" style="background-color: #E0F2F1;">
-                <div class="card-header">
-                    <i class="fas fa-user-friends"></i>
-                    <span>Profile</span>
-                </div>
-                <div class="avatar-container">
-                    <div class="avatar-circle">
-                        <span>IR</span>
-                    </div>
-                    <div class="avatar-circle add-profile">
-                        <i class="fas fa-plus"></i>
-                    </div>
-                </div>
-            </div>
+            <button class="upload-card-button" id="newUploadBtn">
+                <i class="fas fa-plus"></i>
+                Upload Chat History
+            </button>
         </div>
         
         <!-- Recent Analyses Section -->
