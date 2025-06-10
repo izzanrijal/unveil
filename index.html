@@ -594,13 +594,22 @@
             margin-bottom: 4px;
         }
 
-        .count-label {
+        .counter-description {
             display: flex;
-            justify-content: space-around;
-            font-size: 11px;
-            color: #777;
-            margin-top: 4px;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #555;
+            margin-top: 6px;
             font-weight: 500;
+            text-align: center;
+            line-height: 1.3;
+        }
+        
+        .counter-description i {
+            font-size: 10px;
+            color: #4a5568;
         }
 
         .divider {
@@ -669,6 +678,20 @@
             line-height: 1;
         }
         
+        .this-week {
+            font-size: 42px;
+            font-weight: 700;
+            color: #8a3ffc;
+            line-height: 1;
+        }
+        
+        .count-out-of {
+            font-size: 24px;
+            font-weight: 500;
+            color: #777;
+            margin-left: 2px;
+        }
+
         .rating-out-of {
             font-size: 24px;
             font-weight: 500;
@@ -1256,7 +1279,7 @@
     <div class="header">
         <div class="greeting">
             <h1>Hi, Maya <span>👋</span></h1>
-            <p>Unveil App: Relationship insights with privacy</p>
+
         </div>
         <div class="notification-icon">
             <i class="fas fa-bell"></i>
@@ -1273,7 +1296,7 @@
             <div class="wisdom-content">
                 <div class="wisdom-title">
                     <i class="fas fa-quote-left"></i>
-                    <span>DAILY WISDOM</span>
+                    <span>PERSONALIZED DAILY WISDOM</span>
                 </div>
                 <div class="wisdom-text">
                     Trust your intuition when communication feels off. Your perception matters more than doubt.
@@ -1288,16 +1311,14 @@
                     <i class="fas fa-shield-alt"></i>
                     <span>Manipulation Detected</span>
                 </div>
-                <div class="card-counter">
+                <div class="card-counter centered">
                     <div class="count-value">
-                        <span class="this-week">5</span>
-                        <span class="divider">/</span>
-                        <span class="total">23</span>
+                        <span class="this-week">5</span><span class="count-out-of">/23</span>
                     </div>
-                    <div class="count-label">
-                        <span>this week</span>
-                        <span>total</span>
+                    <div class="quality-description">
+                        <span>This month</span>
                     </div>
+
                 </div>
             </div>
 
