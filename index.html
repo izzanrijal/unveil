@@ -797,8 +797,10 @@
 
         .avatar-container {
             display: flex;
-            gap: 10px;
+            align-items: center;
             margin-top: 5px;
+            position: relative;
+            padding-left: 10px;
         }
 
         .avatar-circle {
@@ -1444,10 +1446,16 @@
                     <span>Persons</span>
                 </div>
                 <div class="avatar-container">
-                    <div class="avatar-circle">
+                    <div class="avatar-circle" style="background-color: #8a3ffc; z-index: 3; margin-right: -10px;">
                         <span>IR</span>
                     </div>
-                    <div class="avatar-circle add-profile">
+                    <div class="avatar-circle" style="background-color: #00BFA5; z-index: 2; margin-right: -10px;">
+                        <span>AB</span>
+                    </div>
+                    <div class="avatar-circle" style="background-color: #FF6B6B; z-index: 1; margin-right: 0;">
+                        <span>CD</span>
+                    </div>
+                    <div class="avatar-circle add-profile" style="z-index: 4;">
                         <i class="fas fa-plus"></i>
                     </div>
                 </div>
@@ -1464,8 +1472,8 @@
         <div class="analysis-card">
             <div class="card-main-content">
                 <div class="analysis-header">
-                    <div class="analysis-avatar">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner A">
+                    <div class="analysis-avatar" style="background-color: #8a3ffc; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">
+                        PA
                     </div>
                     <div class="analysis-info">
                         <div class="analysis-name">
@@ -1499,8 +1507,8 @@
         <div class="analysis-card">
             <div class="card-main-content">
                 <div class="analysis-header">
-                    <div class="analysis-avatar">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Friend S">
+                    <div class="analysis-avatar" style="background-color: #00BFA5; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">
+                        FS
                     </div>
                     <div class="analysis-info">
                         <div class="analysis-name">
@@ -1530,8 +1538,8 @@
         <div class="analysis-card">
             <div class="card-main-content">
                 <div class="analysis-header">
-                    <div class="analysis-avatar">
-                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Colleague R">
+                    <div class="analysis-avatar" style="background-color: #FF6B6B; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">
+                        CR
                     </div>
                     <div class="analysis-info">
                         <div class="analysis-name">
