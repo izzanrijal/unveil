@@ -710,7 +710,7 @@
             width: 100%;
             height: 44px;
             border-radius: 22px;
-            background: linear-gradient(135deg, #9c27b0, #673ab7);
+            background-color: #00BFA5;
             border: none;
             color: white;
             font-weight: 600;
@@ -720,8 +720,69 @@
             justify-content: center;
             gap: 8px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(156, 39, 176, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 191, 165, 0.3);
             transition: all 0.2s ease;
+        }
+        
+        .quality-description {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        
+        .counter-wrapper {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 8px;
+            margin: -25px 0 0 0;
+            height: 60px;
+            align-items: baseline;
+        }
+        
+        .count-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 50px;
+            justify-content: flex-start;
+            height: 100%;
+            position: relative;
+        }
+        
+        .count-item:first-child {
+            padding-top: 8px;
+        }
+        
+        .count-number {
+            font-size: 42px;
+            font-weight: 700;
+            color: #8a3ffc;
+            line-height: 1;
+        }
+        
+        .count-total {
+            font-size: 24px;
+            color: #777;
+        }
+        
+        .count-label {
+            font-size: 11px;
+            color: #666;
+            margin-top: 2px;
+            text-align: center;
+        }
+        
+        .count-separator {
+            font-size: 20px;
+            font-weight: 500;
+            color: #999;
+            margin: 0 2px;
+            padding-bottom: 12px;
         }
 
         .start-analysis-button:hover {
@@ -1032,6 +1093,24 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
+        .action-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .action-card.relationships {
+            background-color: #ffe8e8;
+        }
+        
+        .action-card.friends {
+            background-color: #e8f4ff;
+        }
+        
         .wisdom-card {
             background: white;
             border-radius: 20px;
@@ -1306,26 +1385,31 @@
         
         <div class="action-cards">
             <!-- Card 1: Manipulation Attempts Detected Counter -->
-            <div class="action-card" style="background-color: #FCE4EC;">
+            <div class="action-card" style="background-color: #E8F5E9;">
                 <div class="card-header">
                     <i class="fas fa-shield-alt"></i>
                     <span>Manipulation Detected</span>
                 </div>
                 <div class="card-counter centered">
-                    <div class="count-value">
-                        <span class="this-week">5</span><span class="count-out-of">/23</span>
-                    </div>
-                    <div class="quality-description">
-                        <span>This month</span>
+                    <div class="counter-wrapper">
+                        <div class="count-item">
+                            <span class="count-number">5</span>
+                            <span class="count-label">This week</span>
+                        </div>
+                        <div class="count-separator">/</div>
+                        <div class="count-item">
+                            <span class="count-number count-total">23</span>
+                            <span class="count-label">Total</span>
+                        </div>
                     </div>
 
                 </div>
             </div>
 
             <!-- Card 2: Response Quality -->
-            <div class="action-card" style="background-color: #E3F2FD;" data-tooltip="Your response quality score this month (1-5)">
+            <div class="action-card" style="background-color: #FFF3E0;" data-tooltip="Your response quality score this month (1-5)">
                 <div class="card-header">
-                    <i class="fas fa-reply"></i>
+                    <i class="fas fa-check-circle"></i>
                     <span>Response Quality</span>
                 </div>
                 <div class="card-counter centered">
@@ -1340,7 +1424,7 @@
             </div>
 
             <!-- Card 3: Start New Analysis -->
-            <div class="action-card" style="background-color: #F0F4C3;">
+            <div class="action-card" style="background-color: #E1F5FE;">
                 <div class="card-header">
                     <i class="fas fa-chart-line"></i>
                     <span>Start Analysis</span>
@@ -1354,10 +1438,10 @@
             </div>
 
             <!-- Card 4: Profile Avatars -->
-            <div class="action-card" style="background-color: #E0F2F1;">
+            <div class="action-card" style="background-color: #F3E5F5;">
                 <div class="card-header">
                     <i class="fas fa-user-friends"></i>
-                    <span>Profile</span>
+                    <span>Persons</span>
                 </div>
                 <div class="avatar-container">
                     <div class="avatar-circle">
