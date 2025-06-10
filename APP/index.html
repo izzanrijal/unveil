@@ -1505,10 +1505,11 @@
         <!-- Recent Analyses Section -->
         <div class="section-header">
             <div class="section-title">Recent Analyses</div>
-            <div class="section-link">See All</div>
+            <div class="section-link"><a href="previous.html" style="text-decoration: none; color: #8a3ffc;">See All</a></div>
         </div>
         
         <!-- Analysis Cards -->
+        <a href="analysis.html" style="text-decoration: none; color: inherit;">
         <div class="analysis-card">
             <div class="card-main-content">
                 <div class="analysis-header">
@@ -1538,9 +1539,9 @@
                 </div>
             </div>
             <div class="chat-section">
-                <button class="chat-icon" data-contact="Partner A">
+                <a href="chat.html"><button class="chat-icon" data-contact="Partner A">
                     <i class="fas fa-comment-alt"></i>
-                </button>
+                </button></a>
             </div>
         </div>
         
@@ -1569,9 +1570,9 @@
                 </div>
             </div>
             <div class="chat-section">
-                <button class="chat-icon" data-contact="Friend S">
+                <a href="chat.html"><button class="chat-icon" data-contact="Friend S">
                     <i class="fas fa-comment-alt"></i>
-                </button>
+                </button></a>
             </div>
         </div>
         
@@ -1600,12 +1601,12 @@
                 </div>
             </div>
             <div class="chat-section">
-                <button class="chat-icon" data-contact="Colleague R">
+                <a href="chat.html"><button class="chat-icon" data-contact="Colleague R">
                     <i class="fas fa-comment-alt"></i>
-                </button>
+                </button></a>
             </div>
         </div>
-        
+        </a>
 
     </div>
     
@@ -1775,6 +1776,15 @@
                 }
             });
             
+            // Handle chat upload option click
+            const uploadChatOption = document.getElementById('uploadChat');
+            if (uploadChatOption) {
+                uploadChatOption.addEventListener('click', function() {
+                    // Redirect to chat.html
+                    window.location.href = 'chat.html';
+                });
+            }
+            
             // Handle upload confirmation
             confirmUpload.addEventListener('click', function() {
                 const contactSelect = document.getElementById('contactSelect');
@@ -1818,7 +1828,8 @@
                 icon.addEventListener('click', function(e) {
                     e.stopPropagation();
                     console.log('Chat icon clicked for: ' + this.closest('.analysis-card').querySelector('.analysis-name').textContent.trim().split('\n')[0]);
-                    // In a real app, this would open a chat interface
+                    // Redirect to chat.html
+                    window.location.href = 'chat.html';
                 });
             });
             
@@ -1837,8 +1848,8 @@
                     e.stopPropagation();
                     const contactName = this.getAttribute('data-contact');
                     console.log(`Opening chat with ${contactName}`);
-                    // In a real app, this would navigate to the chat interface
-                    // window.location.href = `chat.html?contact=${encodeURIComponent(contactName)}`;
+                    // Redirect to chat.html with contact parameter
+                    window.location.href = `chat.html?contact=${encodeURIComponent(contactName)}`;
                 });
             });
             
