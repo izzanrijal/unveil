@@ -327,12 +327,9 @@
                 <div class="profile-info" style="display: flex; align-items: center;">
                     <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Profile" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
                     <div>
-                        <div style="font-weight: 600; font-size: 16px;">Widana Putra</div>
+                        <div style="font-weight: 600; font-size: 16px;">Partner A</div>
                         <div style="font-size: 12px; color: #666;">Business Partner</div>
                     </div>
-                </div>
-                <div class="date" style="justify-self: end; text-align: right; font-size: 13px; color: #666; min-width: 110px;">
-                    Analyzed on<br>May 10, 2025
                 </div>
             </div>
         </div>
@@ -360,7 +357,7 @@
         <div class="conversation-summary" style="background-color: white; border-radius: 15px; padding: 20px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
             <div style="font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #333;">Conversation Summary</div>
             <div style="color: #555; line-height: 1.6; font-size: 14px;">
-                <p>Widana has been asking you to invest in a new business opportunity. The conversation started with casual catching up but quickly shifted to discussing an "exclusive investment opportunity" that he claims will yield 30% returns within 3 months.</p>
+                <p>Partner A has been asking you to invest in a new business opportunity. The conversation started with casual catching up but quickly shifted to discussing an "exclusive investment opportunity" that he claims will yield 30% returns within 3 months.</p>
                 <p style="margin-top: 10px;">When you expressed hesitation, he began using emotional appeals and suggesting that you don't trust him. He mentioned past favors he's done for you and implied you're being ungrateful by not supporting his venture.</p>
             </div>
         </div>
@@ -368,7 +365,7 @@
         <!-- Smart Prompt Bar -->
         <div class="smart-prompt-bar" style="background: #f0e6ff; border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; display: flex; align-items: center;">
           <i class="fas fa-robot" style="color: #8a3ffc; margin-right: 12px; font-size: 20px;"></i>
-          <span style="flex: 1;">Want more insights or advice about <b>Widana</b>? <span style="color:#8a3ffc;">Ask the AI now.</span></span>
+          <span style="flex: 1;">Want more insights or advice about <b>Partner A</b>? <span style="color:#8a3ffc;">Ask the AI now.</span></span>
           <button class="ask-ai-btn" style="background: #8a3ffc; color: #fff; border: none; border-radius: 8px; padding: 7px 18px; margin-left: 15px; cursor: pointer;">Ask AI</button>
         </div>
 
@@ -411,7 +408,7 @@
                     <i class="fas fa-robot" style="color: #8a3ffc; margin-right: 8px; font-size: 16px;"></i>
                     <strong style="color: #333;">AI Analysis</strong>
                 </div>
-                <div style="color: #555; line-height: 1.4;">Widana is using a common guilt-tripping technique by referencing past favors to pressure you into this investment opportunity. This tactic aims to make you feel obligated to reciprocate.</div>
+                <div style="color: #555; line-height: 1.4;">Partner A is using a common guilt-tripping technique by referencing past favors to pressure you into this investment opportunity. This tactic aims to make you feel obligated to reciprocate.</div>
             </div>
         </div>
 
@@ -522,12 +519,12 @@
         const askAiBtn = document.querySelector('.ask-ai-btn');
         if (askAiBtn) {
             askAiBtn.addEventListener('click', function() {
-                window.location.href = 'chat.html?ask=' + encodeURIComponent("Can you give me more insights about Widana's behavior?");
+                window.location.href = 'chat.html?ask=' + encodeURIComponent("Can you give me more insights about Partner A's behavior?");
             });
         }
         document.querySelectorAll('.suggested-question').forEach(btn => {
             btn.addEventListener('click', function() {
-                window.location.href = 'chat.html?ask=' + encodeURIComponent(this.textContent + ' (about Widana)');
+                window.location.href = 'chat.html?ask=' + encodeURIComponent(this.textContent + ' (about Partner A)');
             });
         });
         });
